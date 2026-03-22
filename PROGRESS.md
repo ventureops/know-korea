@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**Phase 1 완료 / Phase 2 시작 전**
+**Phase 1 보완 완료 / Phase 2 (인증 + 인터랙션) 시작 전**
 
 ---
 
@@ -44,33 +44,56 @@
 | 모바일 반응형 확인 (375px / 768px) | ✅ (코드 리뷰 완료, 모바일 햄버거 메뉴 추가) |
 | 첫 Vercel 배포 | ✅ https://know-korea-bweqru87f-ventureops-projects.vercel.app |
 
-### Phase 1 구현 노트
-
-- **Navbar:** Glassmorphism (bg-surface/70 backdrop-blur-xl), 로고 + 링크 + 검색 아이콘 + 프로필
-- **Sidebar:** 카테고리 12개, 활성 아이템 left pill indicator + filled icon
-- **Footer:** bg-surface-container-low, 로고 + 저작권 + 링크 4개
-- **레이아웃:** pt-14 md:pl-64 로 nav/sidebar 오프셋
-- **홈:** Hero + 카드 3개(상단) + 컴팩트 2개(하단) + Bento 3개 + 최신 가이드 리스트
-- **카테고리:** 더미 6개 카드 그리드, 페이지네이션 UI
-- **상세:** TOC 사이드바, BMC 섹션, 댓글 영역, 관련 글
-- **정적 페이지:** About(스토리+feature grid), FAQ(아코디언), Legal(Privacy+Terms)
-- **검색:** 필터 칩 + 카드 그리드 결과
-- **404:** 이미지 + 텍스트 + 홈/뒤로가기 버튼
-- **로그인/회원가입:** 2-column split (이미지+폼 / 기능목록+폼), Google+Apple OAuth UI
-
 ---
 
-## Phase 2 — 콘텐츠 페이지 + DB 읽기 🏗️ 대기 중
-
-SPEC.md §17 Phase 2 체크리스트 참조.
+## Phase 1 보완 — Supabase 연동 + 검색 + SEO ✅ 완료 (2026-03-23)
 
 | 항목 | 상태 |
 |------|------|
-| Supabase 연동 (클라이언트/서버 설정) | ⬜ |
-| 카테고리 목록 페이지 DB 연동 | ⬜ |
-| 콘텐츠 상세 페이지 DB 연동 | ⬜ |
-| 검색 기능 구현 | ⬜ |
-| SEO (메타태그, OG 태그) | ⬜ |
+| @supabase/supabase-js 설치 | ✅ |
+| lib/supabase.ts 클라이언트 설정 (Content 타입 포함) | ✅ |
+| supabase/seed.sql — 12개 카테고리 × 16개 콘텐츠 레코드 | ✅ |
+| 홈 페이지 DB 연동 (인기 가이드 view_count 상위 5개 + 최신 practical-guide 3개) | ✅ |
+| 카테고리 목록 페이지 DB 연동 (더미 데이터 제거, 실제 Supabase 쿼리) | ✅ |
+| 콘텐츠 상세 페이지 DB 연동 (slug 조회, view_count 증가, 관련 글 2개 자동 추천) | ✅ |
+| 검색 기능 실제 연동 (title + excerpt ilike 검색) | ✅ |
+| SearchInput 클라이언트 컴포넌트 (URL params 기반 네비게이션) | ✅ |
+| 동적 SEO metadata (title, description, OG, Twitter 카드) | ✅ |
+| 정적 페이지 metadata (about, faq, legal) | ✅ |
+| /sitemap.xml 자동 생성 (발행 콘텐츠 기준) | ✅ |
+| /robots.txt 설정 | ✅ |
+| next.config.mjs 외부 이미지 도메인 설정 (Unsplash, Cloudinary) | ✅ |
+| npm run build 에러 없음 | ✅ |
+| Git commit + push | ✅ bd42f93 |
+
+### Phase 1 보완 노트
+
+- **Supabase 클라이언트:** 빌드 시 env 미설정에도 오류 없도록 플레이스홀더 기본값 사용
+- **force-dynamic:** 홈/카테고리/검색/상세 모든 DB 조회 페이지에 적용 (SSR on-demand)
+- **view_count 증가:** 상세 페이지 서버 컴포넌트에서 직접 UPDATE (RLS anon UPDATE 허용 필요)
+- **관련 글:** 같은 카테고리 + 태그 겹침 수로 정렬, 부족 시 최신순 fallback
+- **ToC:** body_mdx HTML에서 `<h2 id="...">` 패턴 추출
+- **검색:** 빈 쿼리 → 빈 화면 (안내 UI) / 결과 없음 → no-results UI 표시
+- **⚠️ 실제 작동을 위해 필요한 사전 조건:**
+  - `.env.local`에 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` 설정
+  - Supabase SQL Editor에서 `supabase/seed.sql` 실행
+  - `contents` 테이블 RLS: anon 사용자 SELECT (is_published=true) + UPDATE (view_count) 허용
+
+---
+
+## Phase 2 — 인증 + 사용자 기능 🏗️ 대기 중
+
+SPEC.md §17 Phase 3 체크리스트 참조.
+
+| 항목 | 상태 |
+|------|------|
+| NextAuth.js 설정 (Google / Apple OAuth) | ⬜ |
+| 로그인 / 회원가입 기능 연결 | ⬜ |
+| 프로필 페이지 DB 연동 | ⬜ |
+| 좋아요 기능 | ⬜ |
+| 읽음 표시 기능 | ⬜ |
+| 댓글 기능 | ⬜ |
+| 알림 기능 | ⬜ |
 
 ---
 
@@ -92,4 +115,5 @@ PROGRESS.md 읽고 Phase 2 이어서 작업해줘
 - `content/pages/` 에 about.mdx, faq.mdx, legal.mdx 이미 존재 (Phase 1에서는 직접 컴포넌트로 구현)
 - `app/fonts/` 에 Geist 폰트 파일 있음 (사용 안 함 — Google Fonts CDN 사용)
 - Supabase / Vercel / Cloudinary 계정 연결은 별도로 진행 필요
-- Phase 1 더미 데이터는 Unsplash 이미지 URL 사용 (Phase 2에서 Cloudinary로 교체)
+- Phase 1 보완: Unsplash 이미지 URL 계속 사용 (Phase 2 이후 Cloudinary 교체)
+- Vercel 환경변수도 별도 설정 필요 (NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY)
