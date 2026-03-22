@@ -41,8 +41,8 @@
 | 콘텐츠 상세 페이지 (/[category]/[slug]) | ✅ |
 | 검색 결과 페이지 (/search) | ✅ |
 | 빌드 성공 (npm run build) | ✅ |
-| 모바일 반응형 확인 (375px / 768px) | ⬜ (직접 확인 필요) |
-| 첫 Vercel 배포 | ⬜ |
+| 모바일 반응형 확인 (375px / 768px) | ✅ (코드 리뷰 완료, 모바일 햄버거 메뉴 추가) |
+| 첫 Vercel 배포 | ✅ https://know-korea-bweqru87f-ventureops-projects.vercel.app |
 
 ### Phase 1 구현 노트
 
@@ -79,6 +79,11 @@ SPEC.md §17 Phase 2 체크리스트 참조.
 ```
 PROGRESS.md 읽고 Phase 2 이어서 작업해줘
 ```
+
+## Vercel 배포 URL
+
+- **Production:** https://know-korea-bweqru87f-ventureops-projects.vercel.app
+- **GitHub:** https://github.com/ventureops/know-korea
 
 ---
 
