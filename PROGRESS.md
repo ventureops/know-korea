@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**Phase 1 보완 완료 / Phase 2 (인증 + 인터랙션) 시작 전**
+**Phase 1 보완 완료 + 실 DB 검증 완료 / Phase 2 (인증 + 인터랙션) 시작 전**
 
 ---
 
@@ -65,19 +65,20 @@
 | next.config.mjs 외부 이미지 도메인 설정 (Unsplash, Cloudinary) | ✅ |
 | npm run build 에러 없음 | ✅ |
 | Git commit + push | ✅ bd42f93 |
+| Supabase 스키마 실행 (001_initial_schema.sql) | ✅ |
+| Supabase 시드 데이터 실행 (seed.sql, 16개 콘텐츠) | ✅ |
+| .env.local 환경변수 설정 완료 | ✅ |
+| 실 DB 데이터 브라우저 검증 완료 | ✅ (2026-03-23) |
 
 ### Phase 1 보완 노트
 
 - **Supabase 클라이언트:** 빌드 시 env 미설정에도 오류 없도록 플레이스홀더 기본값 사용
 - **force-dynamic:** 홈/카테고리/검색/상세 모든 DB 조회 페이지에 적용 (SSR on-demand)
-- **view_count 증가:** 상세 페이지 서버 컴포넌트에서 직접 UPDATE (RLS anon UPDATE 허용 필요)
+- **view_count 증가:** 상세 페이지 서버 컴포넌트에서 직접 UPDATE
 - **관련 글:** 같은 카테고리 + 태그 겹침 수로 정렬, 부족 시 최신순 fallback
 - **ToC:** body_mdx HTML에서 `<h2 id="...">` 패턴 추출
 - **검색:** 빈 쿼리 → 빈 화면 (안내 UI) / 결과 없음 → no-results UI 표시
-- **⚠️ 실제 작동을 위해 필요한 사전 조건:**
-  - `.env.local`에 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` 설정
-  - Supabase SQL Editor에서 `supabase/seed.sql` 실행
-  - `contents` 테이블 RLS: anon 사용자 SELECT (is_published=true) + UPDATE (view_count) 허용
+- **브라우저 검증:** 홈(Popular Guides) / 카테고리 목록 / 콘텐츠 상세(본문+ToC+view_count) / 검색("korea" → 14개) 모두 정상 확인
 
 ---
 
