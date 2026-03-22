@@ -1,3 +1,17 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy & Terms of Service | Know Korea",
+  description:
+    "Know Korea's privacy policy and terms of service — how we handle your data and the rules for using our platform.",
+  openGraph: {
+    title: "Legal | Know Korea",
+    description: "Privacy Policy and Terms of Service for Know Korea.",
+    url: "https://know-korea.vercel.app/legal",
+    siteName: "Know Korea",
+  },
+};
+
 export default function LegalPage() {
   return (
     <div className="px-5 md:px-8 py-12 max-w-3xl mx-auto">

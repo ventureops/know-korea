@@ -1,5 +1,28 @@
-// Supabase 클라이언트 — Phase 2에서 패키지 설치 후 구현
-// npm install @supabase/supabase-js
+import { createClient } from "@supabase/supabase-js";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const supabase: any = null;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://placeholder.supabase.co";
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "placeholder-anon-key";
+
+// General-purpose client (server components, route handlers)
+// Falls back to placeholder values during build when env vars are not set.
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// ──────────────────────────────────────────────
+// Type definitions matching DB schema (SPEC.md §13)
+// ──────────────────────────────────────────────
+export interface Content {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  excerpt: string | null;
+  cover_image: string | null;
+  body_mdx: string | null;
+  tags: string[] | null;
+  is_published: boolean;
+  show_bmc: boolean;
+  view_count: number;
+  author_id: string | null;
+  created_at: string;
+  updated_at: string;
+}

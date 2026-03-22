@@ -1,4 +1,18 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About | Know Korea",
+  description:
+    "Know Korea is your modern digital curator for expat life in Korea — practical guides, Q&A, and community for foreigners living, working, and thriving here.",
+  openGraph: {
+    title: "About | Know Korea",
+    description:
+      "Know Korea is your modern digital curator for expat life in Korea.",
+    url: "https://know-korea.vercel.app/about",
+    siteName: "Know Korea",
+  },
+};
 
 export default function AboutPage() {
   return (

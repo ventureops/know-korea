@@ -1,0 +1,14 @@
+import type { MetadataRoute } from "next";
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/admin/", "/api/", "/profile/", "/notifications/"],
+      },
+    ],
+    sitemap: "https://know-korea.vercel.app/sitemap.xml",
+  };
+}
