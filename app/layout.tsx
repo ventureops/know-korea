@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Sidebar from "@/components/layout/Sidebar";
-import Footer from "@/components/layout/Footer";
 import SessionProvider from "@/components/auth/SessionProvider";
+import SiteShell from "@/components/layout/SiteShell";
 
 export const metadata: Metadata = {
   title: "Know Korea",
@@ -29,15 +27,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-surface min-h-screen">
         <SessionProvider>
-          <Navbar />
-          <Sidebar />
-          {/* Main content: offset for top nav (h-14) and sidebar (w-64 on md+) */}
-          <div className="pt-14 md:pl-64 min-h-screen flex flex-col">
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
-          </div>
+          <SiteShell>{children}</SiteShell>
         </SessionProvider>
       </body>
     </html>

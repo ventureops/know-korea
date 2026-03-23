@@ -1,7 +1,6 @@
+import { redirect } from "next/navigation";
+
+// Redirect old editor path → new /admin/contents/new
 export default function AdminContentEditorPage() {
-  return (
-    <main>
-      <h1>Content Editor</h1>
-    </main>
-  );
+  redirect("/admin/contents/new");
 }

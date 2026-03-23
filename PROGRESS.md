@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**Phase 2 완료 (2026-03-24) / Phase 3 (Q&A + 커뮤니티) 시작 전**
+**Phase 4 완료 (2026-03-24) — 전체 5개 Phase 완료**
 
 ---
 
@@ -122,24 +122,67 @@
 
 ---
 
-## Phase 3 — Q&A + 커뮤니티 🏗️ 대기 중
+## Phase 3 — Q&A + 커뮤니티 ✅ 완료 (2026-03-24)
 
 | 항목 | 상태 |
 |------|------|
-| Q&A 목록 페이지 (/qa) DB 연동 | ⬜ |
-| Q&A 작성 페이지 (/qa/new) TipTap 에디터 | ⬜ |
-| Q&A 상세 페이지 (/qa/[id]) 댓글 + 도움됨 | ⬜ |
-| 콘텐츠 대댓글 (Level 3+) | ⬜ |
-| Q&A 대댓글 (Level 1+) | ⬜ |
-| BMC 섹션 활성화 (show_bmc=true 콘텐츠) | ⬜ |
-| 관련 Q&A 연결 (content_id) | ⬜ |
+| Q&A 목록 페이지 (/qa) DB 연동 — 카테고리 필터, 페이지네이션 | ✅ |
+| Q&A 작성 페이지 (/qa/new) TipTap 에디터 (Level 1+, 클라이언트 리다이렉트) | ✅ |
+| Q&A 상세 페이지 (/qa/[id]) — 좋아요, 해결됨 토글, 연결 콘텐츠 표시 | ✅ |
+| Q&A 대댓글 (Level 1+ 모두 가능, QACommentSection 트리 구조) | ✅ |
+| [도움됨] 버튼 (is_helpful) — Q&A 작성자만 토글, api/qa/[id]/helpful | ✅ |
+| 콘텐츠 대댓글 (Level 3+ 앱 레벨 제한, comments API parent_id 지원) | ✅ |
+| BMC 섹션 — Q&A 상세 하단 자동 노출 | ✅ |
+| 관련 Q&A 연결 (content_id) — 콘텐츠 상세 사이드바 RelatedQA 서버 컴포넌트 | ✅ |
+| npm run build 에러 없음 | ✅ |
+
+### Phase 3 노트
+
+- **TipTap 에디터:** `@tiptap/react` + `@tiptap/starter-kit` 설치. Bold/Italic/리스트/인용/코드 툴바 제공
+- **QAActions:** 클라이언트 컴포넌트 — 좋아요 토글 + 해결됨 토글 (작성자 전용)
+- **QACommentSection:** 댓글 트리 구조 (최상위 + 대댓글), 도움됨 마킹, optimistic update
+- **comments API 확장:** `qa_post_id`, `parent_id` 필드 추가. 콘텐츠 대댓글은 role < 3 시 403
+- **RelatedQA:** 콘텐츠 상세 사이드바 — content_id 기준 연결된 Q&A 최신 2개 자동 표시
+- **BMC:** Q&A 상세 하단 항상 노출. 콘텐츠는 show_bmc=true 시에만 노출 (Phase 2부터 유지)
+
+---
+
+---
+
+## Phase 4 — 어드민 + 배지 ✅ 완료 (2026-03-24)
+
+| 항목 | 상태 |
+|------|------|
+| Admin Layout — 좌측 사이드바 + 상단 헤더 | ✅ |
+| /admin 대시보드 — 통계 4개 + 카테고리 뷰 비율 + 최근 회원 + Global Toggles UI | ✅ |
+| /admin/users — 회원 리스트, 닉네임/이메일 검색, 휴면 회원 필터 | ✅ |
+| /admin/users/[id] — 상세 정보, 참여율 계산, 배지 표시, 활동 피드 | ✅ |
+| 참여율 공식 (SPEC.md §14) — A+B+C/D×100, 프로그레스 바, 승급 조건 표시 | ✅ |
+| 회원 Suspend/Unsuspend (Level 3+), Ban (Level 4), Role 변경 (Level 4) | ✅ |
+| Suspended/Banned 계정 로그인 차단 (auth-options signIn callback) | ✅ |
+| /admin/contents — 콘텐츠 목록, is_published 토글, show_bmc 토글 | ✅ |
+| /admin/contents/new — BlockNote 에디터로 새 콘텐츠 작성 | ✅ |
+| /admin/contents/[id]/edit — 기존 콘텐츠 수정 (BlockNote) | ✅ |
+| BlockNote @blocknote/react + @blocknote/mantine 설치 및 연동 | ✅ |
+| /admin/analytics — 로그인 추이 차트, 조회수 Top 10, 최근 활동 로그, 좋아요 요약 | ✅ |
+| 배지 자동 부여 API (POST /api/admin/badges/check) — 4종 배지 조건 체크 | ✅ |
+| 댓글 고정 API (POST /api/admin/comments/[id]/pin) — Level 4 전용 | ✅ |
+| npm run build 에러 없음 | ✅ |
+
+### Phase 4 노트
+
+- **BlockNote:** `@blocknote/react + @blocknote/mantine` dynamic import (SSR: false) 사용. 콘텐츠 body_mdx에 HTML 저장
+- **참여율 공식:** `MIN((A×5 + B×2 + C) / MAX(10, 일수×0.5) × 100, 100)` — 회원 상세 좌측 카드에 프로그레스 바 표시
+- **배지 체크:** `/api/admin/badges/check?user_id=xxx` POST로 수동 트리거. `user_badges` 테이블 UPSERT (ignoreDuplicates)
+- **계정 차단:** signIn callback에서 status=suspended/banned 시 `/login?error=AccountBlocked` 반환
+- **Admin Test SQL:** `UPDATE users SET role = 4 WHERE email = 'poisian@gmail.com';`
 
 ---
 
 ## 다음 세션 시작 방법
 
 ```
-PROGRESS.md 읽고 Phase 3 이어서 작업해줘
+PROGRESS.md 읽고 Phase 5 (배포 최적화, 운영 준비) 작업해줘
 ```
 
 ## Vercel 배포 URL

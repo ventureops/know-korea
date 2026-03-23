@@ -22,11 +22,15 @@ export const authOptions: NextAuthOptions = {
       try {
         const { data: existing } = await supabaseAdmin
           .from("users")
-          .select("id, role")
+          .select("id, role, status")
           .eq("email", user.email)
           .single();
 
         if (existing) {
+          // Block suspended/banned users
+          if (existing.status === "suspended" || existing.status === "banned") {
+            return `/login?error=AccountBlocked`;
+          }
           await supabaseAdmin
             .from("users")
             .update({ last_login_at: new Date().toISOString() })
