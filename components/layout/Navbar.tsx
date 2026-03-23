@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -10,18 +11,36 @@ const navLinks = [
   { href: "/about", label: "About" },
 ];
 
-const mobileMenuLinks = [
-  { href: "/", label: "Home", icon: "home" },
-  { href: "/qa", label: "Q&A", icon: "forum" },
-  { href: "/about", label: "About", icon: "info" },
-  { href: "/faq", label: "FAQ", icon: "help" },
-  { href: "/search", label: "Search", icon: "search" },
-  { href: "/login", label: "Login / Sign up", icon: "person" },
-];
-
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { data: session, status } = useSession();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const mobileMenuLinks = [
+    { href: "/", label: "Home", icon: "home" },
+    { href: "/qa", label: "Q&A", icon: "forum" },
+    { href: "/about", label: "About", icon: "info" },
+    { href: "/faq", label: "FAQ", icon: "help" },
+    { href: "/search", label: "Search", icon: "search" },
+    ...(session
+      ? [
+          { href: "/profile", label: "Profile", icon: "person" },
+          { href: "/notifications", label: "Notifications", icon: "notifications" },
+        ]
+      : [{ href: "/login", label: "Login / Sign up", icon: "person" }]),
+  ];
 
   return (
     <>
