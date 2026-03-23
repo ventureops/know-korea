@@ -109,6 +109,8 @@
 | api/comments — POST(작성) + DELETE(본인 or Level 3+), activity_logs 기록 | ✅ |
 | /notifications 페이지 — activity_logs 기반 활동 피드 (최근 50건) | ✅ |
 | npm run build 에러 없음 | ✅ |
+| 실 동작 검증 (로그인→댓글→읽음→좋아요→로그아웃) | ✅ (2026-03-24) |
+| 버그 수정: 댓글 작성 후 즉시 표시 (optimistic state update) | ✅ 754f56d |
 
 ### Phase 2 노트
 
