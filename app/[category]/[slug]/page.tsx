@@ -3,6 +3,16 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
 import type { Content } from "@/lib/supabase";
+import { getSession } from "@/lib/auth";
+import { createClient } from "@supabase/supabase-js";
+import ReadButton from "@/components/content/ReadButton";
+import LikeButton from "@/components/content/LikeButton";
+import CommentSection from "@/components/content/CommentSection";
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://placeholder.supabase.co",
+  process.env.SUPABASE_SERVICE_ROLE_KEY ?? "placeholder"
+);
 
 export const dynamic = "force-dynamic"; // ensures view_count increments on each visit
 
@@ -154,6 +164,57 @@ export default async function ContentDetailPage({
   const categoryLabel =
     categoryLabels[article.category] ?? article.category.replace(/-/g, " ");
 
+  // Check read/like status for current user
+  const session = await getSession();
+  let isRead = false;
+  let isLiked = false;
+  let likeCount = 0;
+
+  const { count: lc } = await supabaseAdmin
+    .from("likes")
+    .select("*", { count: "exact", head: true })
+    .eq("content_id", article.id);
+  likeCount = lc ?? 0;
+
+  if (session?.user?.id) {
+    const [{ data: readData }, { data: likeData }] = await Promise.all([
+      supabaseAdmin
+        .from("content_reads")
+        .select("id")
+        .eq("user_id", session.user.id)
+        .eq("content_id", article.id)
+        .single(),
+      supabaseAdmin
+        .from("likes")
+        .select("id")
+        .eq("user_id", session.user.id)
+        .eq("content_id", article.id)
+        .single(),
+    ]);
+    isRead = !!readData;
+    isLiked = !!likeData;
+  }
+
+  // Fetch comments
+  const { data: commentsRaw } = await supabaseAdmin
+    .from("comments")
+    .select("id, body, created_at, author_id, users(nickname, avatar_url)")
+    .eq("content_id", article.id)
+    .is("parent_id", null)
+    .order("created_at", { ascending: true });
+  type CommentRow = {
+    id: string;
+    body: string;
+    created_at: string;
+    author_id: string;
+    users: { nickname: string; avatar_url: string | null } | null;
+  };
+  const comments = ((commentsRaw ?? []) as unknown[]).map((raw: unknown) => {
+    const r = raw as { id: string; body: string; created_at: string; author_id: string; users: Array<{ nickname: string; avatar_url: string | null }> | { nickname: string; avatar_url: string | null } | null };
+    const usersVal = Array.isArray(r.users) ? (r.users[0] ?? null) : r.users;
+    return { id: r.id, body: r.body, created_at: r.created_at, author_id: r.author_id, users: usersVal } as CommentRow;
+  });
+
   return (
     <div className="px-5 md:px-8 py-8 max-w-6xl mx-auto">
       {/* Breadcrumb */}
@@ -190,12 +251,15 @@ export default async function ContentDetailPage({
                 {article.excerpt}
               </p>
             )}
-            <div className="flex items-center gap-4 text-xs font-label text-outline">
-              <span>{estimateReadTime(article.body_mdx)}</span>
-              <span>·</span>
-              <span>{formatDate(article.updated_at)}</span>
-              <span>·</span>
-              <span>{article.view_count.toLocaleString()} views</span>
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-4 text-xs font-label text-outline">
+                <span>{estimateReadTime(article.body_mdx)}</span>
+                <span>·</span>
+                <span>{formatDate(article.updated_at)}</span>
+                <span>·</span>
+                <span>{article.view_count.toLocaleString()} views</span>
+              </div>
+              <ReadButton contentId={article.id} initialRead={isRead} />
             </div>
           </header>
 
@@ -236,18 +300,11 @@ export default async function ContentDetailPage({
             </div>
           )}
 
-          {/* Like / Share actions (UI only — auth in Phase 3) */}
-          <div className="flex items-center gap-4 py-6 mb-6">
-            <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95">
-              <span className="material-symbols-outlined text-[18px]">
-                favorite
-              </span>
-              <span className="text-sm font-body font-medium">Like</span>
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95">
-              <span className="material-symbols-outlined text-[18px]">
-                share
-              </span>
+          {/* Like / Share actions */}
+          <div className="flex items-center gap-3 py-6 mb-6">
+            <LikeButton contentId={article.id} initialLiked={isLiked} initialCount={likeCount} />
+            <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95">
+              <span className="material-symbols-outlined text-[18px]">share</span>
               <span className="text-sm font-body font-medium">Share</span>
             </button>
           </div>
@@ -282,23 +339,7 @@ export default async function ContentDetailPage({
             </div>
           )}
 
-          {/* Comments — UI only (auth in Phase 3) */}
-          <section className="mb-10">
-            <h2 className="font-headline font-bold text-lg text-on-surface mb-4">
-              Join the Conversation
-            </h2>
-            <div className="bg-surface-container-low rounded-2xl p-5">
-              <p className="text-sm font-body text-on-surface-variant text-center py-4">
-                <Link
-                  href="/login"
-                  className="text-primary hover:text-primary-dim font-bold transition-colors"
-                >
-                  Sign in
-                </Link>{" "}
-                to leave a comment.
-              </p>
-            </div>
-          </section>
+          <CommentSection contentId={article.id} initialComments={comments} />
 
           {/* Related Articles */}
           {relatedArticles.length > 0 && (

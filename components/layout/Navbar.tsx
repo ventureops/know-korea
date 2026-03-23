@@ -94,14 +94,70 @@ export default function Navbar() {
           <span className="material-symbols-outlined text-[20px]">search</span>
         </Link>
 
-        {/* Profile / Login */}
-        <Link
-          href="/login"
-          className="w-9 h-9 flex items-center justify-center rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95"
-          aria-label="Profile"
-        >
-          <span className="material-symbols-outlined text-[20px]">person</span>
-        </Link>
+        {/* Auth area */}
+        {status === "loading" ? (
+          <div className="w-9 h-9 rounded-full bg-surface-container animate-pulse" />
+        ) : session ? (
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="w-9 h-9 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:ring-2 hover:ring-primary/30 transition-all active:scale-95"
+              aria-label="Profile menu"
+            >
+              {session.user.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={session.user.image} alt="avatar" className="w-full h-full object-cover" />
+              ) : (
+                <span className="font-headline font-bold text-sm text-on-surface">
+                  {(session.user.nickname ?? session.user.name ?? "?")[0].toUpperCase()}
+                </span>
+              )}
+            </button>
+
+            {dropdownOpen && (
+              <div className="absolute right-0 top-11 w-52 bg-surface-container-lowest rounded-2xl shadow-lg border border-outline-variant/15 py-2 z-50">
+                <div className="px-4 py-2 border-b border-outline-variant/10">
+                  <p className="text-sm font-body font-bold text-on-surface truncate">
+                    {session.user.nickname ?? session.user.name}
+                  </p>
+                  <p className="text-xs font-body text-on-surface-variant truncate">
+                    {session.user.email}
+                  </p>
+                </div>
+                <Link
+                  href="/profile"
+                  onClick={() => setDropdownOpen(false)}
+                  className="flex items-center gap-3 px-4 py-2.5 text-sm font-body text-on-surface hover:bg-surface-container-low transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[18px]">person</span>
+                  Profile
+                </Link>
+                <Link
+                  href="/notifications"
+                  onClick={() => setDropdownOpen(false)}
+                  className="flex items-center gap-3 px-4 py-2.5 text-sm font-body text-on-surface hover:bg-surface-container-low transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[18px]">notifications</span>
+                  Notifications
+                </Link>
+                <button
+                  onClick={() => { setDropdownOpen(false); signOut({ callbackUrl: "/" }); }}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-body text-error hover:bg-surface-container-low transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[18px]">logout</span>
+                  Sign out
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Link
+            href="/login"
+            className="px-4 py-1.5 rounded-full bg-primary text-on-primary font-body font-medium text-sm hover:opacity-90 transition-all active:scale-95"
+          >
+            Login
+          </Link>
+        )}
       </nav>
 
       {/* Mobile Menu Overlay */}
@@ -119,6 +175,27 @@ export default function Navbar() {
         }`}
       >
         <div className="px-4 pt-5 pb-6 flex flex-col gap-0.5 overflow-y-auto">
+          {session && (
+            <div className="flex items-center gap-3 px-3 py-3 mb-3 rounded-xl bg-surface-container-low">
+              <div className="w-9 h-9 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center shrink-0">
+                {session.user.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={session.user.image} alt="avatar" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="font-headline font-bold text-sm">
+                    {(session.user.nickname ?? session.user.name ?? "?")[0].toUpperCase()}
+                  </span>
+                )}
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-body font-bold text-on-surface truncate">
+                  {session.user.nickname ?? session.user.name}
+                </p>
+                <p className="text-xs text-on-surface-variant truncate">{session.user.email}</p>
+              </div>
+            </div>
+          )}
+
           <p className="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant mb-3">
             Menu
           </p>
@@ -148,6 +225,15 @@ export default function Navbar() {
               </Link>
             );
           })}
+          {session && (
+            <button
+              onClick={() => { setMobileOpen(false); signOut({ callbackUrl: "/" }); }}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-error hover:bg-surface-container-lowest transition-all mt-2"
+            >
+              <span className="material-symbols-outlined text-[18px]">logout</span>
+              <span className="text-sm font-body">Sign out</span>
+            </button>
+          )}
         </div>
       </div>
     </>

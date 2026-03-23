@@ -31,15 +31,26 @@ export const authOptions: NextAuthOptions = {
             .from("users")
             .update({ last_login_at: new Date().toISOString() })
             .eq("id", existing.id);
+          // Log login activity
+          await supabaseAdmin.from("activity_logs").insert({
+            user_id: existing.id,
+            action: "login",
+          }).single();
         } else {
-          await supabaseAdmin.from("users").insert({
+          const { data: newUser } = await supabaseAdmin.from("users").insert({
             email: user.email,
-            nickname: user.name ?? user.email.split("@")[0],
+            nickname: user.name ?? user.email!.split("@")[0],
             avatar_url: user.image ?? null,
             role: 1,
             status: "active",
             last_login_at: new Date().toISOString(),
-          });
+          }).select("id").single();
+          if (newUser) {
+            await supabaseAdmin.from("activity_logs").insert({
+              user_id: newUser.id,
+              action: "login",
+            }).single();
+          }
         }
       } catch (err) {
         console.error("signIn callback error:", err);

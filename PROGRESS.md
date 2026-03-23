@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**Phase 1 보완 완료 + 실 DB 검증 완료 / Phase 2 진행 중 (Google OAuth ✅, 사용자 기능 ⬜)**
+**Phase 2 완료 (2026-03-24) / Phase 3 (Q&A + 커뮤니티) 시작 전**
 
 ---
 
@@ -82,32 +82,62 @@
 
 ---
 
-## Phase 2 — 인증 + 사용자 기능 🏗️ 진행 중
-
-SPEC.md §17 Phase 3 체크리스트 참조.
+## Phase 2 — 인증 + 사용자 기능 ✅ 완료 (2026-03-24)
 
 | 항목 | 상태 |
 |------|------|
-| NextAuth.js 설정 (Google OAuth) | ✅ (665d20d) |
-| lib/auth-options.ts (authOptions 분리) | ✅ |
-| components/auth/LoginButtons.tsx (Google signIn) | ✅ |
-| components/auth/SessionProvider.tsx | ✅ |
+| NextAuth.js 설치 + Google OAuth 설정 | ✅ |
+| lib/auth-options.ts (authOptions 분리), lib/auth.ts (getSession, hasRole) | ✅ |
+| app/api/auth/[...nextauth]/route.ts | ✅ |
+| 최초 로그인 → users 테이블 자동 생성 (role=1), 재로그인 → last_login_at 업데이트 | ✅ |
+| activity_logs에 login 기록 | ✅ |
+| components/auth/LoginButtons.tsx (Google signIn, loading 상태) | ✅ |
+| components/auth/SessionProvider.tsx + app/layout.tsx 래핑 | ✅ |
 | types/next-auth.d.ts (id, role, nickname 타입 확장) | ✅ |
-| Navbar 세션 연동 (프로필 드롭다운, 로그아웃) | ✅ |
-| 로그인 / 회원가입 기능 연결 | ✅ (Google OAuth 작동) |
-| .env.local.example 플레이스홀더로 정리 | ✅ |
-| 프로필 페이지 DB 연동 | ⬜ |
-| 좋아요 기능 | ⬜ |
-| 읽음 표시 기능 | ⬜ |
-| 댓글 기능 | ⬜ |
-| 알림 기능 | ⬜ |
+| /login, /signup 페이지 — 로그인 상태면 / 리디렉트 | ✅ |
+| Navbar — 세션 상태별 UI (로그인: 프로필+드롭다운, 비로그인: Login 버튼) | ✅ |
+| middleware.ts — /profile, /notifications → 비로그인 /login 리디렉트; /admin → Level 3 미만 / 리디렉트 | ✅ |
+| /profile 페이지 — 닉네임, 이메일, 역할, 가입일, 통계(읽음/좋아요/댓글 수) | ✅ |
+| /profile/edit 페이지 — 닉네임 변경, 아바타 URL 입력, 계정 삭제 확인 모달 | ✅ |
+| app/api/profile/update, app/api/profile/delete Route Handler | ✅ |
+| /profile/activities 페이지 — 읽은 글, 좋아요한 글, 내 댓글 목록 | ✅ |
+| 읽음 표시 (ReadButton) — 콘텐츠 상세 헤더 우측, success 색상 토글 | ✅ |
+| api/reads — toggle POST, activity_logs 기록 | ✅ |
+| 좋아요 (LikeButton) — 콘텐츠 상세 하단, 카운트 표시, 비로그인 시 /login 이동 | ✅ |
+| api/likes — toggle POST + 카운트 반환, activity_logs 기록 | ✅ |
+| 댓글 (CommentSection) — 작성/삭제, 비로그인 유도, parent_id=null 최상위만 | ✅ |
+| api/comments — POST(작성) + DELETE(본인 or Level 3+), activity_logs 기록 | ✅ |
+| /notifications 페이지 — activity_logs 기반 활동 피드 (최근 50건) | ✅ |
+| npm run build 에러 없음 | ✅ |
+
+### Phase 2 노트
+
+- **supabaseAdmin:** SUPABASE_SERVICE_ROLE_KEY 사용 (RLS 우회) — 서버 전용 라우트에만 사용
+- **세션 JWT 전략:** next-auth JWT strategy — 매 세션 콜백마다 users 테이블에서 id/role/nickname 갱신
+- **ReadButton/LikeButton/CommentSection:** 모두 `'use client'` — 서버에서 초기 상태 주입
+- **댓글 대댓글:** Phase 3에서 Level 3 이상 제한으로 추가 예정 (parent_id 컬럼 이미 존재)
+- **Apple OAuth:** Apple Developer Program 가입 후 별도 추가 예정
+
+---
+
+## Phase 3 — Q&A + 커뮤니티 🏗️ 대기 중
+
+| 항목 | 상태 |
+|------|------|
+| Q&A 목록 페이지 (/qa) DB 연동 | ⬜ |
+| Q&A 작성 페이지 (/qa/new) TipTap 에디터 | ⬜ |
+| Q&A 상세 페이지 (/qa/[id]) 댓글 + 도움됨 | ⬜ |
+| 콘텐츠 대댓글 (Level 3+) | ⬜ |
+| Q&A 대댓글 (Level 1+) | ⬜ |
+| BMC 섹션 활성화 (show_bmc=true 콘텐츠) | ⬜ |
+| 관련 Q&A 연결 (content_id) | ⬜ |
 
 ---
 
 ## 다음 세션 시작 방법
 
 ```
-PROGRESS.md 읽고 Phase 2 이어서 작업해줘
+PROGRESS.md 읽고 Phase 3 이어서 작업해줘
 ```
 
 ## Vercel 배포 URL
