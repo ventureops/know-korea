@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**Phase 1 보완 완료 + 실 DB 검증 완료 / Phase 2 (인증 + 인터랙션) 시작 전**
+**Phase 1 보완 완료 + 실 DB 검증 완료 / Phase 2 진행 중 (Google OAuth ✅, 사용자 기능 ⬜)**
 
 ---
 
@@ -82,14 +82,20 @@
 
 ---
 
-## Phase 2 — 인증 + 사용자 기능 🏗️ 대기 중
+## Phase 2 — 인증 + 사용자 기능 🏗️ 진행 중
 
 SPEC.md §17 Phase 3 체크리스트 참조.
 
 | 항목 | 상태 |
 |------|------|
-| NextAuth.js 설정 (Google / Apple OAuth) | ⬜ |
-| 로그인 / 회원가입 기능 연결 | ⬜ |
+| NextAuth.js 설정 (Google OAuth) | ✅ (665d20d) |
+| lib/auth-options.ts (authOptions 분리) | ✅ |
+| components/auth/LoginButtons.tsx (Google signIn) | ✅ |
+| components/auth/SessionProvider.tsx | ✅ |
+| types/next-auth.d.ts (id, role, nickname 타입 확장) | ✅ |
+| Navbar 세션 연동 (프로필 드롭다운, 로그아웃) | ✅ |
+| 로그인 / 회원가입 기능 연결 | ✅ (Google OAuth 작동) |
+| .env.local.example 플레이스홀더로 정리 | ✅ |
 | 프로필 페이지 DB 연동 | ⬜ |
 | 좋아요 기능 | ⬜ |
 | 읽음 표시 기능 | ⬜ |
