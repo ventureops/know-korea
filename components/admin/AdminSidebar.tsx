@@ -8,6 +8,7 @@ const navItems = [
   { label: "Dashboard", href: "/admin", icon: "dashboard" },
   { label: "Users", href: "/admin/users", icon: "group" },
   { label: "Content", href: "/admin/contents", icon: "article" },
+  { label: "Q&A", href: "/admin/qa", icon: "forum" },
   { label: "Analytics", href: "/admin/analytics", icon: "bar_chart" },
 ];
 
