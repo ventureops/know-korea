@@ -64,20 +64,31 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
 
-    async session({ session }) {
-      if (session.user?.email) {
+    async jwt({ token, trigger }) {
+      // Fetch role from DB on sign-in or explicit session update
+      if (token.email && (trigger === 'signIn' || trigger === 'update' || !token.role)) {
         const { data } = await supabaseAdmin
           .from("users")
           .select("id, role, nickname, avatar_url")
-          .eq("email", session.user.email)
+          .eq("email", token.email)
           .single();
 
         if (data) {
-          session.user.id = data.id;
-          session.user.role = data.role;
-          session.user.nickname = data.nickname;
-          session.user.image = data.avatar_url ?? session.user.image;
+          token.id = data.id;
+          token.role = data.role;
+          token.nickname = data.nickname;
+          token.picture = data.avatar_url ?? token.picture;
         }
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as number;
+        session.user.nickname = token.nickname as string;
+        session.user.image = token.picture as string ?? session.user.image;
       }
       return session;
     },
