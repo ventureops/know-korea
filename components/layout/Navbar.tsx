@@ -140,6 +140,16 @@ export default function Navbar() {
                   <span className="material-symbols-outlined text-[18px]">notifications</span>
                   Notifications
                 </Link>
+                {(session.user.role ?? 0) >= 3 && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setDropdownOpen(false)}
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm font-body text-primary hover:bg-surface-container-low transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">admin_panel_settings</span>
+                    Admin
+                  </Link>
+                )}
                 <button
                   onClick={() => { setDropdownOpen(false); signOut({ callbackUrl: "/" }); }}
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-body text-error hover:bg-surface-container-low transition-colors"
