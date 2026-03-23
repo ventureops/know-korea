@@ -147,8 +147,6 @@
 
 ---
 
----
-
 ## Phase 4 — 어드민 + 배지 ✅ 완료 (2026-03-24)
 
 | 항목 | 상태 |
@@ -168,6 +166,9 @@
 | 배지 자동 부여 API (POST /api/admin/badges/check) — 4종 배지 조건 체크 | ✅ |
 | 댓글 고정 API (POST /api/admin/comments/[id]/pin) — Level 4 전용 | ✅ |
 | npm run build 에러 없음 | ✅ |
+| SiteShell 컴포넌트 — /admin 경로에서 사이트 Navbar/Sidebar/Footer 분리 | ✅ |
+| Git commit + push | ✅ 5bbf3a7 |
+| Vercel 배포 확인 | ✅ (2026-03-24) |
 
 ### Phase 4 노트
 
