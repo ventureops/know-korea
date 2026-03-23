@@ -36,6 +36,17 @@ export default function CommentSection({ contentId, initialComments }: Props) {
       body: JSON.stringify({ content_id: contentId, body }),
     });
     if (res.ok) {
+      const data = await res.json();
+      setComments((prev) => [
+        ...prev,
+        {
+          ...data.comment,
+          users: {
+            nickname: session!.user.nickname ?? session!.user.name ?? 'Me',
+            avatar_url: session!.user.image ?? null,
+          },
+        },
+      ]);
       setBody('');
       router.refresh();
     } else {
