@@ -134,7 +134,7 @@ export default async function CategoryPage({
     .select("*")
     .eq("category", params.category)
     .eq("is_published", true)
-    .order("created_at", { ascending: false });
+    .order("sort_order", { ascending: true });
 
   const articles: Content[] = articlesRaw ?? [];
 

@@ -11,33 +11,50 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? "placeholder"
 );
 
-async function getContents(search: string) {
+async function getContents(search: string, category: string, status: string, sortBy: string) {
   let query = supabaseAdmin
     .from("contents")
     .select(
-      "id, title, slug, category, is_published, show_bmc, view_count, created_at, updated_at",
+      "id, title, slug, category, is_published, show_bmc, view_count, sort_order, created_at, updated_at",
       { count: "exact" }
     );
 
   if (search) query = query.ilike("title", `%${search}%`);
+  if (category) query = query.eq("category", category);
+  if (status === "published") query = query.eq("is_published", true);
+  if (status === "draft") query = query.eq("is_published", false);
 
-  const { data, count } = await query
-    .order("created_at", { ascending: false })
-    .limit(50);
+  if (sortBy === "newest") {
+    query = query.order("created_at", { ascending: false });
+  } else if (sortBy === "oldest") {
+    query = query.order("created_at", { ascending: true });
+  } else if (sortBy === "category") {
+    query = query.order("category", { ascending: true }).order("sort_order", { ascending: true });
+  } else if (sortBy === "views") {
+    query = query.order("view_count", { ascending: false });
+  } else {
+    // default: sort_order
+    query = query.order("sort_order", { ascending: true });
+  }
 
+  const { data, count } = await query.limit(50);
   return { contents: data ?? [], total: count ?? 0 };
 }
 
 export default async function AdminContentsPage({
   searchParams,
 }: {
-  searchParams: { search?: string };
+  searchParams: { search?: string; category?: string; status?: string; sortBy?: string };
 }) {
   const session = await getSession();
   if (!session || (session.user.role ?? 0) < 4) redirect("/admin");
 
   const search = searchParams.search ?? "";
-  const { contents, total } = await getContents(search);
+  const category = searchParams.category ?? "";
+  const status = searchParams.status ?? "";
+  const sortBy = searchParams.sortBy ?? "sort_order";
+
+  const { contents, total } = await getContents(search, category, status, sortBy);
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -59,7 +76,13 @@ export default async function AdminContentsPage({
         </Link>
       </div>
 
-      <ContentsClient initialContents={contents} initialSearch={search} />
+      <ContentsClient
+        initialContents={contents}
+        initialSearch={search}
+        initialCategory={category}
+        initialStatus={status}
+        initialSortBy={sortBy}
+      />
     </div>
   );
 }

@@ -27,6 +27,7 @@ interface Content {
   is_published: boolean;
   show_bmc: boolean;
   view_count: number;
+  sort_order: number;
   created_at: string;
   updated_at: string;
 }
@@ -34,18 +35,36 @@ interface Content {
 interface Props {
   initialContents: Content[];
   initialSearch: string;
+  initialCategory: string;
+  initialStatus: string;
+  initialSortBy: string;
 }
 
-export default function ContentsClient({ initialContents, initialSearch }: Props) {
+export default function ContentsClient({
+  initialContents,
+  initialSearch,
+  initialCategory,
+  initialStatus,
+  initialSortBy,
+}: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const [, startTransition] = useTransition();
   const [search, setSearch] = useState(initialSearch);
+  const [category, setCategory] = useState(initialCategory);
+  const [status, setStatus] = useState(initialStatus);
+  const [sortBy, setSortBy] = useState(initialSortBy);
   const [contents, setContents] = useState(initialContents);
+  const [reordering, setReordering] = useState(false);
 
-  function applySearch(q: string) {
+  const isCustomOrder = sortBy === "sort_order";
+
+  function applyFilter() {
     const params = new URLSearchParams();
-    if (q) params.set("search", q);
+    if (search) params.set("search", search);
+    if (category) params.set("category", category);
+    if (status) params.set("status", status);
+    if (sortBy && sortBy !== "sort_order") params.set("sortBy", sortBy);
     startTransition(() => router.push(`${pathname}?${params.toString()}`));
   }
 
@@ -71,26 +90,94 @@ export default function ContentsClient({ initialContents, initialSearch }: Props
     });
   }
 
+  async function moveItem(index: number, direction: "up" | "down") {
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= contents.length) return;
+
+    const a = contents[index];
+    const b = contents[targetIndex];
+
+    // Optimistic update
+    const next = [...contents];
+    next[index] = b;
+    next[targetIndex] = a;
+    setContents(next);
+
+    setReordering(true);
+    await fetch("/api/admin/contents/reorder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id_a: a.id,
+        sort_order_a: a.sort_order,
+        id_b: b.id,
+        sort_order_b: b.sort_order,
+      }),
+    });
+    setReordering(false);
+  }
+
   return (
     <div>
-      {/* Search */}
-      <div className="flex gap-3 mb-5">
-        <div className="relative flex-1 max-w-sm">
+      {/* Filter bar */}
+      <div className="flex flex-wrap gap-3 mb-5">
+        {/* Search */}
+        <div className="relative flex-1 min-w-[160px] max-w-xs">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[18px] text-on-surface-variant">
             search
           </span>
           <input
             type="text"
-            placeholder="Search articles, guides..."
+            placeholder="Search articles..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && applySearch(search)}
+            onKeyDown={(e) => e.key === "Enter" && applyFilter()}
             className="w-full pl-9 pr-4 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary transition-colors"
           />
         </div>
+
+        {/* Category filter */}
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface focus:outline-none focus:border-primary transition-colors"
+        >
+          <option value="">All Categories</option>
+          {Object.entries(CATEGORY_LABELS).map(([val, label]) => (
+            <option key={val} value={val}>
+              {label}
+            </option>
+          ))}
+        </select>
+
+        {/* Status filter */}
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className="px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface focus:outline-none focus:border-primary transition-colors"
+        >
+          <option value="">All Status</option>
+          <option value="published">Published</option>
+          <option value="draft">Draft</option>
+        </select>
+
+        {/* Sort */}
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface focus:outline-none focus:border-primary transition-colors"
+        >
+          <option value="sort_order">Custom Order</option>
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="category">Category (A→Z)</option>
+          <option value="views">Most Views</option>
+        </select>
+
+        {/* Filter button */}
         <button
-          onClick={() => applySearch(search)}
-          className="px-4 py-2 rounded-lg bg-surface-container text-on-surface text-sm font-label hover:bg-surface-container-high transition-colors"
+          onClick={applyFilter}
+          className="px-4 py-2 rounded-lg bg-primary text-on-primary text-sm font-label hover:bg-primary-dim transition-colors active:scale-95"
         >
           Filter
         </button>
@@ -102,6 +189,11 @@ export default function ContentsClient({ initialContents, initialSearch }: Props
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-surface-container">
+                {isCustomOrder && (
+                  <th className="py-3 px-3 text-xs text-on-surface-variant font-label font-semibold w-16">
+                    ORDER
+                  </th>
+                )}
                 <th className="text-left py-3 px-4 text-xs text-on-surface-variant font-label font-semibold">
                   ARTICLE TITLE
                 </th>
@@ -127,11 +219,34 @@ export default function ContentsClient({ initialContents, initialSearch }: Props
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10">
-              {contents.map((c) => (
+              {contents.map((c, i) => (
                 <tr
                   key={c.id}
                   className="hover:bg-surface-container/40 transition-colors"
                 >
+                  {/* Order buttons — only in Custom Order mode */}
+                  {isCustomOrder && (
+                    <td className="py-3 px-3">
+                      <div className="flex flex-col items-center gap-0.5">
+                        <button
+                          onClick={() => moveItem(i, "up")}
+                          disabled={i === 0 || reordering}
+                          className="p-0.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
+                          title="Move up"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">expand_less</span>
+                        </button>
+                        <button
+                          onClick={() => moveItem(i, "down")}
+                          disabled={i === contents.length - 1 || reordering}
+                          className="p-0.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
+                          title="Move down"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">expand_more</span>
+                        </button>
+                      </div>
+                    </td>
+                  )}
                   <td className="py-3 px-4">
                     <span className="font-label text-on-surface line-clamp-1">
                       {c.title}
@@ -175,9 +290,7 @@ export default function ContentsClient({ initialContents, initialSearch }: Props
                       }`}
                     >
                       <span
-                        className={`absolute h-3.5 w-3.5 rounded-full bg-surface-container-lowest shadow transition-transform ${
-                          c.is_published ? "translate-x-4.5" : "translate-x-1"
-                        }`}
+                        className="absolute h-3.5 w-3.5 rounded-full bg-surface-container-lowest shadow transition-transform"
                         style={{ transform: c.is_published ? "translateX(18px)" : "translateX(3px)" }}
                       />
                     </button>

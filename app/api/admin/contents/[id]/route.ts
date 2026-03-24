@@ -41,7 +41,7 @@ export async function PATCH(
   }
 
   const body = await req.json();
-  const { title, slug, category, excerpt, cover_image, body_mdx, tags, is_published, show_bmc } = body;
+  const { title, slug, category, excerpt, cover_image, body_mdx, tags, is_published, show_bmc, sort_order } = body;
 
   const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
   if (title !== undefined) updates.title = title;
@@ -53,6 +53,7 @@ export async function PATCH(
   if (tags !== undefined) updates.tags = tags;
   if (is_published !== undefined) updates.is_published = is_published;
   if (show_bmc !== undefined) updates.show_bmc = show_bmc;
+  if (sort_order !== undefined) updates.sort_order = sort_order;
 
   const { error } = await supabaseAdmin
     .from("contents")
