@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -47,15 +47,17 @@ export default function ContentsClient({
   initialStatus,
   initialSortBy,
 }: Props) {
-  const router = useRouter();
   const pathname = usePathname();
-  const [, startTransition] = useTransition();
   const [search, setSearch] = useState(initialSearch);
   const [category, setCategory] = useState(initialCategory);
   const [status, setStatus] = useState(initialStatus);
   const [sortBy, setSortBy] = useState(initialSortBy);
   const [contents, setContents] = useState(initialContents);
   const [reordering, setReordering] = useState(false);
+
+  useEffect(() => {
+    setContents(initialContents);
+  }, [initialContents]);
 
   const isCustomOrder = sortBy === "sort_order";
 
@@ -65,7 +67,7 @@ export default function ContentsClient({
     if (category) params.set("category", category);
     if (status) params.set("status", status);
     if (sortBy && sortBy !== "sort_order") params.set("sortBy", sortBy);
-    startTransition(() => router.push(`${pathname}?${params.toString()}`));
+    window.location.href = `${pathname}?${params.toString()}`;
   }
 
   async function togglePublish(id: string, current: boolean) {
