@@ -7,21 +7,27 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? "placeholder"
 );
 
-// POST /api/admin/contents/reorder — swap sort_order of two contents
+// POST /api/admin/contents/reorder — bulk update sort_order for drag-and-drop
 export async function POST(req: Request) {
   const session = await getSession();
   if (!session || (session.user.role ?? 0) < 4) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { id_a, sort_order_a, id_b, sort_order_b } = await req.json();
+  const { items } = await req.json() as { items: { id: string; sort_order: number }[] };
 
-  const [resA, resB] = await Promise.all([
-    supabaseAdmin.from("contents").update({ sort_order: sort_order_b }).eq("id", id_a),
-    supabaseAdmin.from("contents").update({ sort_order: sort_order_a }).eq("id", id_b),
-  ]);
+  if (!Array.isArray(items) || items.length === 0) {
+    return NextResponse.json({ error: "Invalid items" }, { status: 400 });
+  }
 
-  if (resA.error || resB.error) {
+  const results = await Promise.all(
+    items.map((item) =>
+      supabaseAdmin.from("contents").update({ sort_order: item.sort_order }).eq("id", item.id)
+    )
+  );
+
+  const failed = results.find((r) => r.error);
+  if (failed) {
     return NextResponse.json({ error: "Reorder failed" }, { status: 500 });
   }
 
