@@ -180,6 +180,29 @@
 
 ---
 
+## Phase 4 보완 — Admin Content 관리 개선 ✅ 완료 (2026-03-25)
+
+| 항목 | 상태 |
+|------|------|
+| /admin/qa 페이지 — Q&A 목록, 카테고리/상태 필터, 해결됨 토글, 삭제 (Level 3+) | ✅ |
+| AdminSidebar에 Q&A 메뉴 항목 추가 | ✅ |
+| /admin/contents — 카테고리/상태 드롭다운 필터 구현 | ✅ |
+| /admin/contents — Sort 드롭다운 (Custom Order / Newest / Oldest / Category / Views) | ✅ |
+| supabase/migrations/002_add_sort_order.sql — contents.sort_order 컬럼 추가 | ✅ |
+| ▲▼ 버튼으로 Custom Order 순서 변경 (Optimistic update + DB swap) | ✅ |
+| POST /api/admin/contents/reorder — sort_order 스왑 API | ✅ |
+| 공개 카테고리 페이지 (/[category]) — sort_order ASC 기준 정렬 반영 | ✅ |
+| 필터/정렬 버그 수정 — startTransition+router.push → window.location.href (하드 네비게이션) | ✅ |
+| useEffect로 initialContents 동기화 — 필터 후 클라이언트 state 즉시 반영 | ✅ |
+
+### Phase 4 보완 노트
+
+- **filter/sort 버그 원인:** `startTransition(() => router.push(...))` 이 Next.js 14 App Router에서 서버 컴포넌트 searchParams를 신뢰할 수 있게 업데이트하지 않음 → `window.location.href` 하드 네비게이션으로 교체
+- **sort_order:** Supabase SQL Editor에서 `002_add_sort_order.sql` 수동 실행 필요. 신규 글은 sort_order=NULL → PostgreSQL이 자동으로 마지막 배치
+- **공개 카테고리 페이지:** sort_order ASC로 정렬 → admin에서 설정한 순서가 사용자에게 그대로 반영
+
+---
+
 ## 다음 세션 시작 방법
 
 ```
