@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
 import type { Content } from "@/lib/supabase";
+import ContentGrid from "@/components/content/ReadStatusCards";
 
 // ── Category metadata ────────────────────────────────────────
 const categoryMeta: Record<
@@ -103,19 +104,6 @@ export async function generateMetadata({
   };
 }
 
-function estimateReadTime(body: string | null): string {
-  if (!body) return "3 min read";
-  const words = body.replace(/<[^>]+>/g, "").split(/\s+/).length;
-  return `${Math.max(1, Math.round(words / 200))} min read`;
-}
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
 
 export default async function CategoryPage({
   params,
@@ -179,53 +167,7 @@ export default async function CategoryPage({
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {articles.map((article) => (
-            <Link
-              key={article.slug}
-              href={`/${params.category}/${article.slug}`}
-              className="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-outline-variant/15 transition-all flex flex-col"
-            >
-              <div className="h-48 bg-surface-container overflow-hidden">
-                {article.cover_image ? (
-                  <img
-                    src={article.cover_image}
-                    alt={article.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[48px] text-on-surface-variant/20">
-                      {meta.icon}
-                    </span>
-                  </div>
-                )}
-              </div>
-              <div className="p-5 flex flex-col flex-1">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs font-label text-outline">
-                    {estimateReadTime(article.body_mdx)}
-                  </span>
-                  <span className="text-xs font-label text-outline">·</span>
-                  <span className="text-xs font-label text-outline">
-                    {formatDate(article.created_at)}
-                  </span>
-                </div>
-                <h3 className="font-headline font-bold text-base text-on-surface leading-snug mb-2 line-clamp-2">
-                  {article.title}
-                </h3>
-                <p className="text-sm font-body text-on-surface-variant leading-relaxed line-clamp-3 flex-1">
-                  {article.excerpt}
-                </p>
-                <div className="flex items-center mt-4">
-                  <span className="text-sm font-body font-bold text-primary hover:text-primary-dim transition-colors">
-                    Read Article →
-                  </span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <ContentGrid articles={articles} category={params.category} icon={meta.icon} />
       )}
     </div>
   );

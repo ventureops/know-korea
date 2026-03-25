@@ -7,6 +7,24 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? 'placeholder'
 );
 
+// GET /api/reads?content_ids=id1,id2,... — get read status for multiple contents
+export async function GET(req: Request) {
+  const session = await getSession();
+  if (!session) return NextResponse.json({ reads: [] });
+
+  const { searchParams } = new URL(req.url);
+  const ids = searchParams.get('content_ids')?.split(',').filter(Boolean) ?? [];
+  if (ids.length === 0) return NextResponse.json({ reads: [] });
+
+  const { data } = await supabaseAdmin
+    .from('content_reads')
+    .select('content_id')
+    .eq('user_id', session.user.id)
+    .in('content_id', ids);
+
+  return NextResponse.json({ reads: (data ?? []).map((r: { content_id: string }) => r.content_id) });
+}
+
 // POST /api/reads — toggle read status
 export async function POST(req: Request) {
   const session = await getSession();

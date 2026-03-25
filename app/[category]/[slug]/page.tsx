@@ -17,58 +17,6 @@ const supabaseAdmin = createClient(
 
 export const revalidate = 600; // 10분마다 재생성
 
-// ── RelatedQA ────────────────────────────────────────────────
-async function RelatedQA({ contentId }: { contentId: string }) {
-  const { data } = await supabaseAdmin
-    .from("qa_posts")
-    .select("id, title, is_resolved")
-    .eq("content_id", contentId)
-    .order("created_at", { ascending: false })
-    .limit(2);
-
-  return (
-    <div className="bg-surface-container-low rounded-2xl p-5">
-      <p className="text-xs font-label font-bold uppercase tracking-wider text-outline mb-3">
-        Related Q&amp;A
-      </p>
-      {data && data.length > 0 ? (
-        <div className="space-y-3">
-          {data.map((qa) => (
-            <Link
-              key={qa.id}
-              href={`/qa/${qa.id}`}
-              className="flex items-start gap-2 group"
-            >
-              <span
-                className="material-symbols-outlined text-[16px] shrink-0 mt-0.5"
-                style={{ color: qa.is_resolved ? "#16A34A" : undefined, fontVariationSettings: qa.is_resolved ? "'FILL' 1" : "'FILL' 0" }}
-              >
-                {qa.is_resolved ? "check_circle" : "help"}
-              </span>
-              <span className="text-sm font-body text-on-surface-variant group-hover:text-on-surface transition-colors leading-snug">
-                {qa.title}
-              </span>
-            </Link>
-          ))}
-          <Link href={`/qa`} className="text-xs text-primary font-bold hover:underline mt-1 block">
-            View all Q&amp;A →
-          </Link>
-        </div>
-      ) : (
-        <p className="text-sm font-body text-on-surface-variant">
-          No Q&amp;A for this guide yet.{" "}
-          <Link
-            href="/qa/new"
-            className="text-primary hover:text-primary-dim transition-colors font-bold"
-          >
-            Ask one →
-          </Link>
-        </p>
-      )}
-    </div>
-  );
-}
-
 // ── Helpers ──────────────────────────────────────────────────
 const categoryLabels: Record<string, string> = {
   "start-here": "Start Here",
@@ -454,8 +402,6 @@ export default async function ContentDetailPage({
               </div>
             )}
 
-            {/* Related Q&A */}
-            <RelatedQA contentId={article.id} />
           </div>
         </aside>
       </div>

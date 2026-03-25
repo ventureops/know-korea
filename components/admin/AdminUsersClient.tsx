@@ -34,7 +34,24 @@ interface Props {
   dormantCount: number;
   initialSearch: string;
   initialDormant: boolean;
+  initialRole: string;
+  initialStatus: string;
 }
+
+const ROLE_OPTIONS = [
+  { value: "", label: "All Roles" },
+  { value: "1", label: "Subscriber" },
+  { value: "2", label: "Contributor" },
+  { value: "3", label: "Moderator" },
+  { value: "4", label: "Admin" },
+];
+
+const STATUS_OPTIONS = [
+  { value: "", label: "All Status" },
+  { value: "active", label: "Active" },
+  { value: "suspended", label: "Suspended" },
+  { value: "banned", label: "Banned" },
+];
 
 export default function AdminUsersClient({
   initialUsers,
@@ -42,6 +59,8 @@ export default function AdminUsersClient({
   dormantCount,
   initialSearch,
   initialDormant,
+  initialRole,
+  initialStatus,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -49,11 +68,17 @@ export default function AdminUsersClient({
 
   const [search, setSearch] = useState(initialSearch);
   const [dormant, setDormant] = useState(initialDormant);
+  const [roleFilter, setRoleFilter] = useState(initialRole);
+  const [statusFilter, setStatusFilter] = useState(initialStatus);
 
-  function applyFilters(newSearch: string, newDormant: boolean) {
+  function applyFilters(newSearch: string, newDormant: boolean, newRole?: string, newStatus?: string) {
+    const r = newRole ?? roleFilter;
+    const s = newStatus ?? statusFilter;
     const params = new URLSearchParams();
     if (newSearch) params.set("search", newSearch);
     if (newDormant) params.set("dormant", "true");
+    if (r) params.set("role", r);
+    if (s) params.set("status", s);
     startTransition(() => {
       router.push(`${pathname}?${params.toString()}`);
     });
@@ -99,6 +124,34 @@ export default function AdminUsersClient({
           <span className="material-symbols-outlined text-[16px]">bedtime</span>
           Dormant ({dormantCount})
         </button>
+      </div>
+
+      {/* Role + Status filters */}
+      <div className="flex flex-wrap gap-3 mb-5">
+        <select
+          value={roleFilter}
+          onChange={(e) => {
+            setRoleFilter(e.target.value);
+            applyFilters(search, dormant, e.target.value, statusFilter);
+          }}
+          className="px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface focus:outline-none focus:border-primary transition-colors"
+        >
+          {ROLE_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+        <select
+          value={statusFilter}
+          onChange={(e) => {
+            setStatusFilter(e.target.value);
+            applyFilters(search, dormant, roleFilter, e.target.value);
+          }}
+          className="px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface focus:outline-none focus:border-primary transition-colors"
+        >
+          {STATUS_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
       </div>
 
       {/* Table */}

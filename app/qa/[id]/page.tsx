@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 import { getSession } from '@/lib/auth';
 import QACommentSection, { type QAComment } from '@/components/qa/QACommentSection';
 import QAActions from '@/components/qa/QAActions';
+import QAEditDelete from '@/components/qa/QAEditDelete';
 
 export const revalidate = 300; // 5분마다 재생성
 
@@ -152,6 +153,12 @@ export default async function QADetailPage({ params }: { params: { id: string } 
             <span>·</span>
             <span>{formatDate(post.created_at)}</span>
           </div>
+          {/* Edit / Delete — author or Admin only */}
+          {session?.user?.id && (post.author_id === session.user.id || (session.user.role ?? 0) >= 4) && (
+            <div className="mt-4">
+              <QAEditDelete qaId={params.id} />
+            </div>
+          )}
         </header>
 
         {/* Linked content notice */}

@@ -19,23 +19,33 @@ const supabaseAdmin = createClient(
 const CATEGORIES = [
   { value: '', label: 'All' },
   { value: 'start-here', label: 'Start Here' },
+  { value: 'language', label: 'Language' },
   { value: 'life-in-korea', label: 'Life in Korea' },
   { value: 'work-business', label: 'Work & Business' },
   { value: 'practical-guide', label: 'Practical Guide' },
-  { value: 'language', label: 'Language' },
   { value: 'culture-society', label: 'Culture & Society' },
-  { value: 'economy-money', label: 'Economy & Money' },
   { value: 'travel-places', label: 'Travel & Places' },
+  { value: 'history-politics', label: 'History & Politics' },
+  { value: 'economy-money', label: 'Economy & Money' },
+  { value: 'comparison', label: 'Comparison' },
+  { value: 'real-stories', label: 'Real Stories' },
   { value: 'tools-resources', label: 'Tools & Resources' },
+];
+
+const STATUS_FILTERS = [
+  { value: '', label: 'All' },
+  { value: 'resolved', label: 'Resolved' },
+  { value: 'unresolved', label: 'Unresolved' },
 ];
 
 export default async function QAPage({
   searchParams,
 }: {
-  searchParams: { category?: string; page?: string };
+  searchParams: { category?: string; page?: string; status?: string };
 }) {
   const session = await getSession();
   const category = searchParams.category ?? '';
+  const status = searchParams.status ?? '';
   const page = parseInt(searchParams.page ?? '1', 10);
   const limit = 20;
   const offset = (page - 1) * limit;
@@ -50,6 +60,8 @@ export default async function QAPage({
     .range(offset, offset + limit - 1);
 
   if (category) query = query.eq('category', category);
+  if (status === 'resolved') query = query.eq('is_resolved', true);
+  if (status === 'unresolved') query = query.eq('is_resolved', false);
 
   const { data, count } = await query;
 
@@ -99,7 +111,7 @@ export default async function QAPage({
             Community Q&amp;A
           </h1>
           <p className="text-sm font-body text-on-surface-variant mt-1">
-            Ask the community, share what you know.
+            Feel free to ask anything, and share what you know. If you have any questions or requests regarding the website, please click &apos;Contact Us&apos; below.
           </p>
         </div>
         {session ? (
@@ -120,21 +132,50 @@ export default async function QAPage({
         )}
       </div>
 
+      {/* Resolved / Unresolved filter */}
+      <div className="flex gap-2 mb-4">
+        {STATUS_FILTERS.map((sf) => {
+          const params = new URLSearchParams();
+          if (category) params.set('category', category);
+          if (sf.value) params.set('status', sf.value);
+          const href = params.toString() ? `/qa?${params.toString()}` : '/qa';
+          return (
+            <Link
+              key={sf.value}
+              href={href}
+              className={`px-3 py-1.5 rounded-full text-xs font-label font-bold transition-all ${
+                status === sf.value
+                  ? 'bg-primary text-on-primary'
+                  : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
+              }`}
+            >
+              {sf.label}
+            </Link>
+          );
+        })}
+      </div>
+
       {/* Category filter */}
       <div className="flex gap-2 flex-wrap mb-6">
-        {CATEGORIES.map((cat) => (
-          <Link
-            key={cat.value}
-            href={cat.value ? `/qa?category=${cat.value}` : '/qa'}
-            className={`px-3 py-1.5 rounded-full text-xs font-label font-bold transition-all ${
-              category === cat.value
-                ? 'bg-primary text-on-primary'
-                : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-            }`}
-          >
-            {cat.label}
-          </Link>
-        ))}
+        {CATEGORIES.map((cat) => {
+          const params = new URLSearchParams();
+          if (cat.value) params.set('category', cat.value);
+          if (status) params.set('status', status);
+          const href = params.toString() ? `/qa?${params.toString()}` : '/qa';
+          return (
+            <Link
+              key={cat.value}
+              href={href}
+              className={`px-3 py-1.5 rounded-full text-xs font-label font-bold transition-all ${
+                category === cat.value
+                  ? 'bg-primary text-on-primary'
+                  : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
+              }`}
+            >
+              {cat.label}
+            </Link>
+          );
+        })}
       </div>
 
       {/* Post list */}
@@ -168,7 +209,7 @@ export default async function QAPage({
         <div className="flex items-center justify-center gap-2 mt-8">
           {page > 1 && (
             <Link
-              href={`/qa?${category ? `category=${category}&` : ''}page=${page - 1}`}
+              href={`/qa?${category ? `category=${category}&` : ''}${status ? `status=${status}&` : ''}page=${page - 1}`}
               className="px-4 py-2 rounded-xl bg-surface-container text-sm font-body text-on-surface hover:bg-surface-container-high transition-all"
             >
               Previous
@@ -179,7 +220,7 @@ export default async function QAPage({
           </span>
           {page < totalPages && (
             <Link
-              href={`/qa?${category ? `category=${category}&` : ''}page=${page + 1}`}
+              href={`/qa?${category ? `category=${category}&` : ''}${status ? `status=${status}&` : ''}page=${page + 1}`}
               className="px-4 py-2 rounded-xl bg-surface-container text-sm font-body text-on-surface hover:bg-surface-container-high transition-all"
             >
               Next

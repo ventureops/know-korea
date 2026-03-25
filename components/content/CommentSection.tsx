@@ -74,9 +74,10 @@ export default function CommentSection({ contentId, initialComments }: Props) {
 
   return (
     <div className="mt-12 border-t border-outline-variant/15 pt-8">
-      <h2 className="font-headline font-bold text-lg text-on-surface mb-6">
+      <h2 className="font-headline font-bold text-lg text-on-surface mb-1">
         Comments {comments.length > 0 && <span className="text-on-surface-variant font-body font-normal text-sm">({comments.length})</span>}
       </h2>
+      <p className="text-xs text-on-surface-variant mb-6">Inappropriate comments may be deleted.</p>
 
       {session ? (
         <form onSubmit={submit} className="mb-8">

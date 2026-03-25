@@ -9,7 +9,7 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? "placeholder"
 );
 
-async function getUsers(search: string, dormant: boolean) {
+async function getUsers(search: string, dormant: boolean, role: string, status: string) {
   let query = supabaseAdmin
     .from("users")
     .select("id, nickname, email, role, status, last_login_at, created_at", {
@@ -25,6 +25,14 @@ async function getUsers(search: string, dormant: boolean) {
       Date.now() - 30 * 24 * 60 * 60 * 1000
     ).toISOString();
     query = query.lt("last_login_at", thirtyDaysAgo);
+  }
+
+  if (role) {
+    query = query.eq("role", parseInt(role, 10));
+  }
+
+  if (status) {
+    query = query.eq("status", status);
   }
 
   const { data, count } = await query
@@ -48,13 +56,15 @@ async function getDormantCount() {
 export default async function AdminUsersPage({
   searchParams,
 }: {
-  searchParams: { search?: string; dormant?: string };
+  searchParams: { search?: string; dormant?: string; role?: string; status?: string };
 }) {
   const search = searchParams.search ?? "";
   const dormant = searchParams.dormant === "true";
+  const role = searchParams.role ?? "";
+  const status = searchParams.status ?? "";
 
   const [{ users, total }, dormantCount] = await Promise.all([
-    getUsers(search, dormant),
+    getUsers(search, dormant, role, status),
     getDormantCount(),
   ]);
 
@@ -75,6 +85,8 @@ export default async function AdminUsersPage({
         dormantCount={dormantCount}
         initialSearch={search}
         initialDormant={dormant}
+        initialRole={role}
+        initialStatus={status}
       />
     </div>
   );

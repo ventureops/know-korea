@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
@@ -10,11 +10,21 @@ interface Props {
   onChange?: (html: string) => void;
 }
 
+async function uploadFile(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await fetch("/api/upload", { method: "POST", body: formData });
+  if (!res.ok) throw new Error("Upload failed");
+  const data = await res.json();
+  return data.url;
+}
+
 export default function BlockNoteEditorInner({ initialContent, onChange }: Props) {
   const editor = useCreateBlockNote({
     initialContent: initialContent
       ? tryParseBlockNoteContent(initialContent)
       : undefined,
+    uploadFile,
   });
 
   useEffect(() => {

@@ -19,20 +19,35 @@ export const metadata: Metadata = {
   },
 };
 
-// Category label mapping used for tags on cards
+// SPEC.md §12 순서대로 12개 카테고리
+const categoryOrder = [
+  "start-here",
+  "language",
+  "life-in-korea",
+  "work-business",
+  "practical-guide",
+  "culture-society",
+  "travel-places",
+  "history-politics",
+  "economy-money",
+  "comparison",
+  "real-stories",
+  "tools-resources",
+] as const;
+
 const categoryLabels: Record<string, string> = {
   "start-here": "Start Here",
   language: "Language",
-  "life-in-korea": "Life",
-  "work-business": "Work",
-  "practical-guide": "Practical",
-  "culture-society": "Culture",
-  "travel-places": "Travel",
-  "history-politics": "History",
-  "economy-money": "Economy",
+  "life-in-korea": "Life in Korea",
+  "work-business": "Work & Business",
+  "practical-guide": "Practical Guide",
+  "culture-society": "Culture & Society",
+  "travel-places": "Travel & Places",
+  "history-politics": "History & Politics",
+  "economy-money": "Economy & Money",
   comparison: "Comparison",
-  "real-stories": "Stories",
-  "tools-resources": "Tools",
+  "real-stories": "Real Stories",
+  "tools-resources": "Tools & Resources",
 };
 
 const categoryColors: Record<string, string> = {
@@ -69,66 +84,22 @@ function estimateReadTime(body: string | null): string {
   return `${Math.max(1, Math.round(words / 200))} min read`;
 }
 
-const bentoCategories = [
-  {
-    href: "/life-in-korea",
-    label: "Life",
-    icon: "home",
-    description:
-      "Daily living tips, housing, healthcare, and everything to settle in Korea smoothly.",
-    count: 24,
-    bg: "bg-primary",
-    textColor: "text-on-primary",
-    mutedColor: "text-on-primary/70",
-    iconColor: "text-on-primary/20",
-  },
-  {
-    href: "/work-business",
-    label: "Work",
-    icon: "work",
-    description:
-      "Work culture, job hunting, business etiquette, and navigating the Korean workplace.",
-    count: 18,
-    bg: "bg-surface-container-highest",
-    textColor: "text-on-surface",
-    mutedColor: "text-on-surface-variant",
-    iconColor: "text-on-surface/10",
-  },
-  {
-    href: "/practical-guide",
-    label: "Practical",
-    icon: "travel_explore",
-    description:
-      "Visa, bank accounts, phones, and all the practical steps for living in Korea.",
-    count: 15,
-    bg: "bg-tertiary",
-    textColor: "text-on-tertiary",
-    mutedColor: "text-on-tertiary/70",
-    iconColor: "text-on-tertiary/20",
-  },
-];
-
 export default async function HomePage() {
-  // Popular guides: top 4 by view_count
-  const { data: popularRaw } = await supabase
+  // 12개 카테고리별 view_count 최고 콘텐츠 1개씩 가져오기
+  const { data: allContents } = await supabase
     .from("contents")
     .select("*")
     .eq("is_published", true)
-    .order("view_count", { ascending: false })
-    .limit(5);
+    .order("view_count", { ascending: false });
 
-  const popularGuides: Content[] = popularRaw ?? [];
+  const contents: Content[] = allContents ?? [];
 
-  // Latest practical guides: newest 3 in practical-guide category
-  const { data: latestRaw } = await supabase
-    .from("contents")
-    .select("*")
-    .eq("is_published", true)
-    .eq("category", "practical-guide")
-    .order("created_at", { ascending: false })
-    .limit(3);
-
-  const latestGuides: Content[] = latestRaw ?? [];
+  // 카테고리별 최고 조회수 콘텐츠 1개씩 선택 (SPEC §12 순서)
+  const categoryCards: Content[] = [];
+  for (const cat of categoryOrder) {
+    const found = contents.find((c) => c.category === cat);
+    if (found) categoryCards.push(found);
+  }
 
   return (
     <div className="px-5 md:px-8 py-8 max-w-5xl mx-auto">
@@ -159,171 +130,25 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Popular Guides */}
+      {/* Popular Guides — 12 categories, 3×4 grid */}
       <section className="mb-12">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="font-headline font-bold text-xl text-on-surface">
-            Popular Guides
-          </h2>
-          <Link
-            href="/life-in-korea"
-            className="text-sm font-body text-primary hover:text-primary-dim transition-colors"
-          >
-            View All Guides →
-          </Link>
-        </div>
+        <h2 className="font-headline font-bold text-xl text-on-surface mb-5">
+          Popular Guides
+        </h2>
 
-        {popularGuides.length === 0 ? (
+        {categoryCards.length === 0 ? (
           <p className="text-sm font-body text-on-surface-variant">
             No guides yet. Check back soon!
           </p>
         ) : (
-          <>
-            {/* Top 3 cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-              {popularGuides.slice(0, 3).map((guide) => (
-                <Link
-                  key={guide.slug}
-                  href={`/${guide.category}/${guide.slug}`}
-                  className="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-outline-variant/15 transition-all"
-                >
-                  <div className="h-40 bg-surface-container overflow-hidden">
-                    {guide.cover_image ? (
-                      <img
-                        src={guide.cover_image}
-                        alt={guide.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[40px] text-on-surface-variant/20">
-                          article
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <div className="mb-2">
-                      <CategoryTag category={guide.category} />
-                    </div>
-                    <h3 className="font-headline font-bold text-base text-on-surface leading-snug mb-1 line-clamp-2">
-                      {guide.title}
-                    </h3>
-                    <p className="text-xs font-body text-on-surface-variant line-clamp-2 mb-3">
-                      {guide.excerpt}
-                    </p>
-                    <span className="text-xs font-label text-outline">
-                      {estimateReadTime(guide.body_mdx)}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {/* Bottom 2 compact cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {popularGuides.slice(3, 5).map((guide) => (
-                <Link
-                  key={guide.slug}
-                  href={`/${guide.category}/${guide.slug}`}
-                  className="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-outline-variant/15 transition-all flex gap-3 p-3"
-                >
-                  <div className="w-20 h-20 bg-surface-container rounded-xl overflow-hidden shrink-0">
-                    {guide.cover_image ? (
-                      <img
-                        src={guide.cover_image}
-                        alt={guide.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[24px] text-on-surface-variant/20">
-                          article
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0 py-1">
-                    <CategoryTag category={guide.category} />
-                    <h3 className="font-headline font-bold text-sm text-on-surface leading-snug mt-1.5 line-clamp-2">
-                      {guide.title}
-                    </h3>
-                    <span className="text-xs font-label text-outline mt-1 block">
-                      {estimateReadTime(guide.body_mdx)}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </>
-        )}
-      </section>
-
-      {/* Bento Category Cards (static — always visible) */}
-      <section className="mb-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {bentoCategories.map((cat) => (
-            <Link
-              key={cat.href}
-              href={cat.href}
-              className={`group relative rounded-3xl p-6 overflow-hidden ${cat.bg} transition-all hover:shadow-xl active:scale-95`}
-            >
-              <span
-                className={`material-symbols-outlined absolute -bottom-3 -right-3 text-8xl rotate-12 ${cat.iconColor} select-none pointer-events-none`}
-                style={{ fontVariationSettings: "'FILL' 1" }}
-              >
-                {cat.icon}
-              </span>
-              <div className="relative z-10">
-                <p
-                  className={`text-[10px] font-label font-bold uppercase tracking-widest mb-1 ${cat.mutedColor}`}
-                >
-                  Category
-                </p>
-                <h3
-                  className={`font-headline font-extrabold text-2xl mb-2 ${cat.textColor}`}
-                >
-                  {cat.label}
-                </h3>
-                <p
-                  className={`text-sm font-body leading-relaxed mb-4 ${cat.mutedColor}`}
-                >
-                  {cat.description}
-                </p>
-                <span
-                  className={`text-sm font-body font-bold ${cat.textColor}`}
-                >
-                  Browse {cat.count} guides →
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Latest Practical Guides */}
-      <section className="mb-8">
-        <div className="flex items-center gap-2 mb-5">
-          <span className="material-symbols-outlined text-[20px] text-primary">
-            bolt
-          </span>
-          <h2 className="font-headline font-bold text-xl text-on-surface">
-            Latest Practical Guides
-          </h2>
-        </div>
-        {latestGuides.length === 0 ? (
-          <p className="text-sm font-body text-on-surface-variant">
-            No practical guides yet.
-          </p>
-        ) : (
-          <div className="flex flex-col gap-2">
-            {latestGuides.map((guide) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {categoryCards.map((guide) => (
               <Link
                 key={guide.slug}
                 href={`/${guide.category}/${guide.slug}`}
-                className="group flex items-center gap-4 rounded-2xl p-3 hover:bg-surface-container-lowest transition-all"
+                className="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-outline-variant/15 transition-all"
               >
-                <div className="w-14 h-14 rounded-xl bg-surface-container overflow-hidden shrink-0">
+                <div className="h-40 bg-surface-container overflow-hidden">
                   {guide.cover_image ? (
                     <img
                       src={guide.cover_image}
@@ -332,28 +157,24 @@ export default async function HomePage() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <span className="material-symbols-outlined text-[20px] text-on-surface-variant/20">
+                      <span className="material-symbols-outlined text-[40px] text-on-surface-variant/20">
                         article
                       </span>
                     </div>
                   )}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <CategoryTag category={guide.category} />
-                  <h3 className="font-headline font-bold text-sm text-on-surface leading-snug mt-1 line-clamp-1">
+                <div className="p-4">
+                  <div className="mb-2">
+                    <CategoryTag category={guide.category} />
+                  </div>
+                  <h3 className="font-headline font-bold text-base text-on-surface leading-snug mb-1 line-clamp-2">
                     {guide.title}
                   </h3>
-                </div>
-                <div className="text-right shrink-0">
-                  <span className="text-xs font-label text-outline block">
-                    {new Date(guide.created_at).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </span>
-                  <span className="material-symbols-outlined text-[16px] text-on-surface-variant mt-1 block">
-                    arrow_forward
+                  <p className="text-xs font-body text-on-surface-variant line-clamp-2 mb-3">
+                    {guide.excerpt}
+                  </p>
+                  <span className="text-xs font-label text-outline">
+                    {estimateReadTime(guide.body_mdx)}
                   </span>
                 </div>
               </Link>
