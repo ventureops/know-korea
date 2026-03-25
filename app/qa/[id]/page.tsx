@@ -6,7 +6,7 @@ import { getSession } from '@/lib/auth';
 import QACommentSection, { type QAComment } from '@/components/qa/QACommentSection';
 import QAActions from '@/components/qa/QAActions';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300; // 5분마다 재생성
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://placeholder.supabase.co',

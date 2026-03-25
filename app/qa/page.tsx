@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Ask questions about life in Korea and get answers from the community.',
 };
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60; // 1분마다 재생성
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://placeholder.supabase.co',

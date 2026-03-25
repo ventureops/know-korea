@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabase";
 import type { Content } from "@/lib/supabase";
 import type { Metadata } from "next";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // 1시간마다 재생성
 
 export const metadata: Metadata = {
   title: "Know Korea — The Modern Envoy",

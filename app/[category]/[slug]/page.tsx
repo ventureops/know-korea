@@ -8,13 +8,14 @@ import { createClient } from "@supabase/supabase-js";
 import ReadButton from "@/components/content/ReadButton";
 import LikeButton from "@/components/content/LikeButton";
 import CommentSection from "@/components/content/CommentSection";
+import ViewTracker from "@/components/content/ViewTracker";
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://placeholder.supabase.co",
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? "placeholder"
 );
 
-export const dynamic = "force-dynamic"; // ensures view_count increments on each visit
+export const revalidate = 600; // 10분마다 재생성
 
 // ── RelatedQA ────────────────────────────────────────────────
 async function RelatedQA({ contentId }: { contentId: string }) {
@@ -167,16 +168,6 @@ export default async function ContentDetailPage({
 
   if (!article) notFound();
 
-  // Increment view_count (fire-and-forget, ignore errors)
-  try {
-    await supabase
-      .from("contents")
-      .update({ view_count: article.view_count + 1 })
-      .eq("slug", params.slug);
-  } catch {
-    // Non-critical — continue rendering even if update fails
-  }
-
   // Related articles: same category + overlapping tags, exclude self
   let relatedArticles: Content[] = [];
   if (article.tags && article.tags.length > 0) {
@@ -269,6 +260,7 @@ export default async function ContentDetailPage({
 
   return (
     <div className="px-5 md:px-8 py-8 max-w-6xl mx-auto">
+      <ViewTracker slug={params.slug} />
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs font-body text-on-surface-variant mb-6">
         <Link href="/" className="hover:text-on-surface transition-colors">

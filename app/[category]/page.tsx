@@ -80,7 +80,7 @@ const categoryMeta: Record<
   },
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // 1시간마다 재생성
 
 const validCategories = Object.keys(categoryMeta);
 
@@ -134,7 +134,8 @@ export default async function CategoryPage({
     .select("*")
     .eq("category", params.category)
     .eq("is_published", true)
-    .order("sort_order", { ascending: true });
+    .order("sort_order", { ascending: true, nullsFirst: false })
+    .order("created_at", { ascending: false });
 
   const articles: Content[] = articlesRaw ?? [];
 
