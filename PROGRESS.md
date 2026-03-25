@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**Phase 4 완료 (2026-03-24) — 전체 5개 Phase 완료**
+**Phase 4 완료 + 보완 작업 진행 중 (2026-03-26)**
 
 ---
 
@@ -177,6 +177,28 @@
 - **배지 체크:** `/api/admin/badges/check?user_id=xxx` POST로 수동 트리거. `user_badges` 테이블 UPSERT (ignoreDuplicates)
 - **계정 차단:** signIn callback에서 status=suspended/banned 시 `/login?error=AccountBlocked` 반환
 - **Admin Test SQL:** `UPDATE users SET role = 4 WHERE email = 'poisian@gmail.com';`
+
+---
+
+## Phase 4 보완 2 — 드래그앤드롭 + ISR 최적화 ✅ 완료 (2026-03-26)
+
+| 항목 | 상태 |
+|------|------|
+| /admin/contents — ▲▼ 버튼 → @dnd-kit 드래그앤드롭으로 교체 | ✅ |
+| POST /api/admin/contents/reorder — pair swap → bulk items 배열로 변경 | ✅ |
+| canDrag 필터 제한 제거 — Custom Order면 필터 유무 무관하게 drag 활성 | ✅ |
+| ISR 적용 — force-dynamic → revalidate (홈 3600, 카테고리 3600, 콘텐츠 상세 600, Q&A 목록 60, Q&A 상세 300) | ✅ |
+| ViewTracker 클라이언트 컴포넌트 — ISR 캐시 여부와 무관하게 view_count 증가 | ✅ |
+| POST /api/contents/[slug]/view — 클라이언트 호출용 view_count 증가 API | ✅ |
+| Vercel Function Region → icn1 (Seoul) 변경 + 재배포 | ✅ |
+| /[category] 쿼리 — nullsFirst: false + created_at 보조 정렬 추가 | ✅ |
+
+### Phase 4 보완 2 노트
+
+- **dnd-kit:** `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` 설치. PointerSensor(distance: 5) 사용
+- **ISR:** admin/profile/search는 force-dynamic 유지. 나머지 공개 페이지만 revalidate 적용
+- **ViewTracker:** `useEffect`에서 `/api/contents/[slug]/view` POST 호출 (fire-and-forget). 서버 컴포넌트에서 view_count 증가 코드 제거
+- **서울 리전:** Vercel Settings → Functions → Function Region → icn1 변경 후 empty commit으로 재배포
 
 ---
 
