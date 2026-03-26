@@ -44,16 +44,12 @@ export default function BlockNoteEditorInner({ initialContent, onChange }: Props
   useEffect(() => {
     if (!initialContent || contentLoaded.current) return;
     contentLoaded.current = true;
-
-    async function load() {
-      try {
-        const blocks = await editor.tryParseHTMLToBlocks(initialContent!);
-        editor.replaceBlocks(editor.document, blocks);
-      } catch {
-        // ignore — editor stays empty
-      }
+    try {
+      const blocks = editor.tryParseHTMLToBlocks(initialContent);
+      editor.replaceBlocks(editor.document, blocks);
+    } catch {
+      // ignore — editor stays empty
     }
-    load();
   }, [editor, initialContent]);
 
   const handleChange = useCallback(async () => {
