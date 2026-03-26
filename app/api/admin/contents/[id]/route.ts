@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/auth";
 import { createClient } from "@supabase/supabase-js";
 
@@ -62,6 +63,10 @@ export async function PATCH(
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
+  revalidatePath("/");
+  if (category) revalidatePath(`/${category}`);
+  if (category && slug) revalidatePath(`/${category}/${slug}`);
+
   return NextResponse.json({ ok: true });
 }
 
@@ -75,12 +80,23 @@ export async function DELETE(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  // fetch category/slug before deleting to revalidate correct paths
+  const { data: existing } = await supabaseAdmin
+    .from("contents")
+    .select("category, slug")
+    .eq("id", params.id)
+    .single();
+
   const { error } = await supabaseAdmin
     .from("contents")
     .delete()
     .eq("id", params.id);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  revalidatePath("/");
+  if (existing?.category) revalidatePath(`/${existing.category}`);
+  if (existing?.category && existing?.slug) revalidatePath(`/${existing.category}/${existing.slug}`);
 
   return NextResponse.json({ ok: true });
 }

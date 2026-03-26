@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/auth";
 import { createClient } from "@supabase/supabase-js";
 
@@ -30,6 +31,9 @@ export async function POST(req: Request) {
   if (failed) {
     return NextResponse.json({ error: "Reorder failed" }, { status: 500 });
   }
+
+  // revalidate all category pages since reorder affects any category
+  revalidatePath("/", "layout");
 
   return NextResponse.json({ ok: true });
 }
