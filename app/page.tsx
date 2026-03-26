@@ -131,9 +131,9 @@ export default async function HomePage() {
       <section className="mb-10">
         <div className="bg-surface-container-low rounded-2xl p-6 space-y-3">
           {[
-            { icon: "menu_book", text: "We cover 12 categories of practical guides about living, working, and thriving in Korea. Everything is free to read — no paywalls, no limits." },
-            { icon: "person_add", text: "Sign up to unlock extra features like Mark as Read, Q&A, comments, and likes — so you can track your progress and engage with the community." },
-            { icon: "mail", text: 'Got feedback or something not working right? Hit "Contact Us" at the bottom of the page.' },
+            { icon: "menu_book", text: "12 practical categories covering everything about life in Korea — Everything is free to read." },
+            { icon: "person_add", text: "Sign up to track your reading, ask questions, leave comments, and engage with the community." },
+            { icon: "mail", text: 'Got feedback or suggestions? Use "Contact Us" at the bottom.' },
           ].map(({ icon, text }) => (
             <div key={icon} className="flex items-start gap-3">
               <span className="material-symbols-outlined text-[18px] text-primary mt-0.5 shrink-0">{icon}</span>
