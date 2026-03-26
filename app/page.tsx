@@ -127,20 +127,19 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Site Intro Box */}
-      <section className="mb-4">
-        <div className="bg-surface-container-low rounded-xl p-6 text-sm font-body text-on-surface-variant leading-relaxed space-y-2">
-          <p>한국에 대해 12개 카테고리의 실용 가이드를 제공합니다.</p>
-          <p>모든 콘텐츠는 무료이며, 열람에 제한이 없습니다.</p>
-          <p>회원가입을 하시면 Mark as Read, Q&A 질문, 댓글 작성, 좋아요 기능을 활용하고 활동 기록을 남길 수 있습니다.</p>
-        </div>
-      </section>
-
-      {/* Q&A Intro Box */}
+      {/* Intro Box */}
       <section className="mb-10">
-        <div className="bg-surface-container-low rounded-xl p-6 text-sm font-body text-on-surface-variant leading-relaxed space-y-2">
-          <p>12개 카테고리에 대한 질문을 자유롭게 하세요.</p>
-          <p>사이트 운영에 대한 제안이나 불편한 사항이 있는 경우, 하단의 &apos;Contact Us&apos;를 활용하세요.</p>
+        <div className="bg-surface-container-low rounded-2xl p-6 space-y-3">
+          {[
+            { icon: "menu_book", text: "We cover 12 categories of practical guides about living, working, and thriving in Korea. Everything is free to read — no paywalls, no limits." },
+            { icon: "person_add", text: "Sign up to unlock extra features like Mark as Read, Q&A, comments, and likes — so you can track your progress and engage with the community." },
+            { icon: "mail", text: 'Got feedback or something not working right? Hit "Contact Us" at the bottom of the page.' },
+          ].map(({ icon, text }) => (
+            <div key={icon} className="flex items-start gap-3">
+              <span className="material-symbols-outlined text-[18px] text-primary mt-0.5 shrink-0">{icon}</span>
+              <p className="text-sm font-body text-on-surface-variant leading-relaxed">{text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
