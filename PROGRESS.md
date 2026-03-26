@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**Phase 4 완료 + 보완 작업 진행 중 (2026-03-26)**
+**Phase 4 완료 + 버그 수정 라운드 완료 (2026-03-26)**
 
 ---
 
@@ -222,6 +222,47 @@
 - **filter/sort 버그 원인:** `startTransition(() => router.push(...))` 이 Next.js 14 App Router에서 서버 컴포넌트 searchParams를 신뢰할 수 있게 업데이트하지 않음 → `window.location.href` 하드 네비게이션으로 교체
 - **sort_order:** Supabase SQL Editor에서 `002_add_sort_order.sql` 수동 실행 필요. 신규 글은 sort_order=NULL → PostgreSQL이 자동으로 마지막 배치
 - **공개 카테고리 페이지:** sort_order ASC로 정렬 → admin에서 설정한 순서가 사용자에게 그대로 반영
+
+---
+
+## 버그 수정 + UI 개선 라운드 ✅ 완료 (2026-03-26)
+
+| 항목 | 상태 |
+|------|------|
+| Footer — 저작권 한 줄로 정리 (`© 2026 The Modern Envoy — Your Digital Curator`) | ✅ |
+| Home — 기존 3+2 카드 + Bento + Latest 삭제 → 12개 카테고리별 인기 콘텐츠 3×4 그리드 | ✅ |
+| 카테고리 목록 — 카드 우상단 읽음(Mark as Read) 아이콘 표시 (로그인 시) | ✅ |
+| GET /api/reads?content_ids=... — 복수 콘텐츠 읽음 상태 batch 조회 API | ✅ |
+| ContentGrid 클라이언트 컴포넌트 — 읽음 토글 + 카드 렌더링 통합 | ✅ |
+| 콘텐츠 상세 — 사이드바 Related Q&A 섹션 삭제 | ✅ |
+| 콘텐츠 상세 — 댓글 "Comments" 아래 `Inappropriate comments may be deleted.` 안내 추가 | ✅ |
+| Q&A 목록 — 12개 카테고리 모두 표시 (SPEC §12 순서) | ✅ |
+| Q&A 목록 — Resolved / Unresolved 필터 추가 (카테고리 필터와 AND 조합) | ✅ |
+| Q&A 목록 — 서브 텍스트 변경 (Contact Us 안내 포함) | ✅ |
+| Q&A 상세 — Edit / Delete 버튼 (작성자 + Admin Level 4만 표시) | ✅ |
+| /qa/[id]/edit 페이지 — TipTap 에디터로 기존 내용 로드 → 수정 → 저장 | ✅ |
+| GET/PUT/DELETE /api/qa/[id] — Q&A 단건 조회, 수정, 삭제 API | ✅ |
+| QAEditDelete 클라이언트 컴포넌트 — 삭제 확인 모달 포함 | ✅ |
+| /admin/users — Role 필터 (All / Subscriber / Contributor / Moderator / Admin) | ✅ |
+| /admin/users — Status 필터 (All / Active / Suspended / Banned) | ✅ |
+| Admin 회원 필터 — 검색 + Role + Status + Dormant 모두 조합 가능 | ✅ |
+| BlockNote 에디터 — `@blocknote/core/style.css` import 추가 (렌더링 안 됨 버그 수정) | ✅ |
+| BlockNote 에디터 — onChange를 BlockNoteView prop으로 변경 (v0.47 권장 방식) | ✅ |
+| BlockNote 에디터 — uploadFile 핸들러로 Cloudinary 이미지 업로드 연동 | ✅ |
+| Cover Image — 파일 업로드 버튼 추가 (Cloudinary) + 기존 URL 입력 유지 | ✅ |
+| POST /api/upload — Cloudinary signed upload API (Admin Level 4 전용) | ✅ |
+| npm run build 에러 없음 | ✅ |
+| Git commit + push | ✅ c4b789c, 0b85c1d |
+
+### 버그 수정 라운드 노트
+
+- **Home 12카드:** 카테고리별 view_count DESC로 전체 조회 후, SPEC §12 순서대로 각 카테고리 최고 1개씩 선택
+- **읽음 아이콘:** ContentGrid 클라이언트 컴포넌트가 mount 시 `/api/reads` GET으로 batch 조회, 카드 우상단에 check_circle/radio_button_unchecked 토글
+- **Q&A 필터:** URL searchParams로 category + status 조합. 페이지네이션에도 필터 파라미터 보존
+- **Q&A Edit/Delete:** 작성자(author_id) 또는 Admin(role≥4)만 PUT/DELETE 허용. 삭제 시 관련 comments + likes도 cascade 삭제
+- **Admin 회원 필터:** 서버 사이드 쿼리에 role/status eq 조건 추가. 클라이언트 드롭다운 onChange 시 즉시 applyFilters 호출
+- **BlockNote CSS 누락:** v0.47은 `@blocknote/core/style.css` + `@blocknote/mantine/style.css` 두 개 모두 import 필요. core CSS 누락이 에디터 안 보임의 원인
+- **Cloudinary 업로드:** signed upload 방식 (SHA-1 signature). `know-korea` 폴더에 저장. Admin 전용 (role≥4)
 
 ---
 
