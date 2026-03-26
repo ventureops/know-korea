@@ -289,6 +289,31 @@
 
 ---
 
+## 버그 수정 라운드 3 ✅ 완료 (2026-03-27)
+
+| 항목 | 상태 |
+|------|------|
+| Navbar — "KNOW KOREA" 텍스트 → brand_logo.png 이미지로 교체 (public/ 복사) | ✅ |
+| Footer — Contact Us → mailto:poisian@gmail.com, Support → FAQ (/faq) | ✅ |
+| Sidebar — Language 아이콘 translate → font_download, BMC 링크 추가 (카테고리 하단 구분선) | ✅ |
+| Home — 기존 서브 문구 삭제, "Everything you need to navigate Korea" 서브텍스트 추가 | ✅ |
+| Home — 사이트 소개 박스 + Q&A 소개 박스 (surface-container-low 카드) | ✅ |
+| Home — "Popular Guides" → "Best Article by Category" 제목 변경 | ✅ |
+| Home — 12개 카드 카테고리 태그 색상 통일 (primary-dim) | ✅ |
+| Home — Best Article 섹션 하단 BMC 블록 추가 (#2D456E 배경, 골드 버튼) | ✅ |
+| About — 이메일 hello@knowkorea.io → poisian@gmail.com (mailto 링크) | ✅ |
+| Step 4 (heading 스타일) — 이미 완료 상태 확인 (prose-custom globals.css) | ✅ |
+| Git commit + push | ✅ 48a31a6 |
+
+### 버그 수정 라운드 3 노트
+
+- **brand_logo.png:** brand_assets/ → public/ 복사. Navbar에서 next/image `Image` 컴포넌트로 참조 (h-9 w-auto)
+- **카테고리 태그 색상:** categoryColors 맵 전체를 `bg-primary/10 text-primary-dim`으로 통일 (#365079)
+- **BMC 블록:** 콘텐츠 상세와 동일한 인라인 JSX 스타일 (#2D456E, #E9C48C)
+- **prose-custom heading:** globals.css에 이미 적용 완료 (bugfix round 2에서 처리)
+
+---
+
 ## 다음 세션 시작 방법
 
 ```
