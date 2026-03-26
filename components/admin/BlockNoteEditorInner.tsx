@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/core/style.css";
@@ -25,6 +25,7 @@ async function uploadToCloudinary(file: File): Promise<string> {
 
 export default function BlockNoteEditorInner({ initialContent, onChange }: Props) {
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const contentLoaded = useRef(false);
 
   const handleUpload = useCallback(async (file: File): Promise<string> => {
     setUploadError(null);
@@ -37,12 +38,23 @@ export default function BlockNoteEditorInner({ initialContent, onChange }: Props
     }
   }, []);
 
-  const editor = useCreateBlockNote({
-    initialContent: initialContent
-      ? tryParseBlockNoteContent(initialContent)
-      : undefined,
-    uploadFile: handleUpload,
-  });
+  const editor = useCreateBlockNote({ uploadFile: handleUpload });
+
+  // Load existing content after editor mounts
+  useEffect(() => {
+    if (!initialContent || contentLoaded.current) return;
+    contentLoaded.current = true;
+
+    async function load() {
+      try {
+        const blocks = await editor.tryParseHTMLToBlocks(initialContent!);
+        editor.replaceBlocks(editor.document, blocks);
+      } catch {
+        // ignore — editor stays empty
+      }
+    }
+    load();
+  }, [editor, initialContent]);
 
   const handleChange = useCallback(async () => {
     if (!onChange) return;
@@ -65,14 +77,4 @@ export default function BlockNoteEditorInner({ initialContent, onChange }: Props
       />
     </div>
   );
-}
-
-function tryParseBlockNoteContent(content: string) {
-  try {
-    const parsed = JSON.parse(content);
-    if (Array.isArray(parsed)) return parsed;
-  } catch {
-    // not JSON, treat as HTML/plain text — BlockNote will use empty doc
-  }
-  return undefined;
 }
