@@ -63,7 +63,7 @@ export default function Sidebar() {
         </nav>
 
         {/* BMC Link */}
-        <div className="mt-2 pt-2 border-t border-outline-variant/15">
+        <div className="mt-4 pt-4 border-t border-outline-variant/15">
           <a
             href="https://www.buymeacoffee.com"
             target="_blank"
