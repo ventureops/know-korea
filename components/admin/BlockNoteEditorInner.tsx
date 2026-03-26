@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/core/style.css";
@@ -11,7 +11,7 @@ interface Props {
   onChange?: (html: string) => void;
 }
 
-async function handleUpload(file: File): Promise<string> {
+async function uploadToCloudinary(file: File): Promise<string> {
   const formData = new FormData();
   formData.append("file", file);
   const res = await fetch("/api/upload", { method: "POST", body: formData });
@@ -24,6 +24,19 @@ async function handleUpload(file: File): Promise<string> {
 }
 
 export default function BlockNoteEditorInner({ initialContent, onChange }: Props) {
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  const handleUpload = useCallback(async (file: File): Promise<string> => {
+    setUploadError(null);
+    try {
+      return await uploadToCloudinary(file);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Upload failed";
+      setUploadError(msg);
+      throw err;
+    }
+  }, []);
+
   const editor = useCreateBlockNote({
     initialContent: initialContent
       ? tryParseBlockNoteContent(initialContent)
@@ -39,6 +52,12 @@ export default function BlockNoteEditorInner({ initialContent, onChange }: Props
 
   return (
     <div className="bn-container min-h-[256px] py-4">
+      {uploadError && (
+        <div className="mx-4 mb-2 px-3 py-2 rounded-lg bg-error-container text-on-error-container text-xs flex items-center gap-2">
+          <span className="material-symbols-outlined text-[14px]">error</span>
+          Image upload failed: {uploadError}
+        </div>
+      )}
       <BlockNoteView
         editor={editor}
         theme="light"

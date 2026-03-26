@@ -62,6 +62,8 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
   const [bodyMdx, setBodyMdx] = useState(initialData.body_mdx ?? "");
   const [saving, setSaving] = useState(false);
   const [coverUploading, setCoverUploading] = useState(false);
+  const [coverError, setCoverError] = useState<string | null>(null);
+  const [pendingCoverUrl, setPendingCoverUrl] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   // Auto-generate slug from title
@@ -167,16 +169,18 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
               <label className="cursor-pointer px-4 py-2 rounded-lg bg-primary text-on-primary text-sm font-label hover:bg-primary-dim transition-colors active:scale-95">
                 <span className="flex items-center gap-1.5">
                   <span className="material-symbols-outlined text-[16px]">upload</span>
-                  Upload Cover Image
+                  {coverUploading ? "Uploading..." : "Upload Cover Image"}
                 </span>
                 <input
                   type="file"
                   accept="image/*"
                   className="hidden"
+                  disabled={coverUploading}
                   onChange={async (e) => {
                     const file = e.target.files?.[0];
                     if (!file) return;
                     setCoverUploading(true);
+                    setCoverError(null);
                     try {
                       const formData = new FormData();
                       formData.append("file", file);
@@ -184,23 +188,44 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
                       if (res.ok) {
                         const data = await res.json();
                         setCoverImage(data.url);
+                        setPendingCoverUrl("");
+                      } else {
+                        const err = await res.json().catch(() => ({ error: "Upload failed" }));
+                        setCoverError(err.error ?? "Upload failed");
                       }
-                    } catch { /* ignore */ }
+                    } catch {
+                      setCoverError("Network error — upload failed");
+                    }
                     setCoverUploading(false);
                   }}
                 />
               </label>
-              {coverUploading && (
-                <p className="text-xs text-on-surface-variant">Uploading...</p>
+              {coverError && (
+                <p className="text-xs text-error">{coverError}</p>
               )}
               <span className="text-xs text-on-surface-variant/60">or</span>
-              <input
-                type="text"
-                placeholder="Paste image URL..."
-                value={coverImage}
-                onChange={(e) => setCoverImage(e.target.value)}
-                className="w-full max-w-sm text-sm text-center bg-transparent border-none outline-none text-on-surface-variant placeholder:text-on-surface-variant/40"
-              />
+              <div className="flex w-full max-w-sm gap-2 items-center">
+                <input
+                  type="text"
+                  placeholder="Paste image URL..."
+                  value={pendingCoverUrl}
+                  onChange={(e) => setPendingCoverUrl(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && pendingCoverUrl.trim()) {
+                      setCoverImage(pendingCoverUrl.trim());
+                    }
+                  }}
+                  className="flex-1 text-sm text-center bg-transparent border-none outline-none text-on-surface-variant placeholder:text-on-surface-variant/40"
+                />
+                {pendingCoverUrl.trim() && (
+                  <button
+                    onClick={() => setCoverImage(pendingCoverUrl.trim())}
+                    className="text-xs px-2 py-1 rounded-md bg-primary text-on-primary shrink-0"
+                  >
+                    Set
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         )}
