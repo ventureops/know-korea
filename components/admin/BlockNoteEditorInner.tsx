@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback } from "react";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/core/style.css";
 import "@blocknote/mantine/style.css";
 
 interface Props {
@@ -10,11 +11,14 @@ interface Props {
   onChange?: (html: string) => void;
 }
 
-async function uploadFile(file: File): Promise<string> {
+async function handleUpload(file: File): Promise<string> {
   const formData = new FormData();
   formData.append("file", file);
   const res = await fetch("/api/upload", { method: "POST", body: formData });
-  if (!res.ok) throw new Error("Upload failed");
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: "Upload failed" }));
+    throw new Error(err.error ?? "Upload failed");
+  }
   const data = await res.json();
   return data.url;
 }
@@ -24,23 +28,21 @@ export default function BlockNoteEditorInner({ initialContent, onChange }: Props
     initialContent: initialContent
       ? tryParseBlockNoteContent(initialContent)
       : undefined,
-    uploadFile,
+    uploadFile: handleUpload,
   });
 
-  useEffect(() => {
+  const handleChange = useCallback(async () => {
     if (!onChange) return;
-    const unsubscribe = editor.onChange(async () => {
-      const html = await editor.blocksToHTMLLossy(editor.document);
-      onChange(html);
-    });
-    return unsubscribe;
+    const html = await editor.blocksToHTMLLossy(editor.document);
+    onChange(html);
   }, [editor, onChange]);
 
   return (
-    <div className="min-h-64 py-4">
+    <div className="bn-container min-h-[256px] py-4">
       <BlockNoteView
         editor={editor}
         theme="light"
+        onChange={handleChange}
       />
     </div>
   );

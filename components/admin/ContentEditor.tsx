@@ -61,6 +61,7 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
   const [showBmc, setShowBmc] = useState(initialData.show_bmc ?? false);
   const [bodyMdx, setBodyMdx] = useState(initialData.body_mdx ?? "");
   const [saving, setSaving] = useState(false);
+  const [coverUploading, setCoverUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Auto-generate slug from title
@@ -162,13 +163,45 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
             <span className="material-symbols-outlined text-[32px] text-on-surface-variant/40 block mb-2">
               image
             </span>
-            <input
-              type="text"
-              placeholder="Paste cover image URL (Cloudinary)..."
-              value={coverImage}
-              onChange={(e) => setCoverImage(e.target.value)}
-              className="w-full max-w-sm text-sm text-center bg-transparent border-none outline-none text-on-surface-variant placeholder:text-on-surface-variant/40"
-            />
+            <div className="flex flex-col items-center gap-3">
+              <label className="cursor-pointer px-4 py-2 rounded-lg bg-primary text-on-primary text-sm font-label hover:bg-primary-dim transition-colors active:scale-95">
+                <span className="flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[16px]">upload</span>
+                  Upload Cover Image
+                </span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    setCoverUploading(true);
+                    try {
+                      const formData = new FormData();
+                      formData.append("file", file);
+                      const res = await fetch("/api/upload", { method: "POST", body: formData });
+                      if (res.ok) {
+                        const data = await res.json();
+                        setCoverImage(data.url);
+                      }
+                    } catch { /* ignore */ }
+                    setCoverUploading(false);
+                  }}
+                />
+              </label>
+              {coverUploading && (
+                <p className="text-xs text-on-surface-variant">Uploading...</p>
+              )}
+              <span className="text-xs text-on-surface-variant/60">or</span>
+              <input
+                type="text"
+                placeholder="Paste image URL..."
+                value={coverImage}
+                onChange={(e) => setCoverImage(e.target.value)}
+                className="w-full max-w-sm text-sm text-center bg-transparent border-none outline-none text-on-surface-variant placeholder:text-on-surface-variant/40"
+              />
+            </div>
           </div>
         )}
 
