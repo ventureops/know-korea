@@ -47,16 +47,44 @@ function formatDate(iso: string): string {
   });
 }
 
-// Extract h2 headings from body HTML for ToC
+// slug 생성: 텍스트 → URL-safe id
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/<[^>]+>/g, "") // 내부 HTML 태그 제거
+    .replace(/[^a-z0-9가-힣\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
+// Extract h2/h3 headings from body HTML for ToC
+// - id 속성이 있으면 그대로 사용
+// - id 없으면 텍스트에서 자동 생성
 function extractToc(body: string | null): { id: string; label: string }[] {
   if (!body) return [];
   const result: { id: string; label: string }[] = [];
-  const re = /<h2[^>]*id="([^"]+)"[^>]*>([^<]+)<\/h2>/g;
+  const re = /<(h2|h3)[^>]*>([\s\S]*?)<\/\1>/gi;
   let m: RegExpExecArray | null;
   while ((m = re.exec(body)) !== null) {
-    result.push({ id: m[1], label: m[2].trim() });
+    const inner = m[2];
+    const idMatch = m[0].match(/id="([^"]+)"/);
+    const label = inner.replace(/<[^>]+>/g, "").trim();
+    if (!label) continue;
+    const id = idMatch ? idMatch[1] : slugify(label);
+    result.push({ id, label });
   }
   return result;
+}
+
+// heading에 id가 없으면 자동 주입
+function injectHeadingIds(body: string): string {
+  return body.replace(/<(h2|h3)([^>]*)>([\s\S]*?)<\/\1>/gi, (match, tag, attrs, inner) => {
+    if (/id="/.test(attrs)) return match;
+    const label = inner.replace(/<[^>]+>/g, "").trim();
+    const id = slugify(label);
+    if (!id) return match;
+    return `<${tag}${attrs} id="${id}">${inner}</${tag}>`;
+  });
 }
 
 // ── generateMetadata ─────────────────────────────────────────
@@ -151,7 +179,8 @@ export default async function ContentDetailPage({
     relatedArticles = (fallback ?? []) as unknown as Content[];
   }
 
-  const toc = extractToc(article.body_mdx);
+  const bodyHtml = article.body_mdx ? injectHeadingIds(article.body_mdx) : null;
+  const toc = extractToc(bodyHtml);
   const categoryLabel =
     categoryLabels[article.category] ?? article.category.replace(/-/g, " ");
 
@@ -267,10 +296,10 @@ export default async function ContentDetailPage({
           )}
 
           {/* Article Body */}
-          {article.body_mdx ? (
+          {bodyHtml ? (
             <div
               className="prose-custom font-body text-on-surface leading-relaxed space-y-4 mb-10"
-              dangerouslySetInnerHTML={{ __html: article.body_mdx }}
+              dangerouslySetInnerHTML={{ __html: bodyHtml }}
             />
           ) : (
             <p className="text-on-surface-variant font-body mb-10">
