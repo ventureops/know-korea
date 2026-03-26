@@ -266,6 +266,29 @@
 
 ---
 
+## 버그 수정 라운드 2 ✅ 완료 (2026-03-27)
+
+| 항목 | 상태 |
+|------|------|
+| Cloudinary 환경변수 Vercel에 추가 (NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME, API_KEY, API_SECRET) | ✅ |
+| Cover Image 업로드 — 에러 표시 추가 (기존 silent fail 수정) | ✅ |
+| Cover Image URL 입력 — pendingCoverUrl 분리로 UX 수정 (Enter/Set 버튼으로 확정) | ✅ |
+| BlockNote 이미지 업로드 에러 — 에디터 상단 에러 배너 표시 | ✅ |
+| /api/upload — console.error 로깅 추가 | ✅ |
+| Admin Content 생성/수정/삭제/재정렬 — revalidatePath 추가 (ISR 즉시 갱신) | ✅ |
+| BlockNote Edit — 기존 HTML 콘텐츠 로드 수정 (tryParseHTMLToBlocks 동기 호출로 수정) | ✅ |
+| 콘텐츠 상세 + Q&A 상세 — prose-custom 클래스에 heading 스타일 추가 (h1~h4 계단식) | ✅ |
+| Git commit + push | ✅ dfd01c1, 23a61e6, f3478d7, 4441936 |
+
+### 버그 수정 라운드 2 노트
+
+- **Cloudinary 미설정:** `.env.local`은 로컬 전용. Vercel 환경변수 별도 설정 필요 (Settings → Environment Variables)
+- **BlockNote HTML 로드:** `tryParseHTMLToBlocks`는 동기 메서드. `await` 잘못 사용 시 Promise 객체가 blocks로 전달되어 내용 미표시
+- **revalidatePath:** POST/PATCH에서 category, slug 값을 body에서 읽어 정확한 경로만 revalidate. DELETE는 삭제 전 DB에서 조회
+- **prose-custom:** `globals.css` `@layer components`에 h1~h4, p, ul, ol, code, blockquote, img, a 스타일 정의. 콘텐츠 상세·Q&A 상세 공통 적용
+
+---
+
 ## 다음 세션 시작 방법
 
 ```

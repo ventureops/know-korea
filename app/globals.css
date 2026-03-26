@@ -23,3 +23,51 @@
     text-wrap: balance;
   }
 }
+
+@layer components {
+  .prose-custom h1 {
+    @apply text-[1.75rem] font-bold font-headline text-on-surface mt-8 mb-3 leading-tight;
+  }
+  .prose-custom h2 {
+    @apply text-[1.5rem] font-bold font-headline text-on-surface mt-7 mb-3 leading-tight;
+  }
+  .prose-custom h3 {
+    @apply text-[1.25rem] font-semibold font-headline text-on-surface mt-6 mb-2 leading-snug;
+  }
+  .prose-custom h4 {
+    @apply text-[1.125rem] font-semibold font-headline text-on-surface mt-5 mb-2 leading-snug;
+  }
+  .prose-custom p {
+    @apply mb-4;
+  }
+  .prose-custom ul {
+    @apply list-disc pl-6 mb-4 space-y-1;
+  }
+  .prose-custom ol {
+    @apply list-decimal pl-6 mb-4 space-y-1;
+  }
+  .prose-custom li {
+    @apply leading-relaxed;
+  }
+  .prose-custom strong {
+    @apply font-semibold text-on-surface;
+  }
+  .prose-custom blockquote {
+    @apply border-l-4 border-primary/30 pl-4 italic text-on-surface-variant my-4;
+  }
+  .prose-custom code {
+    @apply bg-surface-container px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+  .prose-custom pre {
+    @apply bg-surface-container-high rounded-lg p-4 overflow-x-auto mb-4;
+  }
+  .prose-custom pre code {
+    @apply bg-transparent p-0;
+  }
+  .prose-custom a {
+    @apply text-primary underline underline-offset-2 hover:text-primary-dim transition-colors;
+  }
+  .prose-custom img {
+    @apply rounded-xl my-6 max-w-full;
+  }
+}
