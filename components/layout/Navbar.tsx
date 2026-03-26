@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
@@ -57,10 +58,8 @@ export default function Navbar() {
         </button>
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-1.5 shrink-0" onClick={() => setMobileOpen(false)}>
-          <span className="font-headline font-extrabold text-sm tracking-widest text-brand-navy uppercase">
-            Know<span className="text-tertiary">Korea</span>
-          </span>
+        <Link href="/" className="flex items-center shrink-0" onClick={() => setMobileOpen(false)}>
+          <Image src="/brand_logo.png" alt="Know Korea" height={36} width={120} className="h-9 w-auto object-contain" />
         </Link>
 
         {/* Desktop Nav Links */}

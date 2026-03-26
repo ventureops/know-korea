@@ -51,18 +51,18 @@ const categoryLabels: Record<string, string> = {
 };
 
 const categoryColors: Record<string, string> = {
-  "start-here": "bg-primary/10 text-primary",
-  language: "bg-primary-container/60 text-on-primary-container",
-  "life-in-korea": "bg-primary/10 text-primary",
-  "work-business": "bg-surface-container-highest text-on-surface-variant",
-  "practical-guide": "bg-surface-container-high text-on-surface-variant",
-  "culture-society": "bg-tertiary/10 text-tertiary",
-  "travel-places": "bg-primary/10 text-primary",
-  "history-politics": "bg-surface-container-high text-on-surface-variant",
-  "economy-money": "bg-success-container text-success",
-  comparison: "bg-primary-container/60 text-on-primary-container",
-  "real-stories": "bg-tertiary/10 text-tertiary",
-  "tools-resources": "bg-surface-container-highest text-on-surface-variant",
+  "start-here": "bg-primary/10 text-primary-dim",
+  language: "bg-primary/10 text-primary-dim",
+  "life-in-korea": "bg-primary/10 text-primary-dim",
+  "work-business": "bg-primary/10 text-primary-dim",
+  "practical-guide": "bg-primary/10 text-primary-dim",
+  "culture-society": "bg-primary/10 text-primary-dim",
+  "travel-places": "bg-primary/10 text-primary-dim",
+  "history-politics": "bg-primary/10 text-primary-dim",
+  "economy-money": "bg-primary/10 text-primary-dim",
+  comparison: "bg-primary/10 text-primary-dim",
+  "real-stories": "bg-primary/10 text-primary-dim",
+  "tools-resources": "bg-primary/10 text-primary-dim",
 };
 
 function CategoryTag({ category }: { category: string }) {
@@ -104,16 +104,13 @@ export default async function HomePage() {
   return (
     <div className="px-5 md:px-8 py-8 max-w-5xl mx-auto">
       {/* Hero */}
-      <section className="mb-12">
-        <p className="text-sm font-body text-on-surface-variant mb-2 leading-relaxed">
-          Practical guides for foreigners living, working, and thriving in
-          Korea.
-          <br />
-          Current insights for your digital lifestyle in the peninsula.
-        </p>
-        <h1 className="font-headline font-extrabold text-5xl md:text-6xl text-on-surface tracking-tight mb-6">
+      <section className="mb-8">
+        <h1 className="font-headline font-extrabold text-5xl md:text-6xl text-on-surface tracking-tight mb-3">
           Know Korea
         </h1>
+        <p className="text-base font-body text-on-surface-variant mb-6">
+          Everything you need to navigate Korea
+        </p>
         <div className="flex items-center gap-3 flex-wrap">
           <Link
             href="/start-here"
@@ -130,10 +127,27 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Popular Guides — 12 categories, 3×4 grid */}
+      {/* Site Intro Box */}
+      <section className="mb-4">
+        <div className="bg-surface-container-low rounded-xl p-6 text-sm font-body text-on-surface-variant leading-relaxed space-y-2">
+          <p>한국에 대해 12개 카테고리의 실용 가이드를 제공합니다.</p>
+          <p>모든 콘텐츠는 무료이며, 열람에 제한이 없습니다.</p>
+          <p>회원가입을 하시면 Mark as Read, Q&A 질문, 댓글 작성, 좋아요 기능을 활용하고 활동 기록을 남길 수 있습니다.</p>
+        </div>
+      </section>
+
+      {/* Q&A Intro Box */}
+      <section className="mb-10">
+        <div className="bg-surface-container-low rounded-xl p-6 text-sm font-body text-on-surface-variant leading-relaxed space-y-2">
+          <p>12개 카테고리에 대한 질문을 자유롭게 하세요.</p>
+          <p>사이트 운영에 대한 제안이나 불편한 사항이 있는 경우, 하단의 &apos;Contact Us&apos;를 활용하세요.</p>
+        </div>
+      </section>
+
+      {/* Best Article by Category — 12 categories, 3×4 grid */}
       <section className="mb-12">
         <h2 className="font-headline font-bold text-xl text-on-surface mb-5">
-          Popular Guides
+          Best Article by Category
         </h2>
 
         {categoryCards.length === 0 ? (
@@ -181,6 +195,36 @@ export default async function HomePage() {
             ))}
           </div>
         )}
+      </section>
+
+      {/* BMC Block */}
+      <section className="mb-8">
+        <div
+          className="rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-4"
+          style={{ backgroundColor: "#2D456E" }}
+        >
+          <div>
+            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-primary/60 mb-1">
+              Was this helpful?
+            </p>
+            <p className="font-headline font-bold text-lg text-on-primary mb-1">
+              Support Know Korea
+            </p>
+            <p className="text-sm font-body text-on-primary/70">
+              Help keep the guides free and up-to-date.
+            </p>
+          </div>
+          <a
+            href="https://www.buymeacoffee.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full font-body font-bold text-sm transition-all active:scale-95 hover:opacity-90 shrink-0"
+            style={{ backgroundColor: "#E9C48C", color: "#2D456E" }}
+          >
+            <span>☕</span>
+            Buy Me a Coffee
+          </a>
+        </div>
       </section>
     </div>
   );

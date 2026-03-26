@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const categories = [
   { href: "/start-here", label: "Start Here", icon: "flag" },
-  { href: "/language", label: "Language", icon: "translate" },
+  { href: "/language", label: "Language", icon: "font_download" },
   { href: "/life-in-korea", label: "Life in Korea", icon: "location_on" },
   { href: "/work-business", label: "Work & Business", icon: "work" },
   { href: "/practical-guide", label: "Practical Guide", icon: "menu_book" },
@@ -61,6 +61,21 @@ export default function Sidebar() {
             );
           })}
         </nav>
+
+        {/* BMC Link */}
+        <div className="mt-2 pt-2 border-t border-outline-variant/15">
+          <a
+            href="https://www.buymeacoffee.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-lowest hover:text-on-surface transition-all"
+          >
+            <span className="material-symbols-outlined text-[18px] shrink-0 text-on-surface-variant">
+              coffee
+            </span>
+            <span className="text-sm font-body">Buy me a Coffee</span>
+          </a>
+        </div>
       </div>
     </aside>
   );

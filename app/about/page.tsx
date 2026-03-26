@@ -130,8 +130,8 @@ export default function AboutPage() {
           <span className="material-symbols-outlined text-[20px] text-primary mb-2 block">mail</span>
           <h3 className="font-headline font-bold text-base text-on-surface mb-1">Get in Touch</h3>
           <p className="text-sm font-body text-on-surface-variant mb-3">Questions, corrections, or collaboration ideas?</p>
-          <a href="mailto:hello@knowkorea.io" className="text-sm font-body font-bold text-primary hover:text-primary-dim transition-colors">
-            hello@knowkorea.io
+          <a href="mailto:poisian@gmail.com" className="text-sm font-body font-bold text-primary hover:text-primary-dim transition-colors">
+            poisian@gmail.com
           </a>
         </div>
         <div id="support" className="flex-1 bg-surface-container-low rounded-2xl p-5">

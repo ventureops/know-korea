@@ -14,8 +14,8 @@ export default function Footer() {
           {[
             { href: "/legal#privacy", label: "Privacy Policy" },
             { href: "/legal#terms", label: "Terms of Service" },
-            { href: "/about#contact", label: "Contact Us" },
-            { href: "/about#support", label: "Support" },
+            { href: "mailto:poisian@gmail.com", label: "Contact Us" },
+            { href: "/faq", label: "FAQ" },
           ].map((link) => (
             <Link
               key={link.href}
