@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
 import type { Content } from "@/lib/supabase";
 import SearchInput from "@/components/search/SearchInput";
+import { cloudinaryUrl } from "@/lib/cloudinary";
 
 export const dynamic = "force-dynamic";
 
@@ -165,7 +166,7 @@ export default async function SearchPage({
               <div className="h-44 bg-surface-container overflow-hidden flex items-center justify-center">
                 {result.cover_image ? (
                   <img
-                    src={result.cover_image}
+                    src={cloudinaryUrl(result.cover_image, "card")}
                     alt={result.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />

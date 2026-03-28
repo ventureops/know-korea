@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import type { Content } from '@/lib/supabase';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 
 interface Props {
   articles: Content[];
@@ -90,7 +91,7 @@ export default function ContentGrid({ articles, category, icon }: Props) {
           <div className="h-48 bg-surface-container overflow-hidden">
             {article.cover_image ? (
               <img
-                src={article.cover_image}
+                src={cloudinaryUrl(article.cover_image, 'card')}
                 alt={article.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />

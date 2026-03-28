@@ -6,6 +6,7 @@ import { getSession } from '@/lib/auth';
 import QACommentSection, { type QAComment } from '@/components/qa/QACommentSection';
 import QAActions from '@/components/qa/QAActions';
 import QAEditDelete from '@/components/qa/QAEditDelete';
+import { optimizeBodyImages } from '@/lib/cloudinary';
 
 export const revalidate = 300; // 5분마다 재생성
 
@@ -180,7 +181,7 @@ export default async function QADetailPage({ params }: { params: { id: string } 
         {/* Body */}
         <div
           className="prose-custom font-body text-on-surface leading-relaxed space-y-4 mb-8"
-          dangerouslySetInnerHTML={{ __html: post.body }}
+          dangerouslySetInnerHTML={{ __html: optimizeBodyImages(post.body) }}
         />
 
         {/* Actions: like + solved toggle */}

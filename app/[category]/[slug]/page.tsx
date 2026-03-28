@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
 import type { Content } from "@/lib/supabase";
 import { getSession } from "@/lib/auth";
+import { cloudinaryUrl, optimizeBodyImages } from "@/lib/cloudinary";
 import { createClient } from "@supabase/supabase-js";
 import ReadButton from "@/components/content/ReadButton";
 import LikeButton from "@/components/content/LikeButton";
@@ -60,9 +61,9 @@ function slugify(text: string): string {
 // Extract h2/h3 headings from body HTML for ToC
 // - id 속성이 있으면 그대로 사용
 // - id 없으면 텍스트에서 자동 생성
-function extractToc(body: string | null): { id: string; label: string }[] {
+function extractToc(body: string | null): { id: string; label: string; level: 2 | 3 }[] {
   if (!body) return [];
-  const result: { id: string; label: string }[] = [];
+  const result: { id: string; label: string; level: 2 | 3 }[] = [];
   const re = /<(h2|h3)[^>]*>([\s\S]*?)<\/\1>/gi;
   let m: RegExpExecArray | null;
   while ((m = re.exec(body)) !== null) {
@@ -71,7 +72,8 @@ function extractToc(body: string | null): { id: string; label: string }[] {
     const label = inner.replace(/<[^>]+>/g, "").trim();
     if (!label) continue;
     const id = idMatch ? idMatch[1] : slugify(label);
-    result.push({ id, label });
+    const level = m[1].toLowerCase() === "h2" ? 2 : 3;
+    result.push({ id, label, level });
   }
   return result;
 }
@@ -179,7 +181,9 @@ export default async function ContentDetailPage({
     relatedArticles = (fallback ?? []) as unknown as Content[];
   }
 
-  const bodyHtml = article.body_mdx ? injectHeadingIds(article.body_mdx) : null;
+  const bodyHtml = article.body_mdx
+    ? optimizeBodyImages(injectHeadingIds(article.body_mdx))
+    : null;
   const toc = extractToc(bodyHtml);
   const categoryLabel =
     categoryLabels[article.category] ?? article.category.replace(/-/g, " ");
@@ -288,7 +292,7 @@ export default async function ContentDetailPage({
           {article.cover_image && (
             <div className="rounded-2xl overflow-hidden mb-8 h-64 md:h-80 bg-surface-container">
               <img
-                src={article.cover_image}
+                src={cloudinaryUrl(article.cover_image, "cover")}
                 alt={article.title}
                 className="w-full h-full object-cover"
               />
@@ -417,12 +421,16 @@ export default async function ContentDetailPage({
                 <p className="text-xs font-label font-bold uppercase tracking-wider text-outline mb-3">
                   In this article
                 </p>
-                <nav className="space-y-2">
+                <nav className="space-y-1">
                   {toc.map((item) => (
                     <a
                       key={item.id}
                       href={`#${item.id}`}
-                      className="block text-sm font-body text-on-surface-variant hover:text-on-surface transition-colors py-1 leading-snug"
+                      className={`block text-sm font-body text-on-surface-variant hover:text-on-surface transition-colors py-1 leading-snug ${
+                        item.level === 2
+                          ? "font-bold pl-0"
+                          : "font-normal pl-4"
+                      }`}
                     >
                       {item.label}
                     </a>

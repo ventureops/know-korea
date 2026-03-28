@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 
 interface Comment {
   id: string;
@@ -84,7 +85,7 @@ export default function CommentSection({ contentId, initialComments }: Props) {
           <div className="flex gap-3">
             <div className="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center shrink-0 mt-0.5">
               {session.user.image ? (
-                <img src={session.user.image} alt="avatar" className="w-full h-full object-cover" />
+                <img src={cloudinaryUrl(session.user.image, 'avatar')} alt="avatar" className="w-full h-full object-cover" />
               ) : (
                 <span className="font-headline font-bold text-xs">{(session.user.nickname ?? session.user.name ?? '?')[0].toUpperCase()}</span>
               )}
@@ -129,7 +130,7 @@ export default function CommentSection({ contentId, initialComments }: Props) {
             <div key={comment.id} className="flex gap-3">
               <div className="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center shrink-0">
                 {comment.users?.avatar_url ? (
-                  <img src={comment.users.avatar_url} alt="avatar" className="w-full h-full object-cover" />
+                  <img src={cloudinaryUrl(comment.users.avatar_url, 'avatar')} alt="avatar" className="w-full h-full object-cover" />
                 ) : (
                   <span className="font-headline font-bold text-xs">{(comment.users?.nickname ?? '?')[0].toUpperCase()}</span>
                 )}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import type { Content } from "@/lib/supabase";
 import type { Metadata } from "next";
+import { cloudinaryUrl } from "@/lib/cloudinary";
 
 export const revalidate = 3600; // 1시간마다 재생성
 
@@ -164,7 +165,7 @@ export default async function HomePage() {
                 <div className="h-40 bg-surface-container overflow-hidden">
                   {guide.cover_image ? (
                     <img
-                      src={guide.cover_image}
+                      src={cloudinaryUrl(guide.cover_image, "card")}
                       alt={guide.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />

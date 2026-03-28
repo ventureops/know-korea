@@ -2,6 +2,7 @@ import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import { cloudinaryUrl } from "@/lib/cloudinary";
 
 export const metadata = { title: "Profile — Know Korea" };
 export const dynamic = "force-dynamic";
@@ -37,7 +38,7 @@ export default async function ProfilePage() {
         <div className="w-20 h-20 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center shrink-0">
           {user?.avatar_url ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={user.avatar_url} alt="avatar" className="w-full h-full object-cover" />
+            <img src={cloudinaryUrl(user.avatar_url, "avatar")} alt="avatar" className="w-full h-full object-cover" />
           ) : (
             <span className="font-headline font-bold text-3xl text-on-surface">
               {(user?.nickname ?? "?")[0].toUpperCase()}

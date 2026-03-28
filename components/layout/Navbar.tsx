@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
+import { cloudinaryUrl } from "@/lib/cloudinary";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -105,7 +106,7 @@ export default function Navbar() {
             >
               {session.user.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={session.user.image} alt="avatar" className="w-full h-full object-cover" />
+                <img src={cloudinaryUrl(session.user.image, "avatar")} alt="avatar" className="w-full h-full object-cover" />
               ) : (
                 <span className="font-headline font-bold text-sm text-on-surface">
                   {(session.user.nickname ?? session.user.name ?? "?")[0].toUpperCase()}
@@ -189,7 +190,7 @@ export default function Navbar() {
               <div className="w-9 h-9 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center shrink-0">
                 {session.user.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={session.user.image} alt="avatar" className="w-full h-full object-cover" />
+                  <img src={cloudinaryUrl(session.user.image, "avatar")} alt="avatar" className="w-full h-full object-cover" />
                 ) : (
                   <span className="font-headline font-bold text-sm">
                     {(session.user.nickname ?? session.user.name ?? "?")[0].toUpperCase()}
