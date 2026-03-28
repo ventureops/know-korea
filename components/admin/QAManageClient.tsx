@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { CATEGORY_LABELS, CATEGORIES as CAT_LIST } from '@/lib/categories';
 
 export interface AdminQAPost {
   id: string;
@@ -13,21 +14,6 @@ export interface AdminQAPost {
   comment_count: number;
   users: { nickname: string } | null;
 }
-
-const categoryLabels: Record<string, string> = {
-  'start-here': 'Start Here',
-  language: 'Language',
-  'life-in-korea': 'Life in Korea',
-  'work-business': 'Work & Business',
-  'practical-guide': 'Practical Guide',
-  'culture-society': 'Culture & Society',
-  'travel-places': 'Travel & Places',
-  'history-politics': 'History & Politics',
-  'economy-money': 'Economy & Money',
-  comparison: 'Comparison',
-  'real-stories': 'Real Stories',
-  'tools-resources': 'Tools & Resources',
-};
 
 function timeAgo(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime();
@@ -159,7 +145,7 @@ export default function QAManageClient({
                   </td>
                   <td className="px-4 py-3.5 hidden lg:table-cell">
                     <span className="px-2 py-0.5 rounded-full bg-surface-container text-xs text-on-surface-variant">
-                      {categoryLabels[post.category] ?? post.category}
+                      {CATEGORY_LABELS[post.category] ?? post.category}
                     </span>
                   </td>
                   <td className="px-4 py-3.5 text-center hidden sm:table-cell text-on-surface-variant">

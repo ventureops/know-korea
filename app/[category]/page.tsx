@@ -4,86 +4,15 @@ import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
 import type { Content } from "@/lib/supabase";
 import ContentGrid from "@/components/content/ReadStatusCards";
+import { CATEGORIES } from "@/lib/categories";
 
-// ── Category metadata ────────────────────────────────────────
-const categoryMeta: Record<
-  string,
-  { label: string; description: string; icon: string }
-> = {
-  "start-here": {
-    label: "Start Here",
-    description: "Your first steps for life in Korea — the essentials.",
-    icon: "flag",
-  },
-  language: {
-    label: "Language",
-    description:
-      "Korean language guides, tips, and learning resources.",
-    icon: "translate",
-  },
-  "life-in-korea": {
-    label: "Life in Korea",
-    description:
-      "Navigating daily life in the Land of the Morning Calm. From residential tips to local etiquette, curated for the modern digital nomad.",
-    icon: "location_on",
-  },
-  "work-business": {
-    label: "Work & Business",
-    description:
-      "Work culture, job hunting, and navigating Korean business environments.",
-    icon: "work",
-  },
-  "practical-guide": {
-    label: "Practical Guide",
-    description:
-      "Hands-on guides for everyday situations you'll encounter in Korea.",
-    icon: "menu_book",
-  },
-  "culture-society": {
-    label: "Culture & Society",
-    description:
-      "Deep dives into Korean culture, traditions, and social norms.",
-    icon: "diversity_3",
-  },
-  "travel-places": {
-    label: "Travel & Places",
-    description: "Explore Korea's cities, regions, and hidden gems.",
-    icon: "map",
-  },
-  "history-politics": {
-    label: "History & Politics",
-    description:
-      "Understanding Korea's history and contemporary political landscape.",
-    icon: "history_edu",
-  },
-  "economy-money": {
-    label: "Economy & Money",
-    description:
-      "Banking, taxes, investing, and managing finances in Korea.",
-    icon: "payments",
-  },
-  comparison: {
-    label: "Comparison",
-    description:
-      "Side-by-side comparisons of services, products, and options in Korea.",
-    icon: "compare",
-  },
-  "real-stories": {
-    label: "Real Stories",
-    description: "First-hand accounts from expats living and thriving in Korea.",
-    icon: "auto_stories",
-  },
-  "tools-resources": {
-    label: "Tools & Resources",
-    description:
-      "Apps, websites, and resources every expat in Korea should know.",
-    icon: "construction",
-  },
-};
+const categoryMeta = Object.fromEntries(
+  CATEGORIES.map((c) => [c.slug, { label: c.name, description: c.description, icon: c.icon }])
+);
 
 export const revalidate = 3600; // 1시간마다 재생성
 
-const validCategories = Object.keys(categoryMeta);
+const validCategories = CATEGORIES.map((c) => c.slug);
 
 export async function generateMetadata({
   params,

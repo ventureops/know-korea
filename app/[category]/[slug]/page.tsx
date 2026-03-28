@@ -10,6 +10,7 @@ import ReadButton from "@/components/content/ReadButton";
 import LikeButton from "@/components/content/LikeButton";
 import CommentSection from "@/components/content/CommentSection";
 import ViewTracker from "@/components/content/ViewTracker";
+import { CATEGORY_LABELS } from "@/lib/categories";
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://placeholder.supabase.co",
@@ -17,22 +18,6 @@ const supabaseAdmin = createClient(
 );
 
 export const revalidate = 600; // 10분마다 재생성
-
-// ── Helpers ──────────────────────────────────────────────────
-const categoryLabels: Record<string, string> = {
-  "start-here": "Start Here",
-  language: "Language",
-  "life-in-korea": "Life in Korea",
-  "work-business": "Work & Business",
-  "practical-guide": "Practical Guide",
-  "culture-society": "Culture & Society",
-  "travel-places": "Travel & Places",
-  "history-politics": "History & Politics",
-  "economy-money": "Economy & Money",
-  comparison: "Comparison",
-  "real-stories": "Real Stories",
-  "tools-resources": "Tools & Resources",
-};
 
 function estimateReadTime(body: string | null): string {
   if (!body) return "3 min read";
@@ -186,7 +171,7 @@ export default async function ContentDetailPage({
     : null;
   const toc = extractToc(bodyHtml);
   const categoryLabel =
-    categoryLabels[article.category] ?? article.category.replace(/-/g, " ");
+    CATEGORY_LABELS[article.category] ?? article.category.replace(/-/g, " ");
 
   // Check read/like status for current user
   const session = await getSession();

@@ -10,20 +10,8 @@ const BlockNoteEditorComponent = dynamic(
   { ssr: false, loading: () => <div className="h-64 bg-surface-container rounded-lg animate-pulse" /> }
 );
 
-const CATEGORIES = [
-  { value: "start-here", label: "Start Here" },
-  { value: "language", label: "Language" },
-  { value: "life-in-korea", label: "Life in Korea" },
-  { value: "work-business", label: "Work & Business" },
-  { value: "practical-guide", label: "Practical Guide" },
-  { value: "culture-society", label: "Culture & Society" },
-  { value: "travel-places", label: "Travel & Places" },
-  { value: "history-politics", label: "History & Politics" },
-  { value: "economy-money", label: "Economy & Money" },
-  { value: "comparison", label: "Comparison" },
-  { value: "real-stories", label: "Real Stories" },
-  { value: "tools-resources", label: "Tools & Resources" },
-];
+import { CATEGORIES as CAT_LIST } from "@/lib/categories";
+const CATEGORIES = CAT_LIST.map((c) => ({ value: c.slug, label: c.name }));
 
 interface ContentEditorProps {
   mode: "new" | "edit";

@@ -7,6 +7,7 @@ import QACommentSection, { type QAComment } from '@/components/qa/QACommentSecti
 import QAActions from '@/components/qa/QAActions';
 import QAEditDelete from '@/components/qa/QAEditDelete';
 import { optimizeBodyImages } from '@/lib/cloudinary';
+import { CATEGORY_LABELS } from '@/lib/categories';
 
 export const revalidate = 300; // 5분마다 재생성
 
@@ -14,21 +15,6 @@ const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://placeholder.supabase.co',
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? 'placeholder'
 );
-
-const categoryLabels: Record<string, string> = {
-  'start-here': 'Start Here',
-  language: 'Language',
-  'life-in-korea': 'Life in Korea',
-  'work-business': 'Work & Business',
-  'practical-guide': 'Practical Guide',
-  'culture-society': 'Culture & Society',
-  'travel-places': 'Travel & Places',
-  'history-politics': 'History & Politics',
-  'economy-money': 'Economy & Money',
-  comparison: 'Comparison',
-  'real-stories': 'Real Stories',
-  'tools-resources': 'Tools & Resources',
-};
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('en-US', {
@@ -63,7 +49,7 @@ export default async function QADetailPage({ params }: { params: { id: string } 
 
   if (!post) notFound();
 
-  const categoryLabel = categoryLabels[post.category] ?? post.category.replace(/-/g, ' ');
+  const categoryLabel = CATEGORY_LABELS[post.category] ?? post.category.replace(/-/g, ' ');
 
   // Like count + user like status
   const { count: likeCount } = await supabaseAdmin

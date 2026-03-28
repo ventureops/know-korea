@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import type { Content } from "@/lib/supabase";
 import SearchInput from "@/components/search/SearchInput";
 import { cloudinaryUrl } from "@/lib/cloudinary";
+import { CATEGORY_LABELS } from "@/lib/categories";
 
 export const dynamic = "force-dynamic";
 
@@ -13,44 +14,10 @@ export const metadata: Metadata = {
   description: "Search guides and resources for expats in Korea.",
 };
 
-const categoryLabels: Record<string, string> = {
-  "start-here": "Start Here",
-  language: "Language",
-  "life-in-korea": "Life",
-  "work-business": "Work",
-  "practical-guide": "Practical",
-  "culture-society": "Culture",
-  "travel-places": "Travel",
-  "history-politics": "History",
-  "economy-money": "Economy",
-  comparison: "Comparison",
-  "real-stories": "Stories",
-  "tools-resources": "Tools",
-};
-
-const categoryColors: Record<string, string> = {
-  "start-here": "bg-primary/10 text-primary",
-  language: "bg-primary-container/60 text-on-primary-container",
-  "life-in-korea": "bg-primary/10 text-primary",
-  "work-business": "bg-surface-container-highest text-on-surface-variant",
-  "practical-guide": "bg-surface-container-high text-on-surface-variant",
-  "culture-society": "bg-tertiary/10 text-tertiary",
-  "travel-places": "bg-primary/10 text-primary",
-  "history-politics": "bg-surface-container-high text-on-surface-variant",
-  "economy-money": "bg-success-container text-success",
-  comparison: "bg-primary-container/60 text-on-primary-container",
-  "real-stories": "bg-tertiary/10 text-tertiary",
-  "tools-resources": "bg-surface-container-highest text-on-surface-variant",
-};
-
 function CategoryTag({ category }: { category: string }) {
-  const label = categoryLabels[category] ?? category.replace(/-/g, " ");
-  const cls =
-    categoryColors[category] ?? "bg-surface-container text-on-surface-variant";
+  const label = CATEGORY_LABELS[category] ?? category.replace(/-/g, " ");
   return (
-    <span
-      className={`text-[10px] font-label font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${cls}`}
-    >
+    <span className="text-[10px] font-label font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-primary/10 text-primary-dim">
       {label}
     </span>
   );

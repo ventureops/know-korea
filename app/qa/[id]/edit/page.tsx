@@ -7,20 +7,8 @@ import dynamic from 'next/dynamic';
 
 const QAEditor = dynamic(() => import('@/components/qa/QAEditor'), { ssr: false });
 
-const CATEGORIES = [
-  { value: 'start-here', label: 'Start Here' },
-  { value: 'language', label: 'Language' },
-  { value: 'life-in-korea', label: 'Life in Korea' },
-  { value: 'work-business', label: 'Work & Business' },
-  { value: 'practical-guide', label: 'Practical Guide' },
-  { value: 'culture-society', label: 'Culture & Society' },
-  { value: 'travel-places', label: 'Travel & Places' },
-  { value: 'history-politics', label: 'History & Politics' },
-  { value: 'economy-money', label: 'Economy & Money' },
-  { value: 'comparison', label: 'Comparison' },
-  { value: 'real-stories', label: 'Real Stories' },
-  { value: 'tools-resources', label: 'Tools & Resources' },
-];
+import { CATEGORIES as CAT_LIST } from '@/lib/categories';
+const CATEGORIES = CAT_LIST.map((c) => ({ value: c.slug, label: c.name }));
 
 export default function QAEditPage() {
   const { data: session, status } = useSession();

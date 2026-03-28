@@ -16,20 +16,11 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? 'placeholder'
 );
 
+import { CATEGORIES as CAT_LIST } from '@/lib/categories';
+
 const CATEGORIES = [
   { value: '', label: 'All' },
-  { value: 'start-here', label: 'Start Here' },
-  { value: 'language', label: 'Language' },
-  { value: 'life-in-korea', label: 'Life in Korea' },
-  { value: 'work-business', label: 'Work & Business' },
-  { value: 'practical-guide', label: 'Practical Guide' },
-  { value: 'culture-society', label: 'Culture & Society' },
-  { value: 'travel-places', label: 'Travel & Places' },
-  { value: 'history-politics', label: 'History & Politics' },
-  { value: 'economy-money', label: 'Economy & Money' },
-  { value: 'comparison', label: 'Comparison' },
-  { value: 'real-stories', label: 'Real Stories' },
-  { value: 'tools-resources', label: 'Tools & Resources' },
+  ...CAT_LIST.map((c) => ({ value: c.slug, label: c.name })),
 ];
 
 const STATUS_FILTERS = [

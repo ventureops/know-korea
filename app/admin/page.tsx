@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/auth";
 import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
+import { CATEGORY_LABELS } from "@/lib/categories";
 
 export const dynamic = "force-dynamic";
 
@@ -8,21 +9,6 @@ const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://placeholder.supabase.co",
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? "placeholder"
 );
-
-const CATEGORY_LABELS: Record<string, string> = {
-  "start-here": "Start Here",
-  language: "Language",
-  "life-in-korea": "Life in Korea",
-  "work-business": "Work & Business",
-  "practical-guide": "Practical Guide",
-  "culture-society": "Culture & Society",
-  "travel-places": "Travel & Places",
-  "history-politics": "History & Politics",
-  "economy-money": "Economy & Money",
-  comparison: "Comparison",
-  "real-stories": "Real Stories",
-  "tools-resources": "Tools & Resources",
-};
 
 const ROLE_LABELS = ["", "Subscriber", "Contributor", "Moderator", "Admin"];
 const ROLE_COLORS = [

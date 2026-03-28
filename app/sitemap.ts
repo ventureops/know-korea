@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { supabase } from "@/lib/supabase";
+import { CATEGORY_SLUGS } from "@/lib/categories";
 
 const BASE_URL = "https://know-korea.vercel.app";
 
@@ -12,20 +13,7 @@ const staticRoutes = [
   { url: `${BASE_URL}/qa`, priority: 0.8 },
 ];
 
-const categoryRoutes = [
-  "start-here",
-  "language",
-  "life-in-korea",
-  "work-business",
-  "practical-guide",
-  "culture-society",
-  "travel-places",
-  "history-politics",
-  "economy-money",
-  "comparison",
-  "real-stories",
-  "tools-resources",
-].map((slug) => ({
+const categoryRoutes = CATEGORY_SLUGS.map((slug) => ({
   url: `${BASE_URL}/${slug}`,
   priority: 0.8,
 }));

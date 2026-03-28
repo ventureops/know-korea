@@ -2,21 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const categories = [
-  { href: "/start-here", label: "Start Here", icon: "flag" },
-  { href: "/language", label: "Language", icon: "font_download" },
-  { href: "/life-in-korea", label: "Life in Korea", icon: "location_on" },
-  { href: "/work-business", label: "Work & Business", icon: "work" },
-  { href: "/practical-guide", label: "Practical Guide", icon: "menu_book" },
-  { href: "/culture-society", label: "Culture & Society", icon: "diversity_3" },
-  { href: "/travel-places", label: "Travel & Places", icon: "map" },
-  { href: "/history-politics", label: "History & Politics", icon: "history_edu" },
-  { href: "/economy-money", label: "Economy & Money", icon: "payments" },
-  { href: "/comparison", label: "Comparison", icon: "compare" },
-  { href: "/real-stories", label: "Real Stories", icon: "auto_stories" },
-  { href: "/tools-resources", label: "Tools & Resources", icon: "construction" },
-];
+import { CATEGORIES } from "@/lib/categories";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -32,19 +18,19 @@ export default function Sidebar() {
         </p>
 
         <nav className="flex flex-col gap-0.5">
-          {categories.map((cat) => {
-            const isActive = pathname === cat.href || pathname.startsWith(cat.href + "/");
+          {CATEGORIES.map((cat) => {
+            const href = `/${cat.slug}`;
+            const isActive = pathname === href || pathname.startsWith(href + "/");
             return (
               <Link
-                key={cat.href}
-                href={cat.href}
+                key={cat.slug}
+                href={href}
                 className={`group relative flex items-center gap-3 px-3 py-2 rounded-xl transition-all hover:translate-x-1 ${
                   isActive
                     ? "bg-surface-container-low text-on-surface font-bold"
                     : "text-on-surface-variant hover:bg-surface-container-lowest hover:text-on-surface"
                 }`}
               >
-                {/* Active pill indicator */}
                 {isActive && (
                   <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-primary rounded-full" />
                 )}
@@ -56,7 +42,14 @@ export default function Sidebar() {
                 >
                   {cat.icon}
                 </span>
-                <span className="text-sm font-body">{cat.label}</span>
+                <span className="text-sm font-body leading-tight">
+                  {cat.name}
+                  {cat.subtitle && (
+                    <span className="block text-[10px] font-label text-on-surface-variant/60 leading-tight">
+                      {cat.subtitle}
+                    </span>
+                  )}
+                </span>
               </Link>
             );
           })}

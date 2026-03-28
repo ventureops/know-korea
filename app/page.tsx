@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import type { Content } from "@/lib/supabase";
 import type { Metadata } from "next";
 import { cloudinaryUrl } from "@/lib/cloudinary";
+import { CATEGORY_LABELS, CATEGORY_SLUGS, CATEGORIES } from "@/lib/categories";
 
 export const revalidate = 3600; // 1시간마다 재생성
 
@@ -20,60 +21,10 @@ export const metadata: Metadata = {
   },
 };
 
-// SPEC.md §12 순서대로 12개 카테고리
-const categoryOrder = [
-  "start-here",
-  "language",
-  "life-in-korea",
-  "work-business",
-  "practical-guide",
-  "culture-society",
-  "travel-places",
-  "history-politics",
-  "economy-money",
-  "comparison",
-  "real-stories",
-  "tools-resources",
-] as const;
-
-const categoryLabels: Record<string, string> = {
-  "start-here": "Start Here",
-  language: "Language",
-  "life-in-korea": "Life in Korea",
-  "work-business": "Work & Business",
-  "practical-guide": "Practical Guide",
-  "culture-society": "Culture & Society",
-  "travel-places": "Travel & Places",
-  "history-politics": "History & Politics",
-  "economy-money": "Economy & Money",
-  comparison: "Comparison",
-  "real-stories": "Real Stories",
-  "tools-resources": "Tools & Resources",
-};
-
-const categoryColors: Record<string, string> = {
-  "start-here": "bg-primary/10 text-primary-dim",
-  language: "bg-primary/10 text-primary-dim",
-  "life-in-korea": "bg-primary/10 text-primary-dim",
-  "work-business": "bg-primary/10 text-primary-dim",
-  "practical-guide": "bg-primary/10 text-primary-dim",
-  "culture-society": "bg-primary/10 text-primary-dim",
-  "travel-places": "bg-primary/10 text-primary-dim",
-  "history-politics": "bg-primary/10 text-primary-dim",
-  "economy-money": "bg-primary/10 text-primary-dim",
-  comparison: "bg-primary/10 text-primary-dim",
-  "real-stories": "bg-primary/10 text-primary-dim",
-  "tools-resources": "bg-primary/10 text-primary-dim",
-};
-
 function CategoryTag({ category }: { category: string }) {
-  const label = categoryLabels[category] ?? category.replace(/-/g, " ");
-  const cls =
-    categoryColors[category] ?? "bg-surface-container text-on-surface-variant";
+  const label = CATEGORY_LABELS[category] ?? category.replace(/-/g, " ");
   return (
-    <span
-      className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-label font-bold uppercase tracking-wider ${cls}`}
-    >
+    <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-label font-bold uppercase tracking-wider bg-primary/10 text-primary-dim">
       {label}
     </span>
   );
@@ -86,7 +37,7 @@ function estimateReadTime(body: string | null): string {
 }
 
 export default async function HomePage() {
-  // 12개 카테고리별 view_count 최고 콘텐츠 1개씩 가져오기
+  // 15개 카테고리별 view_count 최고 콘텐츠 1개씩 가져오기
   const { data: allContents } = await supabase
     .from("contents")
     .select("*")
@@ -95,12 +46,12 @@ export default async function HomePage() {
 
   const contents: Content[] = allContents ?? [];
 
-  // 카테고리별 최고 조회수 콘텐츠 1개씩 선택 (SPEC §12 순서)
-  const categoryCards: Content[] = [];
-  for (const cat of categoryOrder) {
-    const found = contents.find((c) => c.category === cat);
-    if (found) categoryCards.push(found);
-  }
+  // 카테고리별 최고 조회수 콘텐츠 1개씩 선택 (CATEGORIES 순서 유지, 없으면 null)
+  const categoryCards: (Content | { _empty: true; category: string })[] =
+    CATEGORY_SLUGS.map((slug) => {
+      const found = contents.find((c) => c.category === slug);
+      return found ?? { _empty: true, category: slug };
+    });
 
   return (
     <div className="px-5 md:px-8 py-8 max-w-5xl mx-auto">
@@ -144,19 +95,40 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Best Article by Category — 12 categories, 3×4 grid */}
+      {/* Best Article by Category — 15 categories, 3×5 grid */}
       <section className="mb-12">
         <h2 className="font-headline font-bold text-xl text-on-surface mb-5">
           Best Article by Category
         </h2>
 
-        {categoryCards.length === 0 ? (
-          <p className="text-sm font-body text-on-surface-variant">
-            No guides yet. Check back soon!
-          </p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {categoryCards.map((guide) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {categoryCards.map((item) => {
+            // Coming Soon 카드
+            if ("_empty" in item) {
+              const cat = CATEGORIES.find((c) => c.slug === item.category)!;
+              return (
+                <Link
+                  key={item.category}
+                  href={`/${item.category}`}
+                  className="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-outline-variant/15 transition-all"
+                >
+                  <div className="h-40 bg-surface-container flex items-center justify-center">
+                    <span className="material-symbols-outlined text-[40px] text-on-surface-variant/20">
+                      {cat.icon}
+                    </span>
+                  </div>
+                  <div className="p-4">
+                    <div className="mb-2">
+                      <CategoryTag category={item.category} />
+                    </div>
+                    <p className="text-xs font-label text-outline mt-2">Coming Soon</p>
+                  </div>
+                </Link>
+              );
+            }
+            // 일반 콘텐츠 카드
+            const guide = item as Content;
+            return (
               <Link
                 key={guide.slug}
                 href={`/${guide.category}/${guide.slug}`}
@@ -192,9 +164,9 @@ export default async function HomePage() {
                   </span>
                 </div>
               </Link>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
       </section>
 
       {/* BMC Block */}

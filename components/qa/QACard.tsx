@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { CATEGORY_LABELS } from '@/lib/categories';
 
 export interface QAPost {
   id: string;
@@ -12,21 +13,6 @@ export interface QAPost {
   users: { nickname: string; avatar_url: string | null } | null;
 }
 
-const categoryLabels: Record<string, string> = {
-  'start-here': 'Start Here',
-  language: 'Language',
-  'life-in-korea': 'Life in Korea',
-  'work-business': 'Work & Business',
-  'practical-guide': 'Practical Guide',
-  'culture-society': 'Culture & Society',
-  'travel-places': 'Travel & Places',
-  'history-politics': 'History & Politics',
-  'economy-money': 'Economy & Money',
-  comparison: 'Comparison',
-  'real-stories': 'Real Stories',
-  'tools-resources': 'Tools & Resources',
-};
-
 function timeAgo(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime();
   const mins = Math.floor(diff / 60000);
@@ -38,7 +24,7 @@ function timeAgo(iso: string): string {
 }
 
 export default function QACard({ post }: { post: QAPost }) {
-  const label = categoryLabels[post.category] ?? post.category.replace(/-/g, ' ');
+  const label = CATEGORY_LABELS[post.category] ?? post.category.replace(/-/g, ' ');
 
   return (
     <Link

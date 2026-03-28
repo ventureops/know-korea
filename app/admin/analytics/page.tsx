@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/auth";
 import { createClient } from "@supabase/supabase-js";
+import { CATEGORY_LABELS } from "@/lib/categories";
 
 export const dynamic = "force-dynamic";
 
@@ -63,20 +64,6 @@ async function getAnalyticsData() {
   };
 }
 
-const CATEGORY_LABELS: Record<string, string> = {
-  "start-here": "Start Here",
-  language: "Language",
-  "life-in-korea": "Life in Korea",
-  "work-business": "Work & Business",
-  "practical-guide": "Practical Guide",
-  "culture-society": "Culture & Society",
-  "travel-places": "Travel & Places",
-  "history-politics": "History & Politics",
-  "economy-money": "Economy & Money",
-  comparison: "Comparison",
-  "real-stories": "Real Stories",
-  "tools-resources": "Tools & Resources",
-};
 
 const ACTION_ICONS: Record<string, string> = {
   login: "login",

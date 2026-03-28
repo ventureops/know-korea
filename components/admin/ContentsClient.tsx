@@ -18,21 +18,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
-const CATEGORY_LABELS: Record<string, string> = {
-  "start-here": "Start Here",
-  language: "Language",
-  "life-in-korea": "Life in Korea",
-  "work-business": "Work & Business",
-  "practical-guide": "Practical Guide",
-  "culture-society": "Culture & Society",
-  "travel-places": "Travel & Places",
-  "history-politics": "History & Politics",
-  "economy-money": "Economy & Money",
-  comparison: "Comparison",
-  "real-stories": "Real Stories",
-  "tools-resources": "Tools & Resources",
-};
+import { CATEGORY_LABELS, CATEGORIES as CAT_LIST } from "@/lib/categories";
 
 interface Content {
   id: string;
