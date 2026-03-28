@@ -314,6 +314,24 @@
 
 ---
 
+## 버그 수정 라운드 4 ✅ 완료 (2026-03-28)
+
+| 항목 | 상태 |
+|------|------|
+| globals.css — prose-custom table/th/td 스타일 추가 (가로선만, 세로선 없음) | ✅ |
+| POST /api/admin/contents — is_published/show_bmc body에서 읽도록 수정 (기존 false 하드코딩 버그 수정) | ✅ |
+| ContentEditor — 새 글 Publish 시 /admin/contents 목록으로 리디렉트 | ✅ |
+| ContentEditor — Delete Article 버튼 추가 (edit 모드 전용, 확인 모달 포함) | ✅ |
+| Git commit + push | ✅ 1ef836c |
+
+### 버그 수정 라운드 4 노트
+
+- **Publish 버그 원인:** POST route가 `is_published: false`로 하드코딩. body의 `is_published`, `show_bmc` 읽도록 수정
+- **Delete API:** 이미 존재 (`DELETE /api/admin/contents/[id]`). UI만 추가
+- **테이블 스타일:** `border-collapse` + th `border-b-2` + td `border-b-1`, outline-variant 색상
+
+---
+
 ## 다음 세션 시작 방법
 
 ```
