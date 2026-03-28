@@ -48,7 +48,7 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
-  const { title, slug, category, excerpt, cover_image, body_mdx, tags } = body;
+  const { title, slug, category, excerpt, cover_image, body_mdx, tags, is_published, show_bmc } = body;
 
   if (!title || !slug || !category) {
     return NextResponse.json(
@@ -67,8 +67,8 @@ export async function POST(req: Request) {
       cover_image: cover_image ?? null,
       body_mdx: body_mdx ?? null,
       tags: tags ?? [],
-      is_published: false,
-      show_bmc: false,
+      is_published: is_published ?? false,
+      show_bmc: show_bmc ?? false,
       author_id: session.user.id,
     })
     .select()

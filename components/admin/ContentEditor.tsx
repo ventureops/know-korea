@@ -65,6 +65,8 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
   const [coverError, setCoverError] = useState<string | null>(null);
   const [pendingCoverUrl, setPendingCoverUrl] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   // Auto-generate slug from title
   const handleTitleChange = (value: string) => {
@@ -115,7 +117,12 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
 
     const data = await res.json();
     if (mode === "new") {
-      router.push(`/admin/contents/${data.content.id}/edit`);
+      // publish 시 바로 목록으로, draft는 편집 페이지로
+      if (publish) {
+        router.push("/admin/contents");
+      } else {
+        router.push(`/admin/contents/${data.content.id}/edit`);
+      }
     } else {
       router.refresh();
     }
@@ -359,8 +366,60 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
               {saving ? "Saving…" : "Publish"}
             </button>
           </div>
+
+          {/* Delete — edit mode only */}
+          {mode === "edit" && initialData.id && (
+            <div className="mt-5 pt-4 border-t border-outline-variant/15">
+              <button
+                onClick={() => setShowDeleteModal(true)}
+                className="w-full py-2 rounded-lg bg-error/10 text-error text-sm font-label hover:bg-error/20 transition-colors active:scale-95"
+              >
+                Delete Article
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Delete Confirm Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="bg-surface-container-lowest rounded-2xl p-6 w-full max-w-sm shadow-xl mx-4">
+            <h3 className="font-headline font-bold text-lg text-on-surface mb-2">
+              Delete this article?
+            </h3>
+            <p className="text-sm font-body text-on-surface-variant leading-relaxed mb-6">
+              This action cannot be undone. All comments and likes associated with this article will also be deleted.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                disabled={deleting}
+                className="flex-1 py-2 rounded-lg bg-surface-container text-on-surface text-sm font-label hover:bg-surface-container-high transition-colors active:scale-95"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={deleting}
+                onClick={async () => {
+                  setDeleting(true);
+                  const res = await fetch(`/api/admin/contents/${initialData.id}`, { method: "DELETE" });
+                  if (res.ok) {
+                    router.push("/admin/contents");
+                  } else {
+                    setDeleting(false);
+                    setShowDeleteModal(false);
+                    setError("Failed to delete article.");
+                  }
+                }}
+                className="flex-1 py-2 rounded-lg bg-error text-on-error text-sm font-label hover:opacity-90 transition-colors active:scale-95 disabled:opacity-50"
+              >
+                {deleting ? "Deleting…" : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

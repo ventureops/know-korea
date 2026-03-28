@@ -70,4 +70,13 @@
   .prose-custom img {
     @apply rounded-xl my-6 max-w-full;
   }
+  .prose-custom table {
+    @apply w-full border-collapse mb-6 text-sm;
+  }
+  .prose-custom th {
+    @apply font-semibold text-on-surface text-left py-2 px-3 border-b-2 border-outline-variant/40;
+  }
+  .prose-custom td {
+    @apply py-2 px-3 border-b border-outline-variant/20;
+  }
 }
