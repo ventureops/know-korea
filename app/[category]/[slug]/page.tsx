@@ -299,6 +299,20 @@ export default async function ContentDetailPage({
             </div>
           )}
 
+          {/* Tags */}
+          {article.tags && article.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-6">
+              {article.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-2.5 py-0.5 rounded-full text-xs font-label text-on-surface-variant bg-surface-container"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
+
           {/* Article Body */}
           {bodyHtml ? (
             <div
@@ -309,20 +323,6 @@ export default async function ContentDetailPage({
             <p className="text-on-surface-variant font-body mb-10">
               Content coming soon.
             </p>
-          )}
-
-          {/* Tags */}
-          {article.tags && article.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-8">
-              {article.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-0.5 rounded-full text-xs font-label text-on-surface-variant bg-surface-container"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
           )}
 
           {/* Like / Share actions */}
