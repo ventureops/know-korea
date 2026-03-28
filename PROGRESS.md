@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**Phase 4 완료 + 버그 수정 라운드 완료 (2026-03-26)**
+**버그 수정 라운드 5 완료 (2026-03-29)**
 
 ---
 
@@ -329,6 +329,33 @@
 - **Publish 버그 원인:** POST route가 `is_published: false`로 하드코딩. body의 `is_published`, `show_bmc` 읽도록 수정
 - **Delete API:** 이미 존재 (`DELETE /api/admin/contents/[id]`). UI만 추가
 - **테이블 스타일:** `border-collapse` + th `border-b-2` + td `border-b-1`, outline-variant 색상
+
+---
+
+## 버그 수정 라운드 5 ✅ 완료 (2026-03-29)
+
+| 항목 | 상태 |
+|------|------|
+| lib/cloudinary.ts — cloudinaryUrl() + optimizeBodyImages() 유틸 생성 | ✅ |
+| Navbar — 아바타 이미지 cloudinaryUrl(image, "avatar") 최적화 적용 | ✅ |
+| 콘텐츠 상세 — cover image cloudinaryUrl(cover_image, "cover") 적용 | ✅ |
+| 콘텐츠 상세 — 본문 이미지 optimizeBodyImages() 일괄 최적화 | ✅ |
+| 콘텐츠 상세 — ToC extractToc() H2/H3 계층 지원 (level: 2|3) | ✅ |
+| 콘텐츠 상세 — injectHeadingIds() 전처리 (BlockNote id 없는 heading 대응) | ✅ |
+| 콘텐츠 상세 — 태그 위치 이동: 제목 → 커버이미지 아래, 본문 위 | ✅ |
+| lib/categories.ts — 15개 카테고리 중앙화 (CATEGORIES, CATEGORY_LABELS, CATEGORY_SLUGS) | ✅ |
+| 16개 파일 — 하드코딩 카테고리 맵 제거, lib/categories 임포트로 교체 | ✅ |
+| next.config.mjs — 구 카테고리 슬러그 301 리디렉트 4개 추가 | ✅ |
+| supabase/migrations/003_category_rename.sql — contents/qa_posts 카테고리 슬러그 업데이트 | ✅ |
+| Git commit + push | ✅ a6c41b6 |
+
+### 버그 수정 라운드 5 노트
+
+- **Cloudinary 최적화:** `f_auto,q_auto` + 용도별 width (cover: 1200, card: 600, body: 800, avatar: 200×200)
+- **ToC H3 지원:** `<h3>` 태그 추출 후 `pl-4` 들여쓰기로 계층 표시
+- **injectHeadingIds:** `<h[23]>` → `<h[23] id="slugified-text">` 삽입. BlockNote HTML이 id 미포함 시 ToC 앵커 작동 안 하는 문제 해결
+- **카테고리 15개:** start-here, language, k-pop, k-film, k-drama, k-sports, k-lifestyle, culture-society, history-politics, korea-in-the-world, living-in-korea, work-business, economy-money, travel-places, tools-resources
+- **DB 마이그레이션:** Supabase SQL Editor에서 `003_category_rename.sql` 수동 실행 필요 (life-in-korea → living-in-korea, comparison → korea-in-the-world)
 
 ---
 
