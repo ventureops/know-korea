@@ -8,7 +8,7 @@ export interface Category {
 
 export const CATEGORIES: Category[] = [
   { slug: "start-here",          name: "Start Here",          icon: "rocket_launch",  description: "Your first steps for life in Korea — the essentials." },
-  { slug: "language",            name: "Language",            icon: "font_download",  subtitle: "K-Culture", description: "Korean language guides, tips, and learning resources." },
+  { slug: "language",            name: "Language",            icon: "font_download",  description: "Korean language guides, tips, and learning resources." },
   { slug: "k-pop",               name: "K-Pop",               icon: "music_note",     description: "Korean pop music, artists, and fan culture." },
   { slug: "k-film",              name: "K-Film",              icon: "movie",          description: "Korean cinema, blockbusters, and indie films." },
   { slug: "k-drama",             name: "K-Drama",             icon: "live_tv",        description: "Korean TV dramas, series, and streaming picks." },

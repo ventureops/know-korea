@@ -20,6 +20,12 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { CATEGORY_LABELS, CATEGORIES as CAT_LIST } from "@/lib/categories";
 
+const STATUS_CHIPS = [
+  { value: "", label: "All" },
+  { value: "published", label: "Published" },
+  { value: "draft", label: "Draft" },
+];
+
 interface Content {
   id: string;
   title: string;
@@ -217,70 +223,101 @@ export default function ContentsClient({
     });
   }
 
+  function navigateTo(newStatus: string, newCategory: string) {
+    const params = new URLSearchParams();
+    if (search) params.set("search", search);
+    if (newCategory) params.set("category", newCategory);
+    if (newStatus) params.set("status", newStatus);
+    if (sortBy && sortBy !== "sort_order") params.set("sortBy", sortBy);
+    window.location.href = `${pathname}?${params.toString()}`;
+  }
+
   return (
     <div>
       {/* Filter bar */}
-      <div className="flex flex-wrap gap-3 mb-5">
-        {/* Search */}
-        <div className="relative flex-1 min-w-[160px] max-w-xs">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[18px] text-on-surface-variant">
-            search
-          </span>
-          <input
-            type="text"
-            placeholder="Search articles..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && applyFilter()}
-            className="w-full pl-9 pr-4 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary transition-colors"
-          />
+      <div className="flex flex-col gap-3 mb-5">
+        {/* Row 0: Search + Sort + Apply */}
+        <div className="flex flex-wrap gap-3">
+          {/* Search */}
+          <div className="relative flex-1 min-w-[160px] max-w-xs">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-[18px] text-on-surface-variant">
+              search
+            </span>
+            <input
+              type="text"
+              placeholder="Search articles..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && applyFilter()}
+              className="w-full pl-9 pr-4 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary transition-colors"
+            />
+          </div>
+
+          {/* Sort */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface focus:outline-none focus:border-primary transition-colors"
+          >
+            <option value="sort_order">Custom Order</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="category">Category (A→Z)</option>
+            <option value="views">Most Views</option>
+          </select>
+
+          {/* Apply search/sort */}
+          <button
+            onClick={applyFilter}
+            className="px-4 py-2 rounded-lg bg-primary text-on-primary text-sm font-label hover:bg-primary-dim transition-colors active:scale-95"
+          >
+            Apply
+          </button>
         </div>
 
-        {/* Category filter */}
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface focus:outline-none focus:border-primary transition-colors"
-        >
-          <option value="">All Categories</option>
-          {Object.entries(CATEGORY_LABELS).map(([val, label]) => (
-            <option key={val} value={val}>
-              {label}
-            </option>
+        {/* Row 1: Status chips */}
+        <div className="flex flex-wrap gap-2">
+          {STATUS_CHIPS.map((chip) => (
+            <button
+              key={chip.value}
+              onClick={() => navigateTo(chip.value, category)}
+              className={`px-3 py-1 rounded-full text-sm font-label transition-colors active:scale-95 ${
+                status === chip.value
+                  ? "bg-primary text-on-primary"
+                  : "bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest"
+              }`}
+            >
+              {chip.label}
+            </button>
           ))}
-        </select>
+        </div>
 
-        {/* Status filter */}
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface focus:outline-none focus:border-primary transition-colors"
-        >
-          <option value="">All Status</option>
-          <option value="published">Published</option>
-          <option value="draft">Draft</option>
-        </select>
-
-        {/* Sort */}
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm text-on-surface focus:outline-none focus:border-primary transition-colors"
-        >
-          <option value="sort_order">Custom Order</option>
-          <option value="newest">Newest</option>
-          <option value="oldest">Oldest</option>
-          <option value="category">Category (A→Z)</option>
-          <option value="views">Most Views</option>
-        </select>
-
-        {/* Filter button */}
-        <button
-          onClick={applyFilter}
-          className="px-4 py-2 rounded-lg bg-primary text-on-primary text-sm font-label hover:bg-primary-dim transition-colors active:scale-95"
-        >
-          Filter
-        </button>
+        {/* Row 2: Category chips */}
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => navigateTo(status, "")}
+            className={`px-3 py-1 rounded-full text-sm font-label transition-colors active:scale-95 ${
+              category === ""
+                ? "bg-primary text-on-primary"
+                : "bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest"
+            }`}
+          >
+            All
+          </button>
+          {CAT_LIST.map((cat) => (
+            <button
+              key={cat.slug}
+              onClick={() => navigateTo(status, cat.slug)}
+              className={`px-3 py-1 rounded-full text-sm font-label transition-colors active:scale-95 ${
+                category === cat.slug
+                  ? "bg-primary text-on-primary"
+                  : "bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest"
+              }`}
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
       </div>
 
 

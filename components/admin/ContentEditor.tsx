@@ -98,7 +98,11 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
 
     if (!res.ok) {
       const data = await res.json();
-      setError(data.error ?? "Failed to save");
+      const rawError: string = data.error ?? "Failed to save";
+      const friendlyError = rawError.includes("contents_slug_key") || rawError.includes("unique constraint")
+        ? "Slug가 중복됩니다. 다른 slug를 사용해주세요."
+        : rawError;
+      setError(friendlyError);
       setSaving(false);
       return;
     }
@@ -256,9 +260,6 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
           />
         </div>
 
-        {error && (
-          <p className="mt-4 text-sm text-error">{error}</p>
-        )}
       </div>
 
       {/* Right: Publishing Settings */}
@@ -364,6 +365,13 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
               >
                 Delete Article
               </button>
+            </div>
+          )}
+
+          {/* Error message */}
+          {error && (
+            <div className="mt-4 p-3 rounded-lg bg-error-container/10 text-sm text-error">
+              {error}
             </div>
           )}
         </div>

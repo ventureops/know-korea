@@ -37,7 +37,7 @@ async function getContents(search: string, category: string, status: string, sor
     query = query.order("sort_order", { ascending: true });
   }
 
-  const { data, count } = await query.limit(50);
+  const { data, count } = await query;
   return { contents: data ?? [], total: count ?? 0 };
 }
 
