@@ -9,7 +9,7 @@ import { cloudinaryUrl } from "@/lib/cloudinary";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/qa", label: "Q&A" },
+  { href: "/community", label: "Community" },
   { href: "/about", label: "About" },
 ];
 
@@ -32,7 +32,7 @@ export default function Navbar() {
 
   const mobileMenuLinks = [
     { href: "/", label: "Home", icon: "home" },
-    { href: "/qa", label: "Q&A", icon: "forum" },
+    { href: "/community", label: "Community", icon: "forum" },
     { href: "/about", label: "About", icon: "info" },
     { href: "/faq", label: "FAQ", icon: "help" },
     { href: "/search", label: "Search", icon: "search" },

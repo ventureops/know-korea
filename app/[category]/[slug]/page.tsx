@@ -390,7 +390,7 @@ export default async function ContentDetailPage({
                 to help.
               </p>
               <Link
-                href="/qa/new"
+                href="/community/new"
                 className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-primary text-on-primary font-body font-bold text-sm hover:bg-primary-dim transition-all active:scale-95"
               >
                 <span className="material-symbols-outlined text-[16px]">

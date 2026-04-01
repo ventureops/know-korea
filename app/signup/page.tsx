@@ -5,7 +5,7 @@ import LoginButtons from "@/components/auth/LoginButtons";
 
 const features = [
   { icon: "article", title: "Expert Guides & Community Interaction", desc: "Write comments on articles, share your perspectives, and engage with a vibrant community of like-minded individuals." },
-  { icon: "forum", title: "Q&A with Locals", desc: "Stuck on a niche problem? Ask your own questions and get reliable answers directly from people who know Korea best." },
+  { icon: "forum", title: "Community", desc: "Stuck on a niche problem? Ask your own questions and get reliable answers directly from people who know Korea best." },
   { icon: "trending_up", title: "Personalized Activity Tracking", desc: "Keep track of your reading history and 'Mark as Read' to stay organized as you navigate your move or life here." },
   { icon: "favorite", title: "Engagement", desc: "Show appreciation for valuable content. Like posts and questions to support contributors and highlight helpful info." },
   { icon: "emoji_events", title: "Activity Record", desc: "Maintain a personal dashboard of your contributions, saved guides, and earn badges as you help the community grow." },

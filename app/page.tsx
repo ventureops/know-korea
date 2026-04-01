@@ -71,7 +71,7 @@ export default async function HomePage() {
             Start Here
           </Link>
           <Link
-            href="/qa/new"
+            href="/community/new"
             className="px-5 py-2.5 rounded-xl bg-surface-container text-on-surface font-body font-medium text-sm hover:bg-surface-container-high transition-all active:scale-95"
           >
             Ask a Question

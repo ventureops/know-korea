@@ -110,7 +110,7 @@ export default async function AdminAnalyticsPage() {
             <span className="material-symbols-outlined text-[22px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>
               thumb_up
             </span>
-            <span className="text-xs text-on-surface-variant font-label">Q&A Likes</span>
+            <span className="text-xs text-on-surface-variant font-label">Community Likes</span>
           </div>
           <p className="font-headline text-2xl font-bold text-on-surface">
             {totalQaLikes.toLocaleString()}

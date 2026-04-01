@@ -105,7 +105,7 @@ export default async function SearchPage({
           <p className="text-sm font-body text-on-surface-variant max-w-sm mb-6">
             Try different keywords, or{" "}
             <Link
-              href="/qa/new"
+              href="/community/new"
               className="text-primary hover:text-primary-dim font-bold transition-colors"
             >
               ask the community

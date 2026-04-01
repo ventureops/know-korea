@@ -94,7 +94,7 @@ export default async function AdminDashboardPage() {
       bg: "bg-success-container/40",
     },
     {
-      label: "Active Q&A Posts",
+      label: "Active Community Posts",
       value: fmt(activeQA),
       icon: "chat_bubble",
       color: "text-tertiary",

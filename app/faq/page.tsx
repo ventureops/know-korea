@@ -106,16 +106,16 @@ export default function FAQPage() {
       {/* CTA Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
         <Link
-          href="/qa"
+          href="/community"
           className="group bg-surface-container-lowest rounded-2xl p-5 shadow-sm hover:shadow-xl border border-outline-variant/15 transition-all flex flex-col items-start"
         >
           <span className="material-symbols-outlined text-[24px] text-primary mb-3">forum</span>
-          <h3 className="font-headline font-bold text-base text-on-surface mb-1">Community Q&A</h3>
+          <h3 className="font-headline font-bold text-base text-on-surface mb-1">Community</h3>
           <p className="text-sm font-body text-on-surface-variant mb-4 leading-relaxed flex-1">
             Can't find your answer here? Ask the Know Korea community.
           </p>
           <span className="text-sm font-body font-bold text-primary group-hover:text-primary-dim transition-colors">
-            Visit Q&A →
+            Visit Community →
           </span>
         </Link>
         <div className="bg-surface-container-lowest rounded-2xl p-5 shadow-sm border border-outline-variant/15 flex flex-col items-start">

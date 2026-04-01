@@ -68,7 +68,7 @@ export default async function AdminQAPage({
   return (
     <div className="max-w-6xl mx-auto">
       <div className="mb-6">
-        <h1 className="font-headline text-2xl font-bold text-on-surface">Q&A Management</h1>
+        <h1 className="font-headline text-2xl font-bold text-on-surface">Community Management</h1>
         <p className="text-sm text-on-surface-variant mt-1">{count ?? 0} posts total</p>
       </div>
 

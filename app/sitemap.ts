@@ -10,7 +10,7 @@ const staticRoutes = [
   { url: `${BASE_URL}/faq`, priority: 0.7 },
   { url: `${BASE_URL}/legal`, priority: 0.5 },
   { url: `${BASE_URL}/search`, priority: 0.6 },
-  { url: `${BASE_URL}/qa`, priority: 0.8 },
+  { url: `${BASE_URL}/community`, priority: 0.8 },
 ];
 
 const categoryRoutes = CATEGORY_SLUGS.map((slug) => ({

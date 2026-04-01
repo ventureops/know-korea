@@ -63,7 +63,7 @@ export default function QAManageClient({
   }
 
   async function deletePost(id: string) {
-    if (!confirm('이 Q&A를 삭제하시겠습니까? 댓글도 함께 삭제됩니다.')) return;
+    if (!confirm('이 게시글을 삭제하시겠습니까? 댓글도 함께 삭제됩니다.')) return;
     setDeleting(id);
     const res = await fetch(`/api/admin/qa/${id}`, { method: 'DELETE' });
     if (res.ok) {
@@ -80,7 +80,7 @@ export default function QAManageClient({
           <span className="material-symbols-outlined text-[18px] text-on-surface-variant">search</span>
           <input
             type="text"
-            placeholder="Search Q&A..."
+            placeholder="Search Community..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="flex-1 bg-transparent text-sm font-body text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none"
@@ -113,7 +113,7 @@ export default function QAManageClient({
       {/* Table */}
       <div className="bg-surface-container-lowest rounded-2xl overflow-hidden">
         {filtered.length === 0 ? (
-          <div className="py-16 text-center text-sm text-on-surface-variant">No Q&A found.</div>
+          <div className="py-16 text-center text-sm text-on-surface-variant">No posts found.</div>
         ) : (
           <table className="w-full text-sm">
             <thead>
@@ -133,7 +133,7 @@ export default function QAManageClient({
                 <tr key={post.id} className="hover:bg-surface-container-low/50 transition-colors">
                   <td className="px-5 py-3.5">
                     <Link
-                      href={`/qa/${post.id}`}
+                      href={`/community/${post.id}`}
                       target="_blank"
                       className="font-body text-on-surface hover:text-primary transition-colors line-clamp-1"
                     >

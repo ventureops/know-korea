@@ -17,7 +17,7 @@ export default function QAEditDelete({ qaId }: Props) {
     setDeleting(true);
     const res = await fetch(`/api/qa/${qaId}`, { method: 'DELETE' });
     if (res.ok) {
-      router.push('/qa');
+      router.push('/community');
     } else {
       setDeleting(false);
       setShowModal(false);
@@ -28,7 +28,7 @@ export default function QAEditDelete({ qaId }: Props) {
     <>
       <div className="flex items-center gap-2">
         <Link
-          href={`/qa/${qaId}/edit`}
+          href={`/community/${qaId}/edit`}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-body font-medium bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95"
         >
           <span className="material-symbols-outlined text-[16px]">edit</span>

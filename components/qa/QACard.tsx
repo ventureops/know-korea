@@ -28,7 +28,7 @@ export default function QACard({ post }: { post: QAPost }) {
 
   return (
     <Link
-      href={`/qa/${post.id}`}
+      href={`/community/${post.id}`}
       className="group block bg-surface-container-lowest rounded-2xl p-5 shadow-sm hover:shadow-xl border border-outline-variant/15 transition-all"
     >
       <div className="flex items-start gap-3">
