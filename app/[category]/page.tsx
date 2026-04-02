@@ -59,12 +59,12 @@ export default async function CategoryPage({
   return (
     <div className="px-5 md:px-8 py-8 max-w-5xl mr-auto">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-xs font-body text-on-surface-variant mb-6">
-        <Link href="/" className="hover:text-on-surface transition-colors">
+      <nav className="flex items-center gap-2 text-xs md:text-base font-body text-on-surface-variant mb-6">
+        <Link href="/" className="hover:text-on-surface transition-colors md:font-medium">
           Know Korea
         </Link>
-        <span className="text-outline">›</span>
-        <span className="text-on-surface font-medium">{meta.label}</span>
+        <span className="text-outline text-xs md:text-sm">›</span>
+        <span className="text-on-surface font-medium md:font-bold">{meta.label}</span>
       </nav>
 
       {/* Page Header */}
