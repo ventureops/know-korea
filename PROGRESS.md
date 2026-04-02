@@ -6,10 +6,16 @@
 
 ## 현재 상태
 
-**Command 08 + 09 완료 (2026-04-02)**
+**Command 10 완료 (2026-04-03)**
 
 - Command 08: Admin 콘텐츠 limit 제거, 에러 메시지 우측 패널 이동, 칩 필터 UI, Language subtitle 삭제
 - Command 09: Q&A → Community 전환 완료 (URL, UI 텍스트, MDX, sitemap, redirects)
+- Command 10: UI 정렬 + 사이드바 + Home 개선
+  - 전체 페이지 본문 좌측 정렬 통일 (mx-auto → mr-auto, px-4 → px-5 md:px-8)
+  - 사이드바 하단 메뉴: Community + About + Buy me a Coffee 3개
+  - 사이드바 폰트 text-sm → text-[15px]
+  - Home: Start Here / Ask a Question 버튼 삭제, 2개 안내 카드로 교체
+  - Community: 검색 입력창 추가 (q 파라미터, status/category AND 필터)
 
 ---
 
