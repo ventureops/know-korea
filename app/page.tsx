@@ -66,13 +66,13 @@ export default async function HomePage() {
 
         {/* Info cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="flex items-start gap-3 bg-surface-container-lowest border border-outline-variant/15 rounded-xl p-4">
-            <span className="material-symbols-outlined text-[20px] text-primary shrink-0 mt-0.5">coffee</span>
-            <p className="text-sm font-body text-on-surface-variant leading-relaxed">Free. Independent. Powered by coffee.</p>
+          <div className="flex items-start gap-3 bg-primary/8 border border-primary/20 rounded-xl p-5">
+            <span className="material-symbols-outlined text-[22px] text-primary shrink-0 mt-0.5">coffee</span>
+            <p className="text-base font-body font-medium text-on-surface leading-relaxed">Free. Independent. Powered by coffee.</p>
           </div>
-          <div className="flex items-start gap-3 bg-surface-container-lowest border border-outline-variant/15 rounded-xl p-4">
-            <span className="material-symbols-outlined text-[20px] text-primary shrink-0 mt-0.5">person_add</span>
-            <p className="text-sm font-body text-on-surface-variant leading-relaxed">Sign up to comment, ask, and track what you&apos;ve read.</p>
+          <div className="flex items-start gap-3 bg-primary/8 border border-primary/20 rounded-xl p-5">
+            <span className="material-symbols-outlined text-[22px] text-primary shrink-0 mt-0.5">person_add</span>
+            <p className="text-base font-body font-medium text-on-surface leading-relaxed">Sign up to comment, ask, and track what you&apos;ve read.</p>
           </div>
         </div>
       </section>
