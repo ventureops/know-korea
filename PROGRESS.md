@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**Command 10 완료 (2026-04-03)**
+**Command 10 + 스타일 보완 완료 (2026-04-03)**
 
 - Command 08: Admin 콘텐츠 limit 제거, 에러 메시지 우측 패널 이동, 칩 필터 UI, Language subtitle 삭제
 - Command 09: Q&A → Community 전환 완료 (URL, UI 텍스트, MDX, sitemap, redirects)
@@ -16,6 +16,7 @@
   - 사이드바 폰트 text-sm → text-[15px]
   - Home: Start Here / Ask a Question 버튼 삭제, 2개 안내 카드로 교체
   - Community: 검색 입력창 추가 (q 파라미터, status/category AND 필터)
+- 스타일 보완: Home 안내 카드 — bg-primary/8 배경, 텍스트 text-base + font-medium + text-on-surface, 아이콘 22px
 
 ---
 
