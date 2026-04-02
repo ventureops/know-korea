@@ -10,7 +10,7 @@ import ReadButton from "@/components/content/ReadButton";
 import LikeButton from "@/components/content/LikeButton";
 import CommentSection from "@/components/content/CommentSection";
 import ViewTracker from "@/components/content/ViewTracker";
-import { CATEGORY_LABELS } from "@/lib/categories";
+import { CATEGORY_LABELS, CATEGORY_ICONS } from "@/lib/categories";
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://placeholder.supabase.co",
@@ -228,19 +228,29 @@ export default async function ContentDetailPage({
     <div className="px-5 md:px-8 py-8 max-w-6xl mr-auto">
       <ViewTracker slug={params.slug} />
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-xs md:text-base font-body text-on-surface-variant mb-6">
-        <Link href="/" className="hover:text-on-surface transition-colors md:font-medium">
-          Know Korea
+      <nav className="flex flex-wrap items-center gap-2 mb-4">
+        {/* 1레벨 — Home 칩 */}
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full text-xs md:text-sm font-semibold hover:bg-surface-container-highest transition-colors whitespace-nowrap"
+        >
+          <span className="material-symbols-outlined text-sm md:text-base">home</span>
+          Home
         </Link>
-        <span className="text-outline text-xs md:text-sm">›</span>
+        <span className="material-symbols-outlined text-xs text-outline-variant">chevron_right</span>
+        {/* 2레벨 — 카테고리 칩 */}
         <Link
           href={`/${article.category}`}
-          className="hover:text-on-surface transition-colors md:font-medium"
+          className="inline-flex items-center gap-1.5 bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full text-xs md:text-sm font-semibold hover:bg-surface-container-highest transition-colors whitespace-nowrap"
         >
+          <span className="material-symbols-outlined text-sm md:text-base">
+            {CATEGORY_ICONS[article.category] || "article"}
+          </span>
           {categoryLabel}
         </Link>
-        <span className="text-outline text-xs md:text-sm">›</span>
-        <span className="text-on-surface font-medium md:font-bold line-clamp-1">
+        <span className="material-symbols-outlined text-xs text-outline-variant">chevron_right</span>
+        {/* 3레벨 — 아티클 제목 */}
+        <span className="text-xs md:text-sm font-medium text-on-surface truncate max-w-[280px] md:max-w-none">
           {article.title}
         </span>
       </nav>
@@ -250,9 +260,6 @@ export default async function ContentDetailPage({
         <article className="lg:col-span-8">
           {/* Header */}
           <header className="mb-8">
-            <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-label font-bold uppercase tracking-wider bg-primary/10 text-primary mb-3">
-              {categoryLabel}
-            </span>
             <h1 className="font-headline font-extrabold text-3xl md:text-4xl text-on-surface tracking-tight leading-tight mb-3">
               {article.title}
             </h1>

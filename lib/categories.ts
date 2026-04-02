@@ -31,3 +31,8 @@ export const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
 
 /** slug 배열 (순서 보장) */
 export const CATEGORY_SLUGS = CATEGORIES.map((c) => c.slug);
+
+/** { slug → icon } 맵 */
+export const CATEGORY_ICONS: Record<string, string> = Object.fromEntries(
+  CATEGORIES.map((c) => [c.slug, c.icon])
+);

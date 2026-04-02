@@ -6,6 +6,12 @@
 
 ## 현재 상태
 
+**Command 12 완료 (2026-04-03)**
+
+- 브레드크럼 1·2레벨 칩 변환 (Home 칩 + 카테고리 아이콘 칩, rounded-full, flex-wrap)
+- 커버이미지 아래 카테고리 태그 칩 중복 삭제 (header span 제거)
+- CATEGORY_ICONS를 lib/categories.ts에 export로 중앙화 (사이드바/브레드크럼 공유)
+
 **Command 11 완료 (2026-04-03)**
 
 - 아티클 상세 브레드크럼 데스크탑 폰트 크기 확대 (text-xs → md:text-base, md:font-medium, 모바일 유지)
