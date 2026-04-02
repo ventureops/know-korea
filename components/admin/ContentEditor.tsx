@@ -22,6 +22,8 @@ interface ContentEditorProps {
     category?: string;
     excerpt?: string;
     cover_image?: string;
+    cover_caption?: string;
+    cover_alt?: string;
     body_mdx?: string;
     tags?: string[];
     is_published?: boolean;
@@ -44,6 +46,8 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
   const [category, setCategory] = useState(initialData.category ?? "start-here");
   const [excerpt, setExcerpt] = useState(initialData.excerpt ?? "");
   const [coverImage, setCoverImage] = useState(initialData.cover_image ?? "");
+  const [coverCaption, setCoverCaption] = useState(initialData.cover_caption ?? "");
+  const [coverAlt, setCoverAlt] = useState(initialData.cover_alt ?? "");
   const [tags, setTags] = useState((initialData.tags ?? []).join(", "));
   const [isPublished, setIsPublished] = useState(initialData.is_published ?? false);
   const [showBmc, setShowBmc] = useState(initialData.show_bmc ?? false);
@@ -78,6 +82,8 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
       category,
       excerpt: excerpt.trim() || null,
       cover_image: coverImage.trim() || null,
+      cover_caption: coverCaption.trim() || null,
+      cover_alt: coverAlt.trim() || null,
       body_mdx: bodyMdx,
       tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
       is_published: publish !== undefined ? publish : isPublished,
@@ -119,7 +125,7 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
       router.refresh();
     }
     setSaving(false);
-  }, [title, slug, category, excerpt, coverImage, bodyMdx, tags, isPublished, showBmc, mode, initialData.id, router]);
+  }, [title, slug, category, excerpt, coverImage, coverCaption, coverAlt, bodyMdx, tags, isPublished, showBmc, mode, initialData.id, router]);
 
   return (
     <div className="flex gap-6 max-w-6xl mx-auto">
@@ -226,6 +232,26 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
                 )}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Cover Caption & Alt Text */}
+        {coverImage && (
+          <div className="flex flex-col gap-2 mb-6">
+            <input
+              type="text"
+              placeholder="Image source / credit (e.g., © Unsplash / John Doe)"
+              value={coverCaption}
+              onChange={(e) => setCoverCaption(e.target.value)}
+              className="w-full bg-surface-container-low border-none rounded-lg p-3 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+            />
+            <input
+              type="text"
+              placeholder="Describe this image for accessibility (e.g., Aerial view of Gyeongbokgung Palace)"
+              value={coverAlt}
+              onChange={(e) => setCoverAlt(e.target.value)}
+              className="w-full bg-surface-container-low border-none rounded-lg p-3 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+            />
           </div>
         )}
 

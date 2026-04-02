@@ -70,6 +70,12 @@
   .prose-custom img {
     @apply rounded-xl my-6 max-w-full;
   }
+  .prose-custom figure {
+    @apply my-6;
+  }
+  .prose-custom figcaption {
+    @apply mt-2 text-center text-xs text-outline leading-relaxed;
+  }
   .prose-custom table {
     @apply w-full border-collapse mb-6 text-sm;
   }

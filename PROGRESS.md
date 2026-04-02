@@ -6,6 +6,13 @@
 
 ## 현재 상태
 
+**Command 11 완료 (2026-04-03)**
+
+- 아티클 상세 브레드크럼 데스크탑 폰트 크기 확대 (text-xs → md:text-base, md:font-medium, 모바일 유지)
+- Cover Image 캡션(출처) + Alt Text 지원 (DB 컬럼 추가 완료, ContentEditor UI, 상세 페이지 figure/figcaption 렌더링)
+- 본문 이미지 figcaption 스타일 추가 (globals.css)
+- 모바일 햄버거 메뉴 → 카테고리 사이드바 drawer로 변경 (기존 메뉴 항목 제거, body scroll lock, Community/About/BMC 하단 유지)
+
 **Command 10 + 스타일 보완 완료 (2026-04-03)**
 
 - Command 08: Admin 콘텐츠 limit 제거, 에러 메시지 우측 패널 이동, 칩 필터 UI, Language subtitle 삭제

@@ -17,6 +17,8 @@ export interface Content {
   category: string;
   excerpt: string | null;
   cover_image: string | null;
+  cover_caption?: string | null;
+  cover_alt?: string | null;
   body_mdx: string | null;
   tags: string[] | null;
   is_published: boolean;

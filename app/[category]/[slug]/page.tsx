@@ -228,19 +228,19 @@ export default async function ContentDetailPage({
     <div className="px-5 md:px-8 py-8 max-w-6xl mr-auto">
       <ViewTracker slug={params.slug} />
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-xs font-body text-on-surface-variant mb-6">
-        <Link href="/" className="hover:text-on-surface transition-colors">
+      <nav className="flex items-center gap-2 text-xs md:text-base font-body text-on-surface-variant mb-6">
+        <Link href="/" className="hover:text-on-surface transition-colors md:font-medium">
           Know Korea
         </Link>
-        <span className="text-outline">›</span>
+        <span className="text-outline text-xs md:text-sm">›</span>
         <Link
           href={`/${article.category}`}
-          className="hover:text-on-surface transition-colors"
+          className="hover:text-on-surface transition-colors md:font-medium"
         >
           {categoryLabel}
         </Link>
-        <span className="text-outline">›</span>
-        <span className="text-on-surface font-medium line-clamp-1">
+        <span className="text-outline text-xs md:text-sm">›</span>
+        <span className="text-on-surface font-medium md:font-bold line-clamp-1">
           {article.title}
         </span>
       </nav>
@@ -275,13 +275,20 @@ export default async function ContentDetailPage({
 
           {/* Hero Image */}
           {article.cover_image && (
-            <div className="rounded-2xl overflow-hidden mb-8 h-64 md:h-80 bg-surface-container">
-              <img
-                src={cloudinaryUrl(article.cover_image, "cover")}
-                alt={article.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <figure className="mb-8">
+              <div className="rounded-2xl overflow-hidden h-64 md:h-80 bg-surface-container">
+                <img
+                  src={cloudinaryUrl(article.cover_image, "cover")}
+                  alt={article.cover_alt || article.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {article.cover_caption && (
+                <figcaption className="mt-2 text-center text-xs text-outline font-body">
+                  {article.cover_caption}
+                </figcaption>
+              )}
+            </figure>
           )}
 
           {/* Tags */}

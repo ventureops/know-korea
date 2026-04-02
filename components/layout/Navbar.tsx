@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { cloudinaryUrl } from "@/lib/cloudinary";
+import { CATEGORIES } from "@/lib/categories";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -20,6 +21,10 @@ export default function Navbar() {
   const { data: session, status } = useSession();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Derive current category slug from pathname
+  const pathSegments = pathname.split("/").filter(Boolean);
+  const currentCategory = pathSegments[0] ?? "";
+
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -30,19 +35,14 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const mobileMenuLinks = [
-    { href: "/", label: "Home", icon: "home" },
-    { href: "/community", label: "Community", icon: "forum" },
-    { href: "/about", label: "About", icon: "info" },
-    { href: "/faq", label: "FAQ", icon: "help" },
-    { href: "/search", label: "Search", icon: "search" },
-    ...(session
-      ? [
-          { href: "/profile", label: "Profile", icon: "person" },
-          { href: "/notifications", label: "Notifications", icon: "notifications" },
-        ]
-      : [{ href: "/login", label: "Login / Sign up", icon: "person" }]),
-  ];
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   return (
     <>
@@ -170,80 +170,95 @@ export default function Navbar() {
         )}
       </nav>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Category Drawer Overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 md:hidden"
+          className="fixed inset-0 bg-inverse-surface/30 backdrop-blur-sm z-40 md:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Category Drawer */}
       <div
-        className={`fixed top-14 left-0 z-40 w-72 h-[calc(100vh-3.5rem)] bg-surface/95 backdrop-blur-xl md:hidden flex flex-col transition-transform duration-300 ${
+        className={`fixed left-0 top-0 h-full w-72 bg-surface/95 backdrop-blur-2xl z-50 md:hidden flex flex-col transition-transform duration-300 ease-out overflow-y-auto py-6 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="px-4 pt-5 pb-6 flex flex-col gap-0.5 overflow-y-auto">
-          {session && (
-            <div className="flex items-center gap-3 px-3 py-3 mb-3 rounded-xl bg-surface-container-low">
-              <div className="w-9 h-9 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center shrink-0">
-                {session.user.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={cloudinaryUrl(session.user.image, "avatar")} alt="avatar" className="w-full h-full object-cover" />
-                ) : (
-                  <span className="font-headline font-bold text-sm">
-                    {(session.user.nickname ?? session.user.name ?? "?")[0].toUpperCase()}
-                  </span>
-                )}
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm font-body font-bold text-on-surface truncate">
-                  {session.user.nickname ?? session.user.name}
-                </p>
-                <p className="text-xs text-on-surface-variant truncate">{session.user.email}</p>
-              </div>
-            </div>
-          )}
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 mb-6">
+          <div>
+            <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+              Explore Korea
+            </p>
+            <h3 className="text-sm font-headline font-bold text-primary">Categories</h3>
+          </div>
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="p-2 rounded-full hover:bg-surface-container-high transition-colors active:scale-95"
+          >
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </div>
 
-          <p className="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant mb-3">
-            Menu
-          </p>
-          {mobileMenuLinks.map((link) => {
-            const isActive = pathname === link.href;
+        {/* Category List */}
+        <nav className="flex flex-col">
+          {CATEGORIES.map((cat) => {
+            const isActive = currentCategory === cat.slug;
             return (
               <Link
-                key={link.href}
-                href={link.href}
+                key={cat.slug}
+                href={`/${cat.slug}`}
                 onClick={() => setMobileOpen(false)}
-                className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                className={`flex items-center gap-3 py-3 px-6 transition-all border-l-2 ${
                   isActive
-                    ? "bg-surface-container-low text-on-surface font-bold"
-                    : "text-on-surface-variant hover:bg-surface-container-lowest hover:text-on-surface"
+                    ? "text-primary font-bold border-primary bg-primary-container/10"
+                    : "text-on-surface-variant hover:bg-surface-container-low border-transparent"
                 }`}
               >
-                {isActive && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-primary rounded-full" />
-                )}
                 <span
                   className={`material-symbols-outlined text-[18px] shrink-0 ${isActive ? "text-primary" : "text-on-surface-variant"}`}
                   style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
                 >
-                  {link.icon}
+                  {cat.icon}
                 </span>
-                <span className="text-sm font-body">{link.label}</span>
+                <span className="text-sm font-label">{cat.name}</span>
               </Link>
             );
           })}
-          {session && (
-            <button
-              onClick={() => { setMobileOpen(false); signOut({ callbackUrl: "/" }); }}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-error hover:bg-surface-container-lowest transition-all mt-2"
-            >
-              <span className="material-symbols-outlined text-[18px]">logout</span>
-              <span className="text-sm font-body">Sign out</span>
-            </button>
-          )}
+        </nav>
+
+        {/* Bottom links */}
+        <div className="mt-6 px-6 pt-4 border-t border-outline-variant/15 flex flex-col gap-1">
+          {[
+            { href: "/community", icon: "forum", label: "Community" },
+            { href: "/about", icon: "info", label: "About" },
+          ].map(({ href, icon, label }) => {
+            const isActive = pathname === href || pathname.startsWith(href + "/");
+            return (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setMobileOpen(false)}
+                className={`flex items-center gap-3 py-2.5 px-3 rounded-xl transition-all ${
+                  isActive
+                    ? "text-on-surface font-bold bg-surface-container-low"
+                    : "text-on-surface-variant hover:bg-surface-container-low"
+                }`}
+              >
+                <span className="material-symbols-outlined text-[18px] shrink-0">{icon}</span>
+                <span className="text-sm font-body">{label}</span>
+              </Link>
+            );
+          })}
+          <a
+            href="https://www.buymeacoffee.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 py-2.5 px-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-all"
+          >
+            <span className="material-symbols-outlined text-[18px] shrink-0">coffee</span>
+            <span className="text-sm font-body">Buy me a Coffee</span>
+          </a>
         </div>
       </div>
     </>
