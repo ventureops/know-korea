@@ -6,7 +6,10 @@
 
 ## 현재 상태
 
-**버그 수정 라운드 5 완료 (2026-03-29)**
+**Command 08 + 09 완료 (2026-04-02)**
+
+- Command 08: Admin 콘텐츠 limit 제거, 에러 메시지 우측 패널 이동, 칩 필터 UI, Language subtitle 삭제
+- Command 09: Q&A → Community 전환 완료 (URL, UI 텍스트, MDX, sitemap, redirects)
 
 ---
 

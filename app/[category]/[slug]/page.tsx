@@ -225,7 +225,7 @@ export default async function ContentDetailPage({
   });
 
   return (
-    <div className="px-5 md:px-8 py-8 max-w-6xl mx-auto">
+    <div className="px-5 md:px-8 py-8 max-w-6xl mr-auto">
       <ViewTracker slug={params.slug} />
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs font-body text-on-surface-variant mb-6">

@@ -57,7 +57,7 @@ export default async function CategoryPage({
   const articles: Content[] = articlesRaw ?? [];
 
   return (
-    <div className="px-5 md:px-8 py-8 max-w-5xl mx-auto">
+    <div className="px-5 md:px-8 py-8 max-w-5xl mr-auto">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs font-body text-on-surface-variant mb-6">
         <Link href="/" className="hover:text-on-surface transition-colors">

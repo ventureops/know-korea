@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="px-5 md:px-8 py-12 max-w-3xl mx-auto">
+    <div className="px-5 md:px-8 py-12 max-w-3xl mr-auto">
       {/* Hero */}
       <section className="mb-16">
         <p className="text-sm font-body text-on-surface-variant mb-3">The Modern Envoy — Your Digital Curator</p>

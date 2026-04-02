@@ -42,7 +42,7 @@ export default function Sidebar() {
                 >
                   {cat.icon}
                 </span>
-                <span className="text-sm font-body leading-tight">
+                <span className="text-[15px] font-body leading-tight">
                   {cat.name}
                   {cat.subtitle && (
                     <span className="block text-[10px] font-label text-on-surface-variant/60 leading-tight">
@@ -55,8 +55,33 @@ export default function Sidebar() {
           })}
         </nav>
 
-        {/* BMC Link */}
-        <div className="mt-4 pt-4 border-t border-outline-variant/15">
+        {/* Bottom Nav */}
+        <div className="mt-4 pt-4 border-t border-outline-variant/15 flex flex-col gap-0.5">
+          {[
+            { href: "/community", icon: "forum", label: "Community" },
+            { href: "/about", icon: "info", label: "About" },
+          ].map(({ href, icon, label }) => {
+            const isActive = pathname === href || pathname.startsWith(href + "/");
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`group flex items-center gap-3 px-3 py-2 rounded-xl transition-all hover:translate-x-1 ${
+                  isActive
+                    ? "bg-surface-container-low text-on-surface font-bold"
+                    : "text-on-surface-variant hover:bg-surface-container-lowest hover:text-on-surface"
+                }`}
+              >
+                <span
+                  className="material-symbols-outlined text-[18px] shrink-0 transition-all text-on-surface-variant group-hover:text-on-surface"
+                  style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
+                >
+                  {icon}
+                </span>
+                <span className="text-[15px] font-body leading-tight">{label}</span>
+              </Link>
+            );
+          })}
           <a
             href="https://www.buymeacoffee.com"
             target="_blank"
@@ -66,7 +91,7 @@ export default function Sidebar() {
             <span className="material-symbols-outlined text-[18px] shrink-0 text-on-surface-variant">
               coffee
             </span>
-            <span className="text-sm font-body">Buy me a Coffee</span>
+            <span className="text-[15px] font-body">Buy me a Coffee</span>
           </a>
         </div>
       </div>

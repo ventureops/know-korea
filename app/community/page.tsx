@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import QACard, { type QAPost } from '@/components/qa/QACard';
 import { getSession } from '@/lib/auth';
+import CommunitySearchInput from '@/components/qa/CommunitySearchInput';
 
 export const metadata: Metadata = {
   title: 'Community | Know Korea',
@@ -32,11 +33,12 @@ const STATUS_FILTERS = [
 export default async function CommunityPage({
   searchParams,
 }: {
-  searchParams: { category?: string; page?: string; status?: string };
+  searchParams: { category?: string; page?: string; status?: string; q?: string };
 }) {
   const session = await getSession();
   const category = searchParams.category ?? '';
   const status = searchParams.status ?? '';
+  const q = searchParams.q ?? '';
   const page = parseInt(searchParams.page ?? '1', 10);
   const limit = 20;
   const offset = (page - 1) * limit;
@@ -53,6 +55,7 @@ export default async function CommunityPage({
   if (category) query = query.eq('category', category);
   if (status === 'resolved') query = query.eq('is_resolved', true);
   if (status === 'unresolved') query = query.eq('is_resolved', false);
+  if (q) query = query.or(`title.ilike.%${q}%,body.ilike.%${q}%`);
 
   const { data, count } = await query;
 
@@ -94,33 +97,37 @@ export default async function CommunityPage({
   const totalPages = Math.ceil((count ?? 0) / limit);
 
   return (
-    <div className="px-5 md:px-8 py-8 max-w-4xl mx-auto">
+    <div className="px-5 md:px-8 py-8 max-w-4xl mr-auto">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="font-headline font-extrabold text-2xl md:text-3xl text-on-surface tracking-tight">
-            Community
-          </h1>
-          <p className="text-sm font-body text-on-surface-variant mt-1">
-            Feel free to ask anything, and share what you know. If you have any questions or requests regarding the website, please click &apos;Contact Us&apos; below.
-          </p>
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <h1 className="font-headline font-extrabold text-2xl md:text-3xl text-on-surface tracking-tight">
+              Community
+            </h1>
+            <p className="text-sm font-body text-on-surface-variant mt-1">
+              Feel free to ask anything, and share what you know. If you have any questions or requests regarding the website, please click &apos;Contact Us&apos; below.
+            </p>
+          </div>
+          {session ? (
+            <Link
+              href="/community/new"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-on-primary font-body font-bold text-sm hover:bg-primary-dim transition-all active:scale-95 shrink-0 ml-4"
+            >
+              <span className="material-symbols-outlined text-[18px]">add</span>
+              Ask a Question
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container text-on-surface font-body font-bold text-sm hover:bg-surface-container-high transition-all active:scale-95 shrink-0 ml-4"
+            >
+              Log in to ask
+            </Link>
+          )}
         </div>
-        {session ? (
-          <Link
-            href="/community/new"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-on-primary font-body font-bold text-sm hover:bg-primary-dim transition-all active:scale-95 shrink-0"
-          >
-            <span className="material-symbols-outlined text-[18px]">add</span>
-            Ask a Question
-          </Link>
-        ) : (
-          <Link
-            href="/login"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container text-on-surface font-body font-bold text-sm hover:bg-surface-container-high transition-all active:scale-95 shrink-0"
-          >
-            Log in to ask
-          </Link>
-        )}
+        {/* Search */}
+        <CommunitySearchInput />
       </div>
 
       {/* Resolved / Unresolved filter */}
@@ -200,7 +207,7 @@ export default async function CommunityPage({
         <div className="flex items-center justify-center gap-2 mt-8">
           {page > 1 && (
             <Link
-              href={`/community?${category ? `category=${category}&` : ''}${status ? `status=${status}&` : ''}page=${page - 1}`}
+              href={`/community?${category ? `category=${category}&` : ''}${status ? `status=${status}&` : ''}${q ? `q=${encodeURIComponent(q)}&` : ''}page=${page - 1}`}
               className="px-4 py-2 rounded-xl bg-surface-container text-sm font-body text-on-surface hover:bg-surface-container-high transition-all"
             >
               Previous
@@ -211,7 +218,7 @@ export default async function CommunityPage({
           </span>
           {page < totalPages && (
             <Link
-              href={`/community?${category ? `category=${category}&` : ''}${status ? `status=${status}&` : ''}page=${page + 1}`}
+              href={`/community?${category ? `category=${category}&` : ''}${status ? `status=${status}&` : ''}${q ? `q=${encodeURIComponent(q)}&` : ''}page=${page + 1}`}
               className="px-4 py-2 rounded-xl bg-surface-container text-sm font-body text-on-surface hover:bg-surface-container-high transition-all"
             >
               Next

@@ -71,7 +71,7 @@ export default async function ActivitiesPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-10">
+    <div className="max-w-2xl mr-auto px-5 md:px-8 py-10">
       <div className="flex items-center gap-3 mb-8">
         <Link href="/profile" className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-all active:scale-95">
           <span className="material-symbols-outlined text-[22px] text-on-surface-variant">arrow_back</span>

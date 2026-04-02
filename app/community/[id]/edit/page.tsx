@@ -81,7 +81,7 @@ export default function CommunityEditPage() {
   }
 
   return (
-    <div className="px-5 md:px-8 py-8 max-w-2xl mx-auto">
+    <div className="px-5 md:px-8 py-8 max-w-2xl mr-auto">
       <div className="mb-8">
         <h1 className="font-headline font-extrabold text-2xl md:text-3xl text-on-surface tracking-tight mb-1">
           Edit Question

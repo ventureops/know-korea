@@ -92,7 +92,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 
 export default function FAQPage() {
   return (
-    <div className="px-5 md:px-8 py-12 max-w-3xl mx-auto">
+    <div className="px-5 md:px-8 py-12 max-w-3xl mr-auto">
       {/* Header */}
       <section className="text-center mb-10">
         <h1 className="font-headline font-extrabold text-3xl md:text-4xl text-on-surface tracking-tight mb-3">

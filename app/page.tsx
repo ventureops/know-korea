@@ -54,7 +54,7 @@ export default async function HomePage() {
     });
 
   return (
-    <div className="px-5 md:px-8 py-8 max-w-5xl mx-auto">
+    <div className="px-5 md:px-8 py-8 max-w-5xl mr-auto">
       {/* Hero */}
       <section className="mb-8">
         <h1 className="font-headline font-extrabold text-5xl md:text-6xl text-on-surface tracking-tight mb-3">
@@ -63,35 +63,17 @@ export default async function HomePage() {
         <p className="text-base font-body text-on-surface-variant mb-6">
           Everything you need to navigate Korea
         </p>
-        <div className="flex items-center gap-3 flex-wrap">
-          <Link
-            href="/start-here"
-            className="px-5 py-2.5 rounded-xl bg-primary text-on-primary font-body font-bold text-sm hover:bg-primary-dim transition-all active:scale-95"
-          >
-            Start Here
-          </Link>
-          <Link
-            href="/community/new"
-            className="px-5 py-2.5 rounded-xl bg-surface-container text-on-surface font-body font-medium text-sm hover:bg-surface-container-high transition-all active:scale-95"
-          >
-            Ask a Question
-          </Link>
-        </div>
-      </section>
 
-      {/* Intro Box */}
-      <section className="mb-10">
-        <div className="bg-surface-container-low rounded-2xl p-6 space-y-3">
-          {[
-            { icon: "menu_book", text: "12 practical categories covering everything about life in Korea — Everything is free to read." },
-            { icon: "person_add", text: "Sign up to track your reading, ask questions, leave comments, and engage with the community." },
-            { icon: "mail", text: 'Got feedback or suggestions? Use "Contact Us" at the bottom.' },
-          ].map(({ icon, text }) => (
-            <div key={icon} className="flex items-start gap-3">
-              <span className="material-symbols-outlined text-[18px] text-primary mt-0.5 shrink-0">{icon}</span>
-              <p className="text-sm font-body text-on-surface-variant leading-relaxed">{text}</p>
-            </div>
-          ))}
+        {/* Info cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="flex items-start gap-3 bg-surface-container-lowest border border-outline-variant/15 rounded-xl p-4">
+            <span className="material-symbols-outlined text-[20px] text-primary shrink-0 mt-0.5">coffee</span>
+            <p className="text-sm font-body text-on-surface-variant leading-relaxed">Free. Independent. Powered by coffee.</p>
+          </div>
+          <div className="flex items-start gap-3 bg-surface-container-lowest border border-outline-variant/15 rounded-xl p-4">
+            <span className="material-symbols-outlined text-[20px] text-primary shrink-0 mt-0.5">person_add</span>
+            <p className="text-sm font-body text-on-surface-variant leading-relaxed">Sign up to comment, ask, and track what you&apos;ve read.</p>
+          </div>
         </div>
       </section>
 
