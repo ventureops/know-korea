@@ -42,7 +42,7 @@ export async function PATCH(
   }
 
   const body = await req.json();
-  const { title, slug, category, excerpt, cover_image, body_mdx, tags, is_published, show_bmc, sort_order } = body;
+  const { title, slug, category, excerpt, cover_image, cover_caption, cover_alt, body_mdx, tags, is_published, show_bmc, sort_order } = body;
 
   const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
   if (title !== undefined) updates.title = title;
@@ -50,6 +50,8 @@ export async function PATCH(
   if (category !== undefined) updates.category = category;
   if (excerpt !== undefined) updates.excerpt = excerpt;
   if (cover_image !== undefined) updates.cover_image = cover_image;
+  if (cover_caption !== undefined) updates.cover_caption = cover_caption;
+  if (cover_alt !== undefined) updates.cover_alt = cover_alt;
   if (body_mdx !== undefined) updates.body_mdx = body_mdx;
   if (tags !== undefined) updates.tags = tags;
   if (is_published !== undefined) updates.is_published = is_published;

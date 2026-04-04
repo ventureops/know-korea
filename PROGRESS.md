@@ -6,6 +6,13 @@
 
 ## 현재 상태
 
+**BUGFIX_COMMAND_13 완료 (2026-04-03)**
+
+- cover_caption, cover_alt가 DB에 저장 안 되던 버그 수정
+- POST API (route.ts): destructure + insert에 두 필드 추가
+- PATCH API ([id]/route.ts): destructure + updates 객체에 두 필드 추가
+- ContentEditor body 포함은 Command 11에서 이미 완료, 상세 페이지 figcaption도 정상
+
 **Command 12 완료 (2026-04-03)**
 
 - 브레드크럼 1·2레벨 칩 변환 (Home 칩 + 카테고리 아이콘 칩, rounded-full, flex-wrap)
