@@ -20,7 +20,7 @@ const ROLE_COLORS = [
 ];
 
 async function getDashboardData() {
-  const [usersRes, contentsRes, qaRes, recentUsersRes] = await Promise.all([
+  const [usersRes, contentsRes, qaRes, recentUsersRes, contactUnreadRes] = await Promise.all([
     supabaseAdmin.from("users").select("id", { count: "exact", head: true }),
     supabaseAdmin
       .from("contents")
@@ -35,10 +35,16 @@ async function getDashboardData() {
       .select("id, nickname, email, role, status, last_login_at, created_at")
       .order("created_at", { ascending: false })
       .limit(5),
+    supabaseAdmin
+      .from("contact_submissions")
+      .select("id", { count: "exact", head: true })
+      .eq("is_read", false)
+      .eq("is_archived", false),
   ]);
 
   const totalUsers = usersRes.count ?? 0;
   const activeQA = qaRes.count ?? 0;
+  const unreadContact = contactUnreadRes.count ?? 0;
   const contents = contentsRes.data ?? [];
   const monthlyViews = contents.reduce((s, c) => s + (c.view_count ?? 0), 0);
 
@@ -62,6 +68,7 @@ async function getDashboardData() {
     totalUsers,
     monthlyViews,
     activeQA,
+    unreadContact,
     categoryViews,
     recentUsers: recentUsersRes.data ?? [],
   };
@@ -75,7 +82,7 @@ function fmt(n: number): string {
 
 export default async function AdminDashboardPage() {
   await getSession(); // layout already guards, just ensure server context
-  const { totalUsers, monthlyViews, activeQA, categoryViews, recentUsers } =
+  const { totalUsers, monthlyViews, activeQA, unreadContact, categoryViews, recentUsers } =
     await getDashboardData();
 
   const stats = [
@@ -107,6 +114,14 @@ export default async function AdminDashboardPage() {
       color: "text-tertiary",
       bg: "bg-tertiary-container/20",
     },
+    {
+      label: "Unread Contact",
+      value: fmt(unreadContact),
+      icon: "mail",
+      color: "text-error",
+      bg: "bg-error-container/30",
+      href: "/admin/contact",
+    },
   ];
 
   return (
@@ -122,11 +137,12 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
         {stats.map((s) => (
           <div
             key={s.label}
-            className="bg-surface-container-lowest rounded-xl p-5 shadow-sm"
+            className={`bg-surface-container-lowest rounded-xl p-5 shadow-sm ${"href" in s ? "cursor-pointer hover:shadow-md transition-shadow" : ""}`}
+            onClick={"href" in s ? () => window.location.href = (s as { href: string }).href : undefined}
           >
             <div className="flex items-center justify-between mb-3">
               <span

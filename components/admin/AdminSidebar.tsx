@@ -3,17 +3,28 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: "dashboard" },
-  { label: "Users", href: "/admin/users", icon: "group" },
   { label: "Content", href: "/admin/contents", icon: "article" },
+  { label: "Contact", href: "/admin/contact", icon: "mail", badge: true },
+  { label: "Users", href: "/admin/users", icon: "group" },
   { label: "Community", href: "/admin/qa", icon: "forum" },
   { label: "Analytics", href: "/admin/analytics", icon: "bar_chart" },
 ];
 
 export default function AdminSidebar({ role }: { role: number }) {
   const pathname = usePathname();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    if (role < 4) return;
+    fetch("/api/admin/contact/unread-count")
+      .then((r) => r.json())
+      .then((d) => setUnreadCount(d.count ?? 0))
+      .catch(() => {});
+  }, [role]);
 
   return (
     <aside className="w-56 bg-surface-container-low flex flex-col shrink-0 min-h-screen sticky top-0">
@@ -32,6 +43,7 @@ export default function AdminSidebar({ role }: { role: number }) {
             item.href === "/admin"
               ? pathname === "/admin"
               : pathname.startsWith(item.href);
+          const showBadge = item.badge && unreadCount > 0 && role >= 4;
           return (
             <Link
               key={item.href}
@@ -48,7 +60,12 @@ export default function AdminSidebar({ role }: { role: number }) {
               >
                 {item.icon}
               </span>
-              {item.label}
+              <span className="flex-1">{item.label}</span>
+              {showBadge && (
+                <span className="bg-error text-on-error text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center leading-none">
+                  {unreadCount > 99 ? "99+" : unreadCount}
+                </span>
+              )}
             </Link>
           );
         })}

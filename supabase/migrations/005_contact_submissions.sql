@@ -23,7 +23,7 @@ CREATE POLICY "Admin can read" ON contact_submissions
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM users
-      WHERE users.id = auth.uid()::text::uuid
+      WHERE users.id = auth.uid()
       AND users.role >= 4
     )
   );
@@ -32,7 +32,7 @@ CREATE POLICY "Admin can update" ON contact_submissions
   FOR UPDATE USING (
     EXISTS (
       SELECT 1 FROM users
-      WHERE users.id = auth.uid()::text::uuid
+      WHERE users.id = auth.uid()
       AND users.role >= 4
     )
   );

@@ -13,6 +13,7 @@
 - 해결 방향 미결정: A) `_blank` 새 탭으로 열기, B) `/donate` 직접 URL 시도
 - 현재 코드: `width=560,height=900,scrollbars=no` (실질적으로 scrollbars=yes와 동일)
 
+**FIX_18 완료 (2026-04-05) — Admin Contact 관리 페이지 + Gmail 회신 기능**
 **FIX_17 완료 (2026-04-05) — Static 페이지 전면 교체 + 구조 변경**
 
 ---
@@ -361,6 +362,25 @@
 - `app/admin/page.tsx` BMC Support → Ko-fi Support 레이블 2곳 교체
 - `components/admin/ContentEditor.tsx` "Show BMC section" → "Show Ko-fi Support"
 - DB 변경 없음 (show_bmc 컬럼명 유지)
+
+---
+
+### FIX_18 — Admin Contact 관리 페이지 + Gmail 회신 기능 ✅ (2026-04-05)
+
+- `supabase/migrations/006_contact_management.sql` — is_replied, replied_at, admin_note, is_archived 컬럼 추가 (수동 실행 필요)
+- `lib/email.ts` — nodemailer Gmail SMTP 유틸리티
+- `app/api/admin/contact/route.ts` — GET 목록 (필터/검색/페이지네이션)
+- `app/api/admin/contact/[id]/route.ts` — PATCH 상태 업데이트
+- `app/api/admin/contact/[id]/reply/route.ts` — POST 이메일 회신 발송
+- `app/api/admin/contact/unread-count/route.ts` — GET 미읽음 카운트
+- `app/admin/contact/page.tsx` — 관리 페이지 (테이블 + 슬라이드 패널 + Reply + Admin Note)
+- `components/admin/AdminSidebar.tsx` — Contact 메뉴 추가, 미읽음 배지 (role≥4)
+- `app/admin/page.tsx` — Dashboard Unread Contact 위젯 카드 추가
+- nodemailer + @types/nodemailer 설치 완료
+- GMAIL_USER / GMAIL_APP_PASSWORD .env.local 확인 완료
+
+⚠️ 수동 작업: Supabase SQL Editor에서 `supabase/migrations/006_contact_management.sql` 실행 필요
+⚠️ 수동 작업: Vercel 환경변수에 GMAIL_USER + GMAIL_APP_PASSWORD 추가 필요
 
 ---
 
