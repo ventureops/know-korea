@@ -24,11 +24,34 @@ export default async function ProfilePage() {
 
   const roleLabel = ["Visitor", "Subscriber", "Contributor", "Moderator", "Admin"][user?.role ?? 1];
 
+  const CATEGORY_COLORS: Record<string, string> = {
+    "Bug Report / Site Error": "bg-red-100 text-red-700",
+    "Topic Suggestion":        "bg-blue-100 text-blue-700",
+    "Business / Partnership":  "bg-green-100 text-green-700",
+    "Other":                   "bg-gray-100 text-gray-600",
+  };
+
+  function relativeTime(dateStr: string): string {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    if (days < 30) return `${days}d ago`;
+    return new Date(dateStr).toLocaleDateString();
+  }
+
   // Stats
-  const [{ count: readCount }, { count: likeCount }, { count: commentCount }] = await Promise.all([
+  const [{ count: readCount }, { count: likeCount }, { count: commentCount }, { data: submissions }] = await Promise.all([
     supabaseAdmin.from("content_reads").select("*", { count: "exact", head: true }).eq("user_id", user?.id ?? ""),
     supabaseAdmin.from("likes").select("*", { count: "exact", head: true }).eq("user_id", user?.id ?? ""),
     supabaseAdmin.from("comments").select("*", { count: "exact", head: true }).eq("author_id", user?.id ?? ""),
+    supabaseAdmin
+      .from("contact_submissions")
+      .select("id, category, message, created_at, is_replied, replied_at")
+      .eq("user_id", user?.id ?? "")
+      .order("created_at", { ascending: false }),
   ]);
 
   return (
@@ -113,6 +136,46 @@ export default async function ProfilePage() {
           </div>
           <span className="material-symbols-outlined text-[18px] text-on-surface-variant">chevron_right</span>
         </Link>
+      </div>
+
+      {/* My Submissions */}
+      <div className="mt-8">
+        <h2 className="font-headline font-bold text-base text-on-surface mb-3">My Submissions</h2>
+        {submissions && submissions.length > 0 ? (
+          <div className="flex flex-col gap-3">
+            {submissions.map((s) => (
+              <div key={s.id} className="bg-surface-container rounded-2xl px-4 py-4">
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className={`text-xs font-label px-2 py-0.5 rounded-full ${CATEGORY_COLORS[s.category] ?? "bg-gray-100 text-gray-600"}`}>
+                    {s.category.split(" / ")[0]}
+                  </span>
+                  <span className="text-xs text-on-surface-variant">{relativeTime(s.created_at)}</span>
+                </div>
+                <p className="text-sm font-body text-on-surface-variant leading-relaxed mb-2">
+                  {s.message.slice(0, 100)}{s.message.length > 100 ? "…" : ""}
+                </p>
+                {s.is_replied ? (
+                  <p className="text-xs text-green-600 flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                    Replied{s.replied_at ? ` · ${relativeTime(s.replied_at)}` : ""}
+                  </p>
+                ) : (
+                  <p className="text-xs text-amber-600 flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[14px]">schedule</span>
+                    Waiting for reply
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="bg-surface-container rounded-2xl px-4 py-6 text-center">
+            <p className="text-sm font-body text-on-surface-variant mb-2">No submissions yet.</p>
+            <Link href="/contact" className="text-sm text-primary font-body font-medium hover:underline">
+              Contact Us →
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

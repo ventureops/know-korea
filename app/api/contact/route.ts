@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSession } from "@/lib/auth";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://placeholder.supabase.co",
+  process.env.SUPABASE_SERVICE_ROLE_KEY ?? "placeholder"
+);
 
 const VALID_CATEGORIES = [
   "Bug Report / Site Error",
@@ -10,6 +16,7 @@ const VALID_CATEGORIES = [
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getSession();
     const body = await req.json();
     const { name, email, category, message } = body;
 
@@ -30,11 +37,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
     }
 
-    const { error } = await supabase.from("contact_submissions").insert({
+    const { error } = await supabaseAdmin.from("contact_submissions").insert({
       name: name.trim(),
       email: email.trim().toLowerCase(),
       category: category.trim(),
       message: message.trim(),
+      user_id: session?.user?.id ?? null,
     });
 
     if (error) {

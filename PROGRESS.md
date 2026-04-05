@@ -381,6 +381,25 @@
 
 ---
 
+### FIX_21 — Contact 폼 개선 + 프로필 Contact 이력 ✅ (2026-04-06)
+
+| 항목 | 상태 |
+|------|------|
+| supabase/migrations/007_contact_user_id.sql 생성 (user_id 컬럼 + RLS) | ✅ |
+| POST /api/contact — 로그인 시 user_id 저장 (비로그인 시 null) | ✅ |
+| Contact 폼: 유도 메시지 위치를 설명 텍스트 바로 아래로 이동 | ✅ |
+| Contact 폼: 메시지 내용 "track your submissions in your profile" 변경 | ✅ |
+| GET /api/user/contact-history — 본인 제출 이력 조회 API | ✅ |
+| 프로필: My Submissions 섹션 (Waiting / Replied 상태, is_read 미노출) | ✅ |
+| npm run build 에러 없음 | ✅ |
+
+**노트:**
+- contact API: supabase(anon) → supabaseAdmin으로 교체 (user_id FK insert 안정성)
+- 프로필: 서버 컴포넌트에서 supabaseAdmin으로 직접 조회 (API route 호출 불필요)
+- ⚠️ Supabase SQL Editor에서 007 마이그레이션 수동 실행 필요
+
+---
+
 ### FIX_20 — Admin UI 정렬 + Contact 관리 UI 개선 + Contact 폼 로그인 유도 ✅ (2026-04-06)
 
 | 항목 | 상태 |

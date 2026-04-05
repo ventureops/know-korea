@@ -75,7 +75,7 @@ export default function ContactPage() {
   return (
     <div className="px-5 md:px-8 py-12 max-w-xl mr-auto">
       {/* Header */}
-      <section className="mb-8">
+      <section className="mb-6">
         <p className="text-[10px] font-label font-bold uppercase tracking-widest text-outline mb-2">Get in Touch</p>
         <h1 className="font-headline font-extrabold text-3xl text-on-surface tracking-tight mb-3">
           Contact Us
@@ -83,17 +83,16 @@ export default function ContactPage() {
         <p className="text-sm font-body text-on-surface-variant leading-relaxed">
           Found an error? Have a topic suggestion? Interested in a partnership? Let us know.
         </p>
+        {/* Login nudge */}
+        {!session && (
+          <div className="flex items-start gap-3 p-4 bg-primary-container/20 text-primary rounded-xl text-sm mt-3 border border-primary-container/40">
+            <span className="material-symbols-outlined text-lg mt-0.5">account_circle</span>
+            <p>
+              <Link href="/login" className="font-bold underline">Sign in</Link> to track your submissions in your profile and get a faster response.
+            </p>
+          </div>
+        )}
       </section>
-
-      {/* Login nudge */}
-      {!session && (
-        <div className="flex items-center gap-2 p-4 bg-blue-50 text-blue-700 rounded-lg text-sm mb-6">
-          <span className="material-symbols-outlined text-lg">info</span>
-          <p>
-            <Link href="/login" className="font-bold underline">Sign in</Link> for a faster response — we can reach you through your account.
-          </p>
-        </div>
-      )}
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
