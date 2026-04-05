@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-export const metadata = undefined; // client component — metadata 별도 불가
-
 const CATEGORIES = [
   "Bug Report / Site Error",
   "Topic Suggestion",
