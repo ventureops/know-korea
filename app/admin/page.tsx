@@ -138,12 +138,11 @@ export default async function AdminDashboardPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
-        {stats.map((s) => (
-          <div
-            key={s.label}
-            className={`bg-surface-container-lowest rounded-xl p-5 shadow-sm ${"href" in s ? "cursor-pointer hover:shadow-md transition-shadow" : ""}`}
-            onClick={"href" in s ? () => window.location.href = (s as { href: string }).href : undefined}
-          >
+        {stats.map((s) => {
+          const card = (
+            <div
+              className={`bg-surface-container-lowest rounded-xl p-5 shadow-sm ${"href" in s ? "cursor-pointer hover:shadow-md transition-shadow" : ""}`}
+            >
             <div className="flex items-center justify-between mb-3">
               <span
                 className={`w-9 h-9 rounded-lg flex items-center justify-center ${s.bg}`}
@@ -160,7 +159,13 @@ export default async function AdminDashboardPage() {
               {s.value}
             </p>
           </div>
-        ))}
+          );
+          return "href" in s ? (
+            <Link key={s.label} href={(s as { href: string }).href}>{card}</Link>
+          ) : (
+            <div key={s.label}>{card}</div>
+          );
+        })}
       </div>
 
       {/* Views by Category + Global Toggles */}
