@@ -6,6 +6,13 @@
 
 ## 현재 상태
 
+**FIX_15 완료 (2026-04-05) — 사이드바 Ko-fi 완전 전환**
+
+- `KoFiButton.tsx` 팝업 height 760 → 900
+- `Sidebar.tsx` 인라인 button → `<KoFiButton size="sm">` 컴포넌트로 교체 (URL/스펙 통일)
+- `Navbar.tsx` 모바일 드로어 BMC `<a>` → Ko-fi `<button>` (드로어 닫기 + 팝업 열기)
+- components 내 buymeacoffee 참조 완전 제거
+
 **FIX_14 완료 (2026-04-05) — BMC → Ko-fi 전환**
 
 - `components/KoFiButton.tsx` 신규 생성 (팝업 버튼, window.open 방식)

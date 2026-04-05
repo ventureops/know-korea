@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CATEGORIES } from "@/lib/categories";
+import KoFiButton from "@/components/KoFiButton";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -82,21 +83,13 @@ export default function Sidebar() {
               </Link>
             );
           })}
-          <button
-            onClick={() =>
-              window.open(
-                'https://ko-fi.com/knowkorea?hidefeed=true&widget=true&embed=true',
-                'ko-fi-popup',
-                'width=480,height=720,scrollbars=yes'
-              )
-            }
-            className="flex items-center gap-3 w-full px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-lowest hover:text-on-surface transition-all"
-          >
-            <span className="material-symbols-outlined text-[18px] shrink-0 text-on-surface-variant">
-              coffee
-            </span>
-            <span className="text-[15px] font-body">Support on Ko-fi</span>
-          </button>
+          <div className="px-1 pt-2">
+            <KoFiButton
+              size="sm"
+              label="Support on Ko-fi"
+              className="w-full justify-center"
+            />
+          </div>
         </div>
       </div>
     </aside>

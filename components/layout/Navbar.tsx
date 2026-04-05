@@ -250,15 +250,25 @@ export default function Navbar() {
               </Link>
             );
           })}
-          <a
-            href="https://www.buymeacoffee.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 py-2.5 px-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-all"
+          <button
+            onClick={() => {
+              setMobileOpen(false);
+              window.open(
+                'https://ko-fi.com/knowkorea?hidefeed=true',
+                'ko-fi-popup',
+                'width=560,height=900,scrollbars=yes'
+              );
+            }}
+            className="flex items-center gap-3 py-2.5 px-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-all w-full"
           >
-            <span className="material-symbols-outlined text-[18px] shrink-0">coffee</span>
-            <span className="text-sm font-body">Buy me a Coffee</span>
-          </a>
+            <span
+              className="material-symbols-outlined text-[18px] shrink-0"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
+              coffee
+            </span>
+            <span className="text-sm font-body">Support on Ko-fi</span>
+          </button>
         </div>
       </div>
     </>

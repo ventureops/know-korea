@@ -3,7 +3,7 @@
 const KO_FI_URL =
   'https://ko-fi.com/knowkorea?hidefeed=true';
 
-const POPUP_SPECS = 'width=560,height=760,scrollbars=yes';
+const POPUP_SPECS = 'width=560,height=900,scrollbars=yes';
 
 interface KoFiButtonProps {
   label?: string;
