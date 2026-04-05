@@ -101,7 +101,7 @@ export default async function AdminDashboardPage() {
       bg: "bg-tertiary-container/30",
     },
     {
-      label: "BMC Support Total",
+      label: "Ko-fi Support Total",
       value: "₩1.45M",
       icon: "favorite",
       color: "text-tertiary",
@@ -189,7 +189,7 @@ export default async function AdminDashboardPage() {
           </p>
           <div className="space-y-4">
             {[
-              { label: "BMC Support Section", key: "bmc" },
+              { label: "Ko-fi Support Section", key: "bmc" },
               { label: "Maintenance Mode", key: "maintenance" },
               { label: "Public Registrations", key: "registrations" },
             ].map((t) => (

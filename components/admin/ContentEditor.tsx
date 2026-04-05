@@ -349,7 +349,7 @@ export default function ContentEditor({ mode, initialData = {} }: ContentEditorP
           <div className="mb-5 flex items-center justify-between">
             <div>
               <p className="text-sm text-on-surface font-label">Support Content</p>
-              <p className="text-xs text-on-surface-variant">Show BMC section</p>
+              <p className="text-xs text-on-surface-variant">Show Ko-fi Support</p>
             </div>
             <button
               onClick={() => setShowBmc(!showBmc)}

@@ -6,6 +6,18 @@
 
 ## 현재 상태
 
+**FIX_14 완료 (2026-04-05) — BMC → Ko-fi 전환**
+
+- `components/KoFiButton.tsx` 신규 생성 (팝업 버튼, window.open 방식)
+- `app/[category]/[slug]/page.tsx` BMC Section → KoFiButton 교체
+- `app/community/[id]/page.tsx` BMC Section → KoFiButton 교체
+- `app/page.tsx` Home BMC 블록 → KoFiButton 교체
+- `components/layout/Sidebar.tsx` BMC `<a>` → Ko-fi `<button>` 교체
+- `content/pages/faq.mdx` Buy Me a Coffee → Ko-fi Support 텍스트 교체
+- `app/admin/page.tsx` BMC Support → Ko-fi Support 레이블 2곳 교체
+- `components/admin/ContentEditor.tsx` "Show BMC section" → "Show Ko-fi Support"
+- DB 변경 없음 (show_bmc 컬럼명 유지)
+
 **BUGFIX_COMMAND_13 완료 (2026-04-03)**
 
 - cover_caption, cover_alt가 DB에 저장 안 되던 버그 수정

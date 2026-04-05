@@ -8,6 +8,7 @@ import QAActions from '@/components/qa/QAActions';
 import QAEditDelete from '@/components/qa/QAEditDelete';
 import { optimizeBodyImages } from '@/lib/cloudinary';
 import { CATEGORY_LABELS } from '@/lib/categories';
+import KoFiButton from '@/components/KoFiButton';
 
 export const revalidate = 300; // 5분마다 재생성
 
@@ -181,33 +182,26 @@ export default async function CommunityDetailPage({ params }: { params: { id: st
         />
       </article>
 
-      {/* BMC — always shown on Community detail */}
-      <div
-        className="rounded-3xl p-6 mt-10 mb-2 flex flex-col md:flex-row items-center justify-between gap-4"
-        style={{ backgroundColor: '#2D456E' }}
-      >
-        <div>
-          <p className="text-xs font-label font-bold uppercase tracking-widest text-on-primary/60 mb-1">
-            Was this helpful?
-          </p>
-          <p className="font-headline font-bold text-lg text-on-primary mb-1">
-            Support Know Korea ☕
-          </p>
-          <p className="text-sm font-body text-on-primary/70">
-            Help keep this content free and up to date.
+      {/* Ko-fi — always shown on Community detail */}
+      <section className="mt-16 p-8 rounded-2xl bg-[#2D456E] flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl overflow-hidden relative">
+        {/* 배경 장식 아이콘 */}
+        <div className="absolute top-0 right-0 opacity-10 pointer-events-none">
+          <span className="material-symbols-outlined text-[200px]" style={{ fontVariationSettings: "'wght' 100" }}>
+            coffee
+          </span>
+        </div>
+
+        {/* 텍스트 */}
+        <div className="z-10 text-center md:text-left">
+          <h4 className="text-2xl font-bold text-white mb-2">Was this helpful?</h4>
+          <p className="text-white/70 text-sm max-w-md">
+            Our curators work hard to provide accurate info for the expat community.
+            Support us with a coffee!
           </p>
         </div>
-        <a
-          href="https://www.buymeacoffee.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full font-body font-bold text-sm transition-all active:scale-95 hover:opacity-90 shrink-0"
-          style={{ backgroundColor: '#E9C48C', color: '#2D456E' }}
-        >
-          <span>☕</span>
-          Buy Me a Coffee
-        </a>
-      </div>
+
+        <KoFiButton size="lg" className="z-10" />
+      </section>
 
       {/* Comments / Answers */}
       <QACommentSection

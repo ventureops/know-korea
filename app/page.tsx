@@ -4,6 +4,7 @@ import type { Content } from "@/lib/supabase";
 import type { Metadata } from "next";
 import { cloudinaryUrl } from "@/lib/cloudinary";
 import { CATEGORY_LABELS, CATEGORY_SLUGS, CATEGORIES } from "@/lib/categories";
+import KoFiButton from "@/components/KoFiButton";
 
 export const revalidate = 3600; // 1시간마다 재생성
 
@@ -151,33 +152,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* BMC Block */}
+      {/* Ko-fi Block */}
       <section className="mb-8">
-        <div
-          className="rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-4"
-          style={{ backgroundColor: "#2D456E" }}
-        >
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-6 bg-[#2D456E] px-8 py-6 rounded-2xl">
           <div>
-            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-primary/60 mb-1">
-              Was this helpful?
-            </p>
-            <p className="font-headline font-bold text-lg text-on-primary mb-1">
-              Support Know Korea
-            </p>
-            <p className="text-sm font-body text-on-primary/70">
-              Help keep the guides free and up-to-date.
+            <p className="text-white font-bold text-lg">Enjoying Know Korea?</p>
+            <p className="text-white/60 text-sm mt-1">
+              All content is free. Support us with a coffee if a guide helped you.
             </p>
           </div>
-          <a
-            href="https://www.buymeacoffee.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full font-body font-bold text-sm transition-all active:scale-95 hover:opacity-90 shrink-0"
-            style={{ backgroundColor: "#E9C48C", color: "#2D456E" }}
-          >
-            <span>☕</span>
-            Buy Me a Coffee
-          </a>
+          <KoFiButton size="md" />
         </div>
       </section>
     </div>

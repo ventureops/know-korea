@@ -10,6 +10,7 @@ import ReadButton from "@/components/content/ReadButton";
 import LikeButton from "@/components/content/LikeButton";
 import CommentSection from "@/components/content/CommentSection";
 import ViewTracker from "@/components/content/ViewTracker";
+import KoFiButton from "@/components/KoFiButton";
 import { CATEGORY_LABELS, CATEGORY_ICONS } from "@/lib/categories";
 
 const supabaseAdmin = createClient(
@@ -333,34 +334,30 @@ export default async function ContentDetailPage({
             </button>
           </div>
 
-          {/* BMC Section */}
+          {/* Ko-fi Section */}
           {article.show_bmc && (
-            <div
-              className="rounded-3xl p-6 mb-10 flex flex-col md:flex-row items-center justify-between gap-4"
-              style={{ backgroundColor: "#2D456E" }}
-            >
-              <div>
-                <p className="text-xs font-label font-bold uppercase tracking-widest text-on-primary/60 mb-1">
-                  Was this helpful?
-                </p>
-                <p className="font-headline font-bold text-lg text-on-primary mb-1">
-                  Support Know Korea
-                </p>
-                <p className="text-sm font-body text-on-primary/70">
-                  Help us keep guides free and up to date.
-                </p>
+            <section className="bg-[#2D456E] p-8 rounded-2xl shadow-sm border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative mb-10">
+              {/* 장식 원 */}
+              <div className="absolute right-0 top-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16" />
+
+              {/* 아이콘 + 텍스트 */}
+              <div className="flex items-center gap-6 relative z-10">
+                <div className="w-16 h-16 bg-[#E9C48C] rounded-full flex items-center justify-center text-[#2D456E]">
+                  <span
+                    className="material-symbols-outlined text-3xl"
+                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  >
+                    coffee
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">Was this helpful?</h3>
+                  <p className="text-white/70">Help keep this content free for everyone.</p>
+                </div>
               </div>
-              <a
-                href="https://www.buymeacoffee.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-full font-body font-bold text-sm transition-all active:scale-95 hover:opacity-90 shrink-0"
-                style={{ backgroundColor: "#E9C48C", color: "#2D456E" }}
-              >
-                <span>☕</span>
-                Buy Me a Coffee
-              </a>
-            </div>
+
+              <KoFiButton size="md" className="relative z-10" />
+            </section>
           )}
 
           <CommentSection contentId={article.id} initialComments={comments} />
