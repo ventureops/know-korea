@@ -58,11 +58,11 @@ export default async function LoginPage() {
 
           <p className="mt-6 text-center text-xs font-body text-outline leading-relaxed">
             By continuing, you agree to our{" "}
-            <Link href="/legal#privacy" className="underline hover:text-on-surface-variant transition-colors">
+            <Link href="/privacy-policy" className="underline hover:text-on-surface-variant transition-colors">
               Privacy Policy
             </Link>{" "}
             &{" "}
-            <Link href="/legal#terms" className="underline hover:text-on-surface-variant transition-colors">
+            <Link href="/terms-of-service" className="underline hover:text-on-surface-variant transition-colors">
               Terms of Service
             </Link>
           </p>

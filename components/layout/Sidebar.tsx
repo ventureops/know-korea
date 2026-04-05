@@ -86,7 +86,7 @@ export default function Sidebar() {
           <div className="px-1 pt-2">
             <KoFiButton
               size="sm"
-              label="Support on Ko-fi"
+              label="Support This Site"
               className="w-full justify-center"
             />
           </div>

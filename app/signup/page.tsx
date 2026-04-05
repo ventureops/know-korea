@@ -81,11 +81,11 @@ export default async function SignupPage() {
 
           <p className="text-center text-[10px] font-body text-outline leading-relaxed uppercase tracking-wider">
             By signing up, you agree to our{" "}
-            <Link href="/legal#privacy" className="underline hover:text-on-surface-variant transition-colors">
+            <Link href="/privacy-policy" className="underline hover:text-on-surface-variant transition-colors">
               Privacy Policy
             </Link>{" "}
             &{" "}
-            <Link href="/legal#terms" className="underline hover:text-on-surface-variant transition-colors">
+            <Link href="/terms-of-service" className="underline hover:text-on-surface-variant transition-colors">
               Terms of Service
             </Link>
           </p>

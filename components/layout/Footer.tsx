@@ -6,15 +6,15 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Copyright */}
         <p className="text-xs font-body text-on-surface-variant">
-          © 2026 The Modern Envoy — Your Digital Curator
+          © 2026 Know Korea
         </p>
 
         {/* Links */}
         <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-5 gap-y-2">
           {[
-            { href: "/legal#privacy", label: "Privacy Policy" },
-            { href: "/legal#terms", label: "Terms of Service" },
-            { href: "mailto:poisian@gmail.com", label: "Contact Us" },
+            { href: "/privacy-policy", label: "Privacy Policy" },
+            { href: "/terms-of-service", label: "Terms of Service" },
+            { href: "/contact", label: "Contact Us" },
             { href: "/faq", label: "FAQ" },
           ].map((link) => (
             <Link

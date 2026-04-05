@@ -4,7 +4,7 @@
 
 ---
 
-## 현재 상태
+## 현재 상태 (미결 이슈)
 
 **FIX_16 미결 (2026-04-05) — Ko-fi 팝업 스크롤 문제**
 
@@ -13,60 +13,15 @@
 - 해결 방향 미결정: A) `_blank` 새 탭으로 열기, B) `/donate` 직접 URL 시도
 - 현재 코드: `width=560,height=900,scrollbars=no` (실질적으로 scrollbars=yes와 동일)
 
-**FIX_15 완료 (2026-04-05) — 사이드바 Ko-fi 완전 전환**
-
-- `KoFiButton.tsx` 팝업 height 760 → 900
-- `Sidebar.tsx` 인라인 button → `<KoFiButton size="sm">` 컴포넌트로 교체 (URL/스펙 통일)
-- `Navbar.tsx` 모바일 드로어 BMC `<a>` → Ko-fi `<button>` (드로어 닫기 + 팝업 열기)
-- components 내 buymeacoffee 참조 완전 제거
-
-**FIX_14 완료 (2026-04-05) — BMC → Ko-fi 전환**
-
-- `components/KoFiButton.tsx` 신규 생성 (팝업 버튼, window.open 방식)
-- `app/[category]/[slug]/page.tsx` BMC Section → KoFiButton 교체
-- `app/community/[id]/page.tsx` BMC Section → KoFiButton 교체
-- `app/page.tsx` Home BMC 블록 → KoFiButton 교체
-- `components/layout/Sidebar.tsx` BMC `<a>` → Ko-fi `<button>` 교체
-- `content/pages/faq.mdx` Buy Me a Coffee → Ko-fi Support 텍스트 교체
-- `app/admin/page.tsx` BMC Support → Ko-fi Support 레이블 2곳 교체
-- `components/admin/ContentEditor.tsx` "Show BMC section" → "Show Ko-fi Support"
-- DB 변경 없음 (show_bmc 컬럼명 유지)
-
-**BUGFIX_COMMAND_13 완료 (2026-04-03)**
-
-- cover_caption, cover_alt가 DB에 저장 안 되던 버그 수정
-- POST API (route.ts): destructure + insert에 두 필드 추가
-- PATCH API ([id]/route.ts): destructure + updates 객체에 두 필드 추가
-- ContentEditor body 포함은 Command 11에서 이미 완료, 상세 페이지 figcaption도 정상
-
-**Command 12 완료 (2026-04-03)**
-
-- 브레드크럼 1·2레벨 칩 변환 (Home 칩 + 카테고리 아이콘 칩, rounded-full, flex-wrap)
-- 커버이미지 아래 카테고리 태그 칩 중복 삭제 (header span 제거)
-- CATEGORY_ICONS를 lib/categories.ts에 export로 중앙화 (사이드바/브레드크럼 공유)
-
-**Command 11 완료 (2026-04-03)**
-
-- 아티클 상세 브레드크럼 데스크탑 폰트 크기 확대 (text-xs → md:text-base, md:font-medium, 모바일 유지)
-- Cover Image 캡션(출처) + Alt Text 지원 (DB 컬럼 추가 완료, ContentEditor UI, 상세 페이지 figure/figcaption 렌더링)
-- 본문 이미지 figcaption 스타일 추가 (globals.css)
-- 모바일 햄버거 메뉴 → 카테고리 사이드바 drawer로 변경 (기존 메뉴 항목 제거, body scroll lock, Community/About/BMC 하단 유지)
-
-**Command 10 + 스타일 보완 완료 (2026-04-03)**
-
-- Command 08: Admin 콘텐츠 limit 제거, 에러 메시지 우측 패널 이동, 칩 필터 UI, Language subtitle 삭제
-- Command 09: Q&A → Community 전환 완료 (URL, UI 텍스트, MDX, sitemap, redirects)
-- Command 10: UI 정렬 + 사이드바 + Home 개선
-  - 전체 페이지 본문 좌측 정렬 통일 (mx-auto → mr-auto, px-4 → px-5 md:px-8)
-  - 사이드바 하단 메뉴: Community + About + Buy me a Coffee 3개
-  - 사이드바 폰트 text-sm → text-[15px]
-  - Home: Start Here / Ask a Question 버튼 삭제, 2개 안내 카드로 교체
-  - Community: 검색 입력창 추가 (q 파라미터, status/category AND 필터)
-- 스타일 보완: Home 안내 카드 — bg-primary/8 배경, 텍스트 text-base + font-medium + text-on-surface, 아이콘 22px
+**FIX_17 완료 (2026-04-05) — Static 페이지 전면 교체 + 구조 변경**
 
 ---
 
-## Phase 0 — 사전 준비 ✅ 완료 (2026-03-23)
+## Part 1: Build Phases
+
+> Phase 0~4 — 프로젝트 초기화부터 어드민 시스템까지 핵심 기능 구축. 모두 완료.
+
+### Phase 0 — 사전 준비 ✅ (2026-03-23)
 
 | 항목 | 상태 |
 |------|------|
@@ -81,7 +36,7 @@
 
 ---
 
-## Phase 1 — 레이아웃 + 정적 페이지 ✅ 완료 (2026-03-23)
+### Phase 1 — 레이아웃 + 정적 페이지 ✅ (2026-03-23)
 
 | 항목 | 상태 |
 |------|------|
@@ -97,168 +52,120 @@
 | 콘텐츠 상세 페이지 (/[category]/[slug]) | ✅ |
 | 검색 결과 페이지 (/search) | ✅ |
 | 빌드 성공 (npm run build) | ✅ |
-| 모바일 반응형 확인 (375px / 768px) | ✅ (코드 리뷰 완료, 모바일 햄버거 메뉴 추가) |
-| 첫 Vercel 배포 | ✅ https://know-korea-bweqru87f-ventureops-projects.vercel.app |
+| 모바일 반응형 확인 (375px / 768px) | ✅ |
+| 첫 Vercel 배포 | ✅ |
 
 ---
 
-## Phase 1 보완 — Supabase 연동 + 검색 + SEO ✅ 완료 (2026-03-23)
+### Phase 1 보완 — Supabase 연동 + 검색 + SEO ✅ (2026-03-23)
 
 | 항목 | 상태 |
 |------|------|
-| @supabase/supabase-js 설치 | ✅ |
-| lib/supabase.ts 클라이언트 설정 (Content 타입 포함) | ✅ |
+| @supabase/supabase-js 설치 + lib/supabase.ts 클라이언트 설정 | ✅ |
 | supabase/seed.sql — 12개 카테고리 × 16개 콘텐츠 레코드 | ✅ |
 | 홈 페이지 DB 연동 (인기 가이드 view_count 상위 5개 + 최신 practical-guide 3개) | ✅ |
-| 카테고리 목록 페이지 DB 연동 (더미 데이터 제거, 실제 Supabase 쿼리) | ✅ |
-| 콘텐츠 상세 페이지 DB 연동 (slug 조회, view_count 증가, 관련 글 2개 자동 추천) | ✅ |
+| 카테고리 목록 페이지 DB 연동 (실제 Supabase 쿼리) | ✅ |
+| 콘텐츠 상세 페이지 DB 연동 (slug 조회, view_count 증가, 관련 글 2개) | ✅ |
 | 검색 기능 실제 연동 (title + excerpt ilike 검색) | ✅ |
 | SearchInput 클라이언트 컴포넌트 (URL params 기반 네비게이션) | ✅ |
 | 동적 SEO metadata (title, description, OG, Twitter 카드) | ✅ |
 | 정적 페이지 metadata (about, faq, legal) | ✅ |
-| /sitemap.xml 자동 생성 (발행 콘텐츠 기준) | ✅ |
-| /robots.txt 설정 | ✅ |
+| /sitemap.xml 자동 생성 + /robots.txt 설정 | ✅ |
 | next.config.mjs 외부 이미지 도메인 설정 (Unsplash, Cloudinary) | ✅ |
-| npm run build 에러 없음 | ✅ |
-| Git commit + push | ✅ bd42f93 |
-| Supabase 스키마 실행 (001_initial_schema.sql) | ✅ |
-| Supabase 시드 데이터 실행 (seed.sql, 16개 콘텐츠) | ✅ |
-| .env.local 환경변수 설정 완료 | ✅ |
-| 실 DB 데이터 브라우저 검증 완료 | ✅ (2026-03-23) |
+| Supabase 스키마/시드 실행 + 실 DB 브라우저 검증 완료 | ✅ |
 
-### Phase 1 보완 노트
-
-- **Supabase 클라이언트:** 빌드 시 env 미설정에도 오류 없도록 플레이스홀더 기본값 사용
-- **force-dynamic:** 홈/카테고리/검색/상세 모든 DB 조회 페이지에 적용 (SSR on-demand)
-- **view_count 증가:** 상세 페이지 서버 컴포넌트에서 직접 UPDATE
-- **관련 글:** 같은 카테고리 + 태그 겹침 수로 정렬, 부족 시 최신순 fallback
-- **ToC:** body_mdx HTML에서 `<h2 id="...">` 패턴 추출
-- **검색:** 빈 쿼리 → 빈 화면 (안내 UI) / 결과 없음 → no-results UI 표시
-- **브라우저 검증:** 홈(Popular Guides) / 카테고리 목록 / 콘텐츠 상세(본문+ToC+view_count) / 검색("korea" → 14개) 모두 정상 확인
+**노트:**
+- Supabase 클라이언트: 빌드 시 env 미설정에도 오류 없도록 플레이스홀더 기본값 사용
+- force-dynamic: 홈/카테고리/검색/상세 모든 DB 조회 페이지에 적용 (SSR on-demand)
+- view_count 증가: 상세 페이지 서버 컴포넌트에서 직접 UPDATE
+- 관련 글: 같은 카테고리 + 태그 겹침 수로 정렬, 부족 시 최신순 fallback
+- ToC: body_mdx HTML에서 `<h2 id="...">` 패턴 추출
+- 검색: 빈 쿼리 → 안내 UI / 결과 없음 → no-results UI
 
 ---
 
-## Phase 2 — 인증 + 사용자 기능 ✅ 완료 (2026-03-24)
+### Phase 2 — 인증 + 사용자 기능 ✅ (2026-03-24)
 
 | 항목 | 상태 |
 |------|------|
 | NextAuth.js 설치 + Google OAuth 설정 | ✅ |
-| lib/auth-options.ts (authOptions 분리), lib/auth.ts (getSession, hasRole) | ✅ |
-| app/api/auth/[...nextauth]/route.ts | ✅ |
-| 최초 로그인 → users 테이블 자동 생성 (role=1), 재로그인 → last_login_at 업데이트 | ✅ |
+| lib/auth-options.ts, lib/auth.ts (getSession, hasRole) | ✅ |
+| 최초 로그인 → users 자동 생성 (role=1), 재로그인 → last_login_at 업데이트 | ✅ |
 | activity_logs에 login 기록 | ✅ |
-| components/auth/LoginButtons.tsx (Google signIn, loading 상태) | ✅ |
-| components/auth/SessionProvider.tsx + app/layout.tsx 래핑 | ✅ |
-| types/next-auth.d.ts (id, role, nickname 타입 확장) | ✅ |
-| /login, /signup 페이지 — 로그인 상태면 / 리디렉트 | ✅ |
+| LoginButtons.tsx, SessionProvider.tsx + layout.tsx 래핑 | ✅ |
+| /login, /signup — 로그인 상태면 / 리디렉트 | ✅ |
 | Navbar — 세션 상태별 UI (로그인: 프로필+드롭다운, 비로그인: Login 버튼) | ✅ |
-| middleware.ts — /profile, /notifications → 비로그인 /login 리디렉트; /admin → Level 3 미만 / 리디렉트 | ✅ |
-| /profile 페이지 — 닉네임, 이메일, 역할, 가입일, 통계(읽음/좋아요/댓글 수) | ✅ |
-| /profile/edit 페이지 — 닉네임 변경, 아바타 URL 입력, 계정 삭제 확인 모달 | ✅ |
-| app/api/profile/update, app/api/profile/delete Route Handler | ✅ |
-| /profile/activities 페이지 — 읽은 글, 좋아요한 글, 내 댓글 목록 | ✅ |
-| 읽음 표시 (ReadButton) — 콘텐츠 상세 헤더 우측, success 색상 토글 | ✅ |
-| api/reads — toggle POST, activity_logs 기록 | ✅ |
-| 좋아요 (LikeButton) — 콘텐츠 상세 하단, 카운트 표시, 비로그인 시 /login 이동 | ✅ |
-| api/likes — toggle POST + 카운트 반환, activity_logs 기록 | ✅ |
-| 댓글 (CommentSection) — 작성/삭제, 비로그인 유도, parent_id=null 최상위만 | ✅ |
-| api/comments — POST(작성) + DELETE(본인 or Level 3+), activity_logs 기록 | ✅ |
-| /notifications 페이지 — activity_logs 기반 활동 피드 (최근 50건) | ✅ |
-| npm run build 에러 없음 | ✅ |
-| 실 동작 검증 (로그인→댓글→읽음→좋아요→로그아웃) | ✅ (2026-03-24) |
-| 버그 수정: 댓글 작성 후 즉시 표시 (optimistic state update) | ✅ 754f56d |
+| middleware.ts — /profile, /notifications 비로그인 차단; /admin Level 3 미만 차단 | ✅ |
+| /profile, /profile/edit, /profile/activities 페이지 | ✅ |
+| 읽음 표시 (ReadButton) + api/reads toggle | ✅ |
+| 좋아요 (LikeButton) + api/likes toggle + 카운트 | ✅ |
+| 댓글 (CommentSection) + api/comments POST/DELETE | ✅ |
+| /notifications — activity_logs 기반 활동 피드 (최근 50건) | ✅ |
+| 버그 수정: 댓글 작성 후 즉시 표시 (optimistic state update) | ✅ |
 
-### Phase 2 노트
-
-- **supabaseAdmin:** SUPABASE_SERVICE_ROLE_KEY 사용 (RLS 우회) — 서버 전용 라우트에만 사용
-- **세션 JWT 전략:** next-auth JWT strategy — 매 세션 콜백마다 users 테이블에서 id/role/nickname 갱신
-- **ReadButton/LikeButton/CommentSection:** 모두 `'use client'` — 서버에서 초기 상태 주입
-- **댓글 대댓글:** Phase 3에서 Level 3 이상 제한으로 추가 예정 (parent_id 컬럼 이미 존재)
-- **Apple OAuth:** Apple Developer Program 가입 후 별도 추가 예정
+**노트:**
+- supabaseAdmin: SUPABASE_SERVICE_ROLE_KEY 사용 (RLS 우회) — 서버 전용
+- 세션 JWT 전략: 매 콜백마다 users 테이블에서 id/role/nickname 갱신
+- ReadButton/LikeButton/CommentSection: 모두 `'use client'` — 서버에서 초기 상태 주입
+- 댓글 대댓글: Phase 3에서 추가 (parent_id 컬럼 이미 존재)
+- Apple OAuth: Apple Developer Program 가입 후 별도 추가 예정
 
 ---
 
-## Phase 3 — Q&A + 커뮤니티 ✅ 완료 (2026-03-24)
+### Phase 3 — Q&A + 커뮤니티 ✅ (2026-03-24)
 
 | 항목 | 상태 |
 |------|------|
 | Q&A 목록 페이지 (/qa) DB 연동 — 카테고리 필터, 페이지네이션 | ✅ |
-| Q&A 작성 페이지 (/qa/new) TipTap 에디터 (Level 1+, 클라이언트 리다이렉트) | ✅ |
+| Q&A 작성 페이지 (/qa/new) TipTap 에디터 (Level 1+) | ✅ |
 | Q&A 상세 페이지 (/qa/[id]) — 좋아요, 해결됨 토글, 연결 콘텐츠 표시 | ✅ |
-| Q&A 대댓글 (Level 1+ 모두 가능, QACommentSection 트리 구조) | ✅ |
-| [도움됨] 버튼 (is_helpful) — Q&A 작성자만 토글, api/qa/[id]/helpful | ✅ |
-| 콘텐츠 대댓글 (Level 3+ 앱 레벨 제한, comments API parent_id 지원) | ✅ |
+| Q&A 대댓글 (Level 1+ 모두 가능, 트리 구조) | ✅ |
+| [도움됨] 버튼 (is_helpful) — Q&A 작성자만 토글 | ✅ |
+| 콘텐츠 대댓글 (Level 3+ 앱 레벨 제한) | ✅ |
 | BMC 섹션 — Q&A 상세 하단 자동 노출 | ✅ |
-| 관련 Q&A 연결 (content_id) — 콘텐츠 상세 사이드바 RelatedQA 서버 컴포넌트 | ✅ |
-| npm run build 에러 없음 | ✅ |
+| 관련 Q&A 연결 — 콘텐츠 상세 사이드바 RelatedQA 서버 컴포넌트 | ✅ |
 
-### Phase 3 노트
-
-- **TipTap 에디터:** `@tiptap/react` + `@tiptap/starter-kit` 설치. Bold/Italic/리스트/인용/코드 툴바 제공
-- **QAActions:** 클라이언트 컴포넌트 — 좋아요 토글 + 해결됨 토글 (작성자 전용)
-- **QACommentSection:** 댓글 트리 구조 (최상위 + 대댓글), 도움됨 마킹, optimistic update
-- **comments API 확장:** `qa_post_id`, `parent_id` 필드 추가. 콘텐츠 대댓글은 role < 3 시 403
-- **RelatedQA:** 콘텐츠 상세 사이드바 — content_id 기준 연결된 Q&A 최신 2개 자동 표시
-- **BMC:** Q&A 상세 하단 항상 노출. 콘텐츠는 show_bmc=true 시에만 노출 (Phase 2부터 유지)
+**노트:**
+- TipTap 에디터: `@tiptap/react` + `@tiptap/starter-kit`. Bold/Italic/리스트/인용/코드 툴바
+- QAActions: 좋아요 토글 + 해결됨 토글 (작성자 전용)
+- QACommentSection: 댓글 트리 구조, 도움됨 마킹, optimistic update
+- comments API: `qa_post_id`, `parent_id` 추가. 콘텐츠 대댓글은 role < 3 시 403
+- BMC: Q&A 상세 하단 항상 노출. 콘텐츠는 show_bmc=true 시에만 노출
 
 ---
 
-## Phase 4 — 어드민 + 배지 ✅ 완료 (2026-03-24)
+### Phase 4 — 어드민 + 배지 ✅ (2026-03-24)
 
 | 항목 | 상태 |
 |------|------|
 | Admin Layout — 좌측 사이드바 + 상단 헤더 | ✅ |
-| /admin 대시보드 — 통계 4개 + 카테고리 뷰 비율 + 최근 회원 + Global Toggles UI | ✅ |
-| /admin/users — 회원 리스트, 닉네임/이메일 검색, 휴면 회원 필터 | ✅ |
-| /admin/users/[id] — 상세 정보, 참여율 계산, 배지 표시, 활동 피드 | ✅ |
-| 참여율 공식 (SPEC.md §14) — A+B+C/D×100, 프로그레스 바, 승급 조건 표시 | ✅ |
+| /admin 대시보드 — 통계 4개 + 카테고리 뷰 비율 + 최근 회원 + Global Toggles | ✅ |
+| /admin/users — 회원 리스트, 검색, 휴면 필터 | ✅ |
+| /admin/users/[id] — 상세 정보, 참여율, 배지, 활동 피드 | ✅ |
+| 참여율 공식 (SPEC.md §14) — 프로그레스 바, 승급 조건 표시 | ✅ |
 | 회원 Suspend/Unsuspend (Level 3+), Ban (Level 4), Role 변경 (Level 4) | ✅ |
-| Suspended/Banned 계정 로그인 차단 (auth-options signIn callback) | ✅ |
-| /admin/contents — 콘텐츠 목록, is_published 토글, show_bmc 토글 | ✅ |
-| /admin/contents/new — BlockNote 에디터로 새 콘텐츠 작성 | ✅ |
-| /admin/contents/[id]/edit — 기존 콘텐츠 수정 (BlockNote) | ✅ |
-| BlockNote @blocknote/react + @blocknote/mantine 설치 및 연동 | ✅ |
-| /admin/analytics — 로그인 추이 차트, 조회수 Top 10, 최근 활동 로그, 좋아요 요약 | ✅ |
-| 배지 자동 부여 API (POST /api/admin/badges/check) — 4종 배지 조건 체크 | ✅ |
-| 댓글 고정 API (POST /api/admin/comments/[id]/pin) — Level 4 전용 | ✅ |
-| npm run build 에러 없음 | ✅ |
-| SiteShell 컴포넌트 — /admin 경로에서 사이트 Navbar/Sidebar/Footer 분리 | ✅ |
-| Git commit + push | ✅ 5bbf3a7 |
-| Vercel 배포 확인 | ✅ (2026-03-24) |
+| Suspended/Banned 계정 로그인 차단 (signIn callback) | ✅ |
+| /admin/contents — 목록, is_published 토글, show_bmc 토글 | ✅ |
+| /admin/contents/new, /admin/contents/[id]/edit — BlockNote 에디터 | ✅ |
+| /admin/analytics — 로그인 추이, 조회수 Top 10, 활동 로그, 좋아요 요약 | ✅ |
+| 배지 자동 부여 API — 4종 배지 조건 체크 | ✅ |
+| 댓글 고정 API — Level 4 전용 | ✅ |
+| SiteShell 컴포넌트 — /admin 경로에서 사이트 레이아웃 분리 | ✅ |
 
-### Phase 4 노트
-
-- **BlockNote:** `@blocknote/react + @blocknote/mantine` dynamic import (SSR: false) 사용. 콘텐츠 body_mdx에 HTML 저장
-- **참여율 공식:** `MIN((A×5 + B×2 + C) / MAX(10, 일수×0.5) × 100, 100)` — 회원 상세 좌측 카드에 프로그레스 바 표시
-- **배지 체크:** `/api/admin/badges/check?user_id=xxx` POST로 수동 트리거. `user_badges` 테이블 UPSERT (ignoreDuplicates)
-- **계정 차단:** signIn callback에서 status=suspended/banned 시 `/login?error=AccountBlocked` 반환
-- **Admin Test SQL:** `UPDATE users SET role = 4 WHERE email = 'poisian@gmail.com';`
+**노트:**
+- BlockNote: `@blocknote/react + @blocknote/mantine` dynamic import (SSR: false). body_mdx에 HTML 저장
+- 참여율 공식: `MIN((A×5 + B×2 + C) / MAX(10, 일수×0.5) × 100, 100)`
+- 배지 체크: `/api/admin/badges/check?user_id=xxx` POST로 수동 트리거
+- 계정 차단: signIn callback에서 status=suspended/banned 시 `/login?error=AccountBlocked` 반환
+- Admin Test SQL: `UPDATE users SET role = 4 WHERE email = 'poisian@gmail.com';`
 
 ---
 
-## Phase 4 보완 2 — 드래그앤드롭 + ISR 최적화 ✅ 완료 (2026-03-26)
+## Part 2: Iterations
 
-| 항목 | 상태 |
-|------|------|
-| /admin/contents — ▲▼ 버튼 → @dnd-kit 드래그앤드롭으로 교체 | ✅ |
-| POST /api/admin/contents/reorder — pair swap → bulk items 배열로 변경 | ✅ |
-| canDrag 필터 제한 제거 — Custom Order면 필터 유무 무관하게 drag 활성 | ✅ |
-| ISR 적용 — force-dynamic → revalidate (홈 3600, 카테고리 3600, 콘텐츠 상세 600, Q&A 목록 60, Q&A 상세 300) | ✅ |
-| ViewTracker 클라이언트 컴포넌트 — ISR 캐시 여부와 무관하게 view_count 증가 | ✅ |
-| POST /api/contents/[slug]/view — 클라이언트 호출용 view_count 증가 API | ✅ |
-| Vercel Function Region → icn1 (Seoul) 변경 + 재배포 | ✅ |
-| /[category] 쿼리 — nullsFirst: false + created_at 보조 정렬 추가 | ✅ |
+> Build 완료 후 버그 수정, UI 개선, 기능 보완. 시간순 정렬.
 
-### Phase 4 보완 2 노트
-
-- **dnd-kit:** `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` 설치. PointerSensor(distance: 5) 사용
-- **ISR:** admin/profile/search는 force-dynamic 유지. 나머지 공개 페이지만 revalidate 적용
-- **ViewTracker:** `useEffect`에서 `/api/contents/[slug]/view` POST 호출 (fire-and-forget). 서버 컴포넌트에서 view_count 증가 코드 제거
-- **서울 리전:** Vercel Settings → Functions → Function Region → icn1 변경 후 empty commit으로 재배포
-
----
-
-## Phase 4 보완 — Admin Content 관리 개선 ✅ 완료 (2026-03-25)
+### Phase 4 보완 — Admin Content 관리 개선 ✅ (2026-03-25)
 
 | 항목 | 상태 |
 |------|------|
@@ -270,168 +177,256 @@
 | ▲▼ 버튼으로 Custom Order 순서 변경 (Optimistic update + DB swap) | ✅ |
 | POST /api/admin/contents/reorder — sort_order 스왑 API | ✅ |
 | 공개 카테고리 페이지 (/[category]) — sort_order ASC 기준 정렬 반영 | ✅ |
-| 필터/정렬 버그 수정 — startTransition+router.push → window.location.href (하드 네비게이션) | ✅ |
-| useEffect로 initialContents 동기화 — 필터 후 클라이언트 state 즉시 반영 | ✅ |
+| 필터/정렬 버그 수정 — window.location.href 하드 네비게이션으로 교체 | ✅ |
 
-### Phase 4 보완 노트
-
-- **filter/sort 버그 원인:** `startTransition(() => router.push(...))` 이 Next.js 14 App Router에서 서버 컴포넌트 searchParams를 신뢰할 수 있게 업데이트하지 않음 → `window.location.href` 하드 네비게이션으로 교체
-- **sort_order:** Supabase SQL Editor에서 `002_add_sort_order.sql` 수동 실행 필요. 신규 글은 sort_order=NULL → PostgreSQL이 자동으로 마지막 배치
-- **공개 카테고리 페이지:** sort_order ASC로 정렬 → admin에서 설정한 순서가 사용자에게 그대로 반영
+**노트:**
+- filter/sort 버그: `startTransition(() => router.push(...))` 가 App Router에서 searchParams를 신뢰할 수 있게 업데이트하지 않음 → 하드 네비게이션으로 교체
+- sort_order: 신규 글은 NULL → PostgreSQL이 자동으로 마지막 배치
+- 공개 카테고리 페이지: sort_order ASC → admin에서 설정한 순서가 그대로 반영
 
 ---
 
-## 버그 수정 + UI 개선 라운드 ✅ 완료 (2026-03-26)
+### Phase 4 보완 2 — 드래그앤드롭 + ISR 최적화 ✅ (2026-03-26)
 
 | 항목 | 상태 |
 |------|------|
-| Footer — 저작권 한 줄로 정리 (`© 2026 The Modern Envoy — Your Digital Curator`) | ✅ |
-| Home — 기존 3+2 카드 + Bento + Latest 삭제 → 12개 카테고리별 인기 콘텐츠 3×4 그리드 | ✅ |
-| 카테고리 목록 — 카드 우상단 읽음(Mark as Read) 아이콘 표시 (로그인 시) | ✅ |
+| /admin/contents — ▲▼ 버튼 → @dnd-kit 드래그앤드롭으로 교체 | ✅ |
+| POST /api/admin/contents/reorder — pair swap → bulk items 배열로 변경 | ✅ |
+| canDrag 필터 제한 제거 — Custom Order면 필터 유무 무관하게 drag 활성 | ✅ |
+| ISR 적용 — force-dynamic → revalidate (홈 3600, 카테고리 3600, 상세 600, Q&A 목록 60, Q&A 상세 300) | ✅ |
+| ViewTracker 클라이언트 컴포넌트 — ISR 캐시와 무관하게 view_count 증가 | ✅ |
+| POST /api/contents/[slug]/view — view_count 증가 API | ✅ |
+| Vercel Function Region → icn1 (Seoul) 변경 + 재배포 | ✅ |
+| /[category] 쿼리 — nullsFirst: false + created_at 보조 정렬 추가 | ✅ |
+
+**노트:**
+- dnd-kit: `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities`. PointerSensor(distance: 5)
+- ISR: admin/profile/search는 force-dynamic 유지. 공개 페이지만 revalidate
+- ViewTracker: `useEffect`에서 fire-and-forget POST. 서버 컴포넌트 view_count 증가 코드 제거
+- 서울 리전: Vercel Settings → Functions → Function Region → icn1
+
+---
+
+### 버그 수정 라운드 1 ✅ (2026-03-26)
+
+| 항목 | 상태 |
+|------|------|
+| Footer — 저작권 한 줄 정리 (`© 2026 The Modern Envoy — Your Digital Curator`) | ✅ |
+| Home — 12개 카테고리별 인기 콘텐츠 3×4 그리드 | ✅ |
+| 카테고리 목록 — 카드 우상단 읽음 아이콘 표시 (로그인 시) | ✅ |
 | GET /api/reads?content_ids=... — 복수 콘텐츠 읽음 상태 batch 조회 API | ✅ |
 | ContentGrid 클라이언트 컴포넌트 — 읽음 토글 + 카드 렌더링 통합 | ✅ |
 | 콘텐츠 상세 — 사이드바 Related Q&A 섹션 삭제 | ✅ |
-| 콘텐츠 상세 — 댓글 "Comments" 아래 `Inappropriate comments may be deleted.` 안내 추가 | ✅ |
-| Q&A 목록 — 12개 카테고리 모두 표시 (SPEC §12 순서) | ✅ |
-| Q&A 목록 — Resolved / Unresolved 필터 추가 (카테고리 필터와 AND 조합) | ✅ |
-| Q&A 목록 — 서브 텍스트 변경 (Contact Us 안내 포함) | ✅ |
-| Q&A 상세 — Edit / Delete 버튼 (작성자 + Admin Level 4만 표시) | ✅ |
-| /qa/[id]/edit 페이지 — TipTap 에디터로 기존 내용 로드 → 수정 → 저장 | ✅ |
-| GET/PUT/DELETE /api/qa/[id] — Q&A 단건 조회, 수정, 삭제 API | ✅ |
-| QAEditDelete 클라이언트 컴포넌트 — 삭제 확인 모달 포함 | ✅ |
-| /admin/users — Role 필터 (All / Subscriber / Contributor / Moderator / Admin) | ✅ |
-| /admin/users — Status 필터 (All / Active / Suspended / Banned) | ✅ |
-| Admin 회원 필터 — 검색 + Role + Status + Dormant 모두 조합 가능 | ✅ |
-| BlockNote 에디터 — `@blocknote/core/style.css` import 추가 (렌더링 안 됨 버그 수정) | ✅ |
-| BlockNote 에디터 — onChange를 BlockNoteView prop으로 변경 (v0.47 권장 방식) | ✅ |
-| BlockNote 에디터 — uploadFile 핸들러로 Cloudinary 이미지 업로드 연동 | ✅ |
-| Cover Image — 파일 업로드 버튼 추가 (Cloudinary) + 기존 URL 입력 유지 | ✅ |
+| 콘텐츠 상세 — 댓글 안내 추가 (`Inappropriate comments may be deleted.`) | ✅ |
+| Q&A 목록 — 12개 카테고리 모두 표시, Resolved/Unresolved 필터 추가 | ✅ |
+| Q&A 상세 — Edit / Delete 버튼 (작성자 + Admin Level 4) | ✅ |
+| /qa/[id]/edit — TipTap 에디터로 수정 → 저장 | ✅ |
+| /admin/users — Role / Status / Dormant 필터 조합 | ✅ |
+| BlockNote 에디터 — CSS import 버그 수정 + Cloudinary 이미지 업로드 연동 | ✅ |
+| Cover Image — Cloudinary 파일 업로드 버튼 추가 + URL 입력 유지 | ✅ |
 | POST /api/upload — Cloudinary signed upload API (Admin Level 4 전용) | ✅ |
-| npm run build 에러 없음 | ✅ |
-| Git commit + push | ✅ c4b789c, 0b85c1d |
 
-### 버그 수정 라운드 노트
-
-- **Home 12카드:** 카테고리별 view_count DESC로 전체 조회 후, SPEC §12 순서대로 각 카테고리 최고 1개씩 선택
-- **읽음 아이콘:** ContentGrid 클라이언트 컴포넌트가 mount 시 `/api/reads` GET으로 batch 조회, 카드 우상단에 check_circle/radio_button_unchecked 토글
-- **Q&A 필터:** URL searchParams로 category + status 조합. 페이지네이션에도 필터 파라미터 보존
-- **Q&A Edit/Delete:** 작성자(author_id) 또는 Admin(role≥4)만 PUT/DELETE 허용. 삭제 시 관련 comments + likes도 cascade 삭제
-- **Admin 회원 필터:** 서버 사이드 쿼리에 role/status eq 조건 추가. 클라이언트 드롭다운 onChange 시 즉시 applyFilters 호출
-- **BlockNote CSS 누락:** v0.47은 `@blocknote/core/style.css` + `@blocknote/mantine/style.css` 두 개 모두 import 필요. core CSS 누락이 에디터 안 보임의 원인
-- **Cloudinary 업로드:** signed upload 방식 (SHA-1 signature). `know-korea` 폴더에 저장. Admin 전용 (role≥4)
+**노트:**
+- Home 12카드: 카테고리별 view_count DESC → SPEC §12 순서대로 각 카테고리 최고 1개씩
+- BlockNote CSS: v0.47은 `@blocknote/core/style.css` + `@blocknote/mantine/style.css` 두 개 모두 필요
+- Cloudinary 업로드: signed upload (SHA-1 signature). `know-korea` 폴더. Admin 전용 (role≥4)
 
 ---
 
-## 버그 수정 라운드 2 ✅ 완료 (2026-03-27)
+### 버그 수정 라운드 2 ✅ (2026-03-27)
 
 | 항목 | 상태 |
 |------|------|
-| Cloudinary 환경변수 Vercel에 추가 (NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME, API_KEY, API_SECRET) | ✅ |
+| Cloudinary 환경변수 Vercel에 추가 | ✅ |
 | Cover Image 업로드 — 에러 표시 추가 (기존 silent fail 수정) | ✅ |
-| Cover Image URL 입력 — pendingCoverUrl 분리로 UX 수정 (Enter/Set 버튼으로 확정) | ✅ |
+| Cover Image URL 입력 — pendingCoverUrl 분리 (Enter/Set 버튼으로 확정) | ✅ |
 | BlockNote 이미지 업로드 에러 — 에디터 상단 에러 배너 표시 | ✅ |
-| /api/upload — console.error 로깅 추가 | ✅ |
 | Admin Content 생성/수정/삭제/재정렬 — revalidatePath 추가 (ISR 즉시 갱신) | ✅ |
-| BlockNote Edit — 기존 HTML 콘텐츠 로드 수정 (tryParseHTMLToBlocks 동기 호출로 수정) | ✅ |
-| 콘텐츠 상세 + Q&A 상세 — prose-custom 클래스에 heading 스타일 추가 (h1~h4 계단식) | ✅ |
-| Git commit + push | ✅ dfd01c1, 23a61e6, f3478d7, 4441936 |
+| BlockNote Edit — 기존 HTML 로드 수정 (tryParseHTMLToBlocks 동기 호출) | ✅ |
+| 콘텐츠 상세 + Q&A 상세 — prose-custom heading 스타일 추가 (h1~h4 계단식) | ✅ |
 
-### 버그 수정 라운드 2 노트
-
-- **Cloudinary 미설정:** `.env.local`은 로컬 전용. Vercel 환경변수 별도 설정 필요 (Settings → Environment Variables)
-- **BlockNote HTML 로드:** `tryParseHTMLToBlocks`는 동기 메서드. `await` 잘못 사용 시 Promise 객체가 blocks로 전달되어 내용 미표시
-- **revalidatePath:** POST/PATCH에서 category, slug 값을 body에서 읽어 정확한 경로만 revalidate. DELETE는 삭제 전 DB에서 조회
-- **prose-custom:** `globals.css` `@layer components`에 h1~h4, p, ul, ol, code, blockquote, img, a 스타일 정의. 콘텐츠 상세·Q&A 상세 공통 적용
+**노트:**
+- Cloudinary: `.env.local`은 로컬 전용. Vercel 환경변수 별도 설정 필요
+- BlockNote HTML 로드: `tryParseHTMLToBlocks`는 동기 메서드. `await` 잘못 사용 시 내용 미표시
+- revalidatePath: POST/PATCH에서 category, slug로 정확한 경로만 revalidate
+- prose-custom: globals.css `@layer components`에 h1~h4, p, ul, ol, code, blockquote, img, a 스타일
 
 ---
 
-## 버그 수정 라운드 3 ✅ 완료 (2026-03-27)
+### 버그 수정 라운드 3 ✅ (2026-03-27)
 
 | 항목 | 상태 |
 |------|------|
-| Navbar — "KNOW KOREA" 텍스트 → brand_logo.png 이미지로 교체 (public/ 복사) | ✅ |
+| Navbar — "KNOW KOREA" 텍스트 → brand_logo.png 이미지로 교체 | ✅ |
 | Footer — Contact Us → mailto:poisian@gmail.com, Support → FAQ (/faq) | ✅ |
-| Sidebar — Language 아이콘 translate → font_download, BMC 링크 추가 (카테고리 하단 구분선) | ✅ |
-| Home — 기존 서브 문구 삭제, "Everything you need to navigate Korea" 서브텍스트 추가 | ✅ |
+| Sidebar — Language 아이콘 translate → font_download, BMC 링크 추가 | ✅ |
+| Home — "Everything you need to navigate Korea" 서브텍스트 추가 | ✅ |
 | Home — 사이트 소개 박스 + Q&A 소개 박스 (surface-container-low 카드) | ✅ |
 | Home — "Popular Guides" → "Best Article by Category" 제목 변경 | ✅ |
 | Home — 12개 카드 카테고리 태그 색상 통일 (primary-dim) | ✅ |
 | Home — Best Article 섹션 하단 BMC 블록 추가 (#2D456E 배경, 골드 버튼) | ✅ |
-| About — 이메일 hello@knowkorea.io → poisian@gmail.com (mailto 링크) | ✅ |
-| Step 4 (heading 스타일) — 이미 완료 상태 확인 (prose-custom globals.css) | ✅ |
-| Git commit + push | ✅ 48a31a6 |
+| About — 이메일 poisian@gmail.com (mailto 링크) | ✅ |
 
-### 버그 수정 라운드 3 노트
-
-- **brand_logo.png:** brand_assets/ → public/ 복사. Navbar에서 next/image `Image` 컴포넌트로 참조 (h-9 w-auto)
-- **카테고리 태그 색상:** categoryColors 맵 전체를 `bg-primary/10 text-primary-dim`으로 통일 (#365079)
-- **BMC 블록:** 콘텐츠 상세와 동일한 인라인 JSX 스타일 (#2D456E, #E9C48C)
-- **prose-custom heading:** globals.css에 이미 적용 완료 (bugfix round 2에서 처리)
+**노트:**
+- brand_logo.png: brand_assets/ → public/ 복사. next/image `Image` 컴포넌트 (h-9 w-auto)
+- 카테고리 태그 색상: categoryColors 맵 전체를 `bg-primary/10 text-primary-dim`으로 통일
 
 ---
 
-## 버그 수정 라운드 4 ✅ 완료 (2026-03-28)
+### 버그 수정 라운드 4 ✅ (2026-03-28)
 
 | 항목 | 상태 |
 |------|------|
 | globals.css — prose-custom table/th/td 스타일 추가 (가로선만, 세로선 없음) | ✅ |
-| POST /api/admin/contents — is_published/show_bmc body에서 읽도록 수정 (기존 false 하드코딩 버그 수정) | ✅ |
-| ContentEditor — 새 글 Publish 시 /admin/contents 목록으로 리디렉트 | ✅ |
-| ContentEditor — Delete Article 버튼 추가 (edit 모드 전용, 확인 모달 포함) | ✅ |
-| Git commit + push | ✅ 1ef836c |
+| POST /api/admin/contents — is_published/show_bmc body에서 읽도록 수정 (기존 false 하드코딩 버그) | ✅ |
+| ContentEditor — 새 글 Publish 시 /admin/contents 리디렉트 | ✅ |
+| ContentEditor — Delete Article 버튼 추가 (edit 모드 전용, 확인 모달) | ✅ |
 
-### 버그 수정 라운드 4 노트
-
-- **Publish 버그 원인:** POST route가 `is_published: false`로 하드코딩. body의 `is_published`, `show_bmc` 읽도록 수정
-- **Delete API:** 이미 존재 (`DELETE /api/admin/contents/[id]`). UI만 추가
-- **테이블 스타일:** `border-collapse` + th `border-b-2` + td `border-b-1`, outline-variant 색상
+**노트:**
+- Publish 버그: POST route가 `is_published: false`로 하드코딩 → body에서 읽도록 수정
+- 테이블 스타일: `border-collapse` + th `border-b-2` + td `border-b-1`, outline-variant 색상
 
 ---
 
-## 버그 수정 라운드 5 ✅ 완료 (2026-03-29)
+### 버그 수정 라운드 5 ✅ (2026-03-29)
 
 | 항목 | 상태 |
 |------|------|
 | lib/cloudinary.ts — cloudinaryUrl() + optimizeBodyImages() 유틸 생성 | ✅ |
-| Navbar — 아바타 이미지 cloudinaryUrl(image, "avatar") 최적화 적용 | ✅ |
-| 콘텐츠 상세 — cover image cloudinaryUrl(cover_image, "cover") 적용 | ✅ |
-| 콘텐츠 상세 — 본문 이미지 optimizeBodyImages() 일괄 최적화 | ✅ |
-| 콘텐츠 상세 — ToC extractToc() H2/H3 계층 지원 (level: 2|3) | ✅ |
-| 콘텐츠 상세 — injectHeadingIds() 전처리 (BlockNote id 없는 heading 대응) | ✅ |
-| 콘텐츠 상세 — 태그 위치 이동: 제목 → 커버이미지 아래, 본문 위 | ✅ |
+| Navbar 아바타, 커버이미지, 본문 이미지 — Cloudinary 최적화 적용 | ✅ |
+| 콘텐츠 상세 — ToC H2/H3 계층 지원 + injectHeadingIds() 전처리 | ✅ |
+| 콘텐츠 상세 — 태그 위치: 제목 → 커버이미지 아래, 본문 위로 이동 | ✅ |
 | lib/categories.ts — 15개 카테고리 중앙화 (CATEGORIES, CATEGORY_LABELS, CATEGORY_SLUGS) | ✅ |
 | 16개 파일 — 하드코딩 카테고리 맵 제거, lib/categories 임포트로 교체 | ✅ |
 | next.config.mjs — 구 카테고리 슬러그 301 리디렉트 4개 추가 | ✅ |
-| supabase/migrations/003_category_rename.sql — contents/qa_posts 카테고리 슬러그 업데이트 | ✅ |
-| Git commit + push | ✅ a6c41b6 |
+| supabase/migrations/003_category_rename.sql — 카테고리 슬러그 업데이트 | ✅ |
 
-### 버그 수정 라운드 5 노트
-
-- **Cloudinary 최적화:** `f_auto,q_auto` + 용도별 width (cover: 1200, card: 600, body: 800, avatar: 200×200)
-- **ToC H3 지원:** `<h3>` 태그 추출 후 `pl-4` 들여쓰기로 계층 표시
-- **injectHeadingIds:** `<h[23]>` → `<h[23] id="slugified-text">` 삽입. BlockNote HTML이 id 미포함 시 ToC 앵커 작동 안 하는 문제 해결
-- **카테고리 15개:** start-here, language, k-pop, k-film, k-drama, k-sports, k-lifestyle, culture-society, history-politics, korea-in-the-world, living-in-korea, work-business, economy-money, travel-places, tools-resources
-- **DB 마이그레이션:** Supabase SQL Editor에서 `003_category_rename.sql` 수동 실행 필요 (life-in-korea → living-in-korea, comparison → korea-in-the-world)
+**노트:**
+- Cloudinary 최적화: `f_auto,q_auto` + 용도별 width (cover: 1200, card: 600, body: 800, avatar: 200×200)
+- ToC H3: `<h3>` 태그 `pl-4` 들여쓰기로 계층 표시
+- injectHeadingIds: BlockNote HTML이 id 미포함 시 ToC 앵커 작동 안 하는 문제 해결
+- 카테고리 15개: start-here, language, k-pop, k-film, k-drama, k-sports, k-lifestyle, culture-society, history-politics, korea-in-the-world, living-in-korea, work-business, economy-money, travel-places, tools-resources
+- DB 마이그레이션: `003_category_rename.sql` 수동 실행 필요
 
 ---
 
-## 다음 세션 시작 방법
+### Command 08~10 + 스타일 보완 ✅ (2026-04-03)
 
-```
-PROGRESS.md 읽고 Phase 5 (배포 최적화, 운영 준비) 작업해줘
-```
+- Command 08: Admin 콘텐츠 limit 제거, 에러 메시지 우측 패널 이동, 칩 필터 UI, Language subtitle 삭제
+- Command 09: Q&A → Community 전환 완료 (URL, UI 텍스트, MDX, sitemap, redirects)
+- Command 10: UI 정렬 + 사이드바 + Home 개선
+  - 전체 페이지 본문 좌측 정렬 통일 (mx-auto → mr-auto, px-4 → px-5 md:px-8)
+  - 사이드바 하단 메뉴: Community + About + Buy me a Coffee 3개
+  - 사이드바 폰트 text-sm → text-[15px]
+  - Home: Start Here / Ask a Question 버튼 삭제, 2개 안내 카드로 교체
+  - Community: 검색 입력창 추가 (q 파라미터, status/category AND 필터)
+- 스타일 보완: Home 안내 카드 — bg-primary/8 배경, 텍스트 text-base + font-medium + text-on-surface, 아이콘 22px
 
-## Vercel 배포 URL
+---
 
-- **Production:** https://know-korea-bweqru87f-ventureops-projects.vercel.app
-- **GitHub:** https://github.com/ventureops/know-korea
+### Command 11 ✅ (2026-04-03)
+
+- 아티클 상세 브레드크럼 데스크탑 폰트 크기 확대 (text-xs → md:text-base, md:font-medium, 모바일 유지)
+- Cover Image 캡션(출처) + Alt Text 지원 (DB 컬럼 추가, ContentEditor UI, 상세 페이지 figure/figcaption)
+- 본문 이미지 figcaption 스타일 추가 (globals.css)
+- 모바일 햄버거 메뉴 → 카테고리 사이드바 drawer로 변경 (body scroll lock, Community/About/BMC 하단 유지)
+
+---
+
+### Command 12 ✅ (2026-04-03)
+
+- 브레드크럼 1·2레벨 칩 변환 (Home 칩 + 카테고리 아이콘 칩, rounded-full, flex-wrap)
+- 커버이미지 아래 카테고리 태그 칩 중복 삭제 (header span 제거)
+- CATEGORY_ICONS를 lib/categories.ts에 export로 중앙화 (사이드바/브레드크럼 공유)
+
+---
+
+### BUGFIX_COMMAND_13 ✅ (2026-04-03)
+
+- cover_caption, cover_alt가 DB에 저장 안 되던 버그 수정
+- POST API (route.ts): destructure + insert에 두 필드 추가
+- PATCH API ([id]/route.ts): destructure + updates 객체에 두 필드 추가
+- ContentEditor body 포함은 Command 11에서 이미 완료, 상세 페이지 figcaption도 정상
+
+---
+
+### FIX_14 — BMC → Ko-fi 전환 ✅ (2026-04-05)
+
+- `components/KoFiButton.tsx` 신규 생성 (팝업 버튼, window.open 방식)
+- `app/[category]/[slug]/page.tsx` BMC Section → KoFiButton 교체
+- `app/community/[id]/page.tsx` BMC Section → KoFiButton 교체
+- `app/page.tsx` Home BMC 블록 → KoFiButton 교체
+- `components/layout/Sidebar.tsx` BMC `<a>` → Ko-fi `<button>` 교체
+- `content/pages/faq.mdx` Buy Me a Coffee → Ko-fi Support 텍스트 교체
+- `app/admin/page.tsx` BMC Support → Ko-fi Support 레이블 2곳 교체
+- `components/admin/ContentEditor.tsx` "Show BMC section" → "Show Ko-fi Support"
+- DB 변경 없음 (show_bmc 컬럼명 유지)
+
+---
+
+### FIX_17 — Static 페이지 전면 교체 + 구조 변경 ✅ (2026-04-05)
+
+**작업 1 — Static 페이지 콘텐츠 교체**
+- `app/about/page.tsx` 전면 교체 (STATIC_about.md 기준): Our Story·15개 카테고리 테이블·How This Works 3항목·Ko-fi 버튼·Contact Us 2-CTA
+- `app/faq/page.tsx` 전면 교체 (STATIC_FAQ.md 기준): Finding Information 삭제·Community 섹션 추가·Account 5개·Read 3개·Ko-fi Support·Privacy 2개
+- FAQ CTA 카드: Community+이메일 → About+/contact 링크로 교체
+
+**작업 2 — /legal → /privacy-policy + /terms-of-service 분리**
+- `app/privacy-policy/page.tsx` 신규 생성 (STATIC_Privacy_Policy.md 기준, 10개 섹션 + 테이블)
+- `app/terms-of-service/page.tsx` 신규 생성 (STATIC_Terms_of_Service.md 기준, 13개 섹션)
+- `app/legal/page.tsx` → `redirect("/privacy-policy")` 대체
+- `next.config.mjs` `/legal` 301 리다이렉트 추가
+- `app/login/page.tsx`, `app/signup/page.tsx` /legal 링크 → /privacy-policy + /terms-of-service
+- `components/layout/Footer.tsx` 링크 업데이트
+
+**작업 3 — /contact 페이지 신규 생성**
+- `app/contact/page.tsx` 신규 생성 (Name/Email/Category/Message 폼, 성공 메시지)
+- `app/api/contact/route.ts` POST 핸들러 (validation + Supabase INSERT)
+- `supabase/migrations/005_contact_submissions.sql` 마이그레이션 파일 생성 (수동 실행 필요)
+
+**작업 4 — 잔여 Q&A 참조 정리**
+- FAQ faqSections의 Q&A 섹션 ID "qa" → "community" 교체 완료
+- /qa 레거시 파일 내 텍스트는 이미 /community로 리다이렉트되어 미노출
+
+**작업 5 — 로그인 페이지 Apple 버튼 삭제**
+- `components/auth/LoginButtons.tsx` Apple "Coming Soon" 버튼 완전 삭제
+
+**작업 6 — 사이드바 Support 텍스트**
+- `components/layout/Sidebar.tsx` "Support on Ko-fi" → "Support This Site"
+
+**작업 7 — Footer 통일**
+- `components/layout/Footer.tsx` "© 2026 The Modern Envoy — Your Digital Curator" → "© 2026 Know Korea"
+- Contact Us 링크: mailto → /contact 페이지
+
+⚠️ Supabase SQL Editor에서 `supabase/migrations/005_contact_submissions.sql` 수동 실행 필요
+
+---
+
+### FIX_15 — 사이드바 Ko-fi 완전 전환 ✅ (2026-04-05)
+
+- `KoFiButton.tsx` 팝업 height 760 → 900
+- `Sidebar.tsx` 인라인 button → `<KoFiButton size="sm">` 컴포넌트로 교체 (URL/스펙 통일)
+- `Navbar.tsx` 모바일 드로어 BMC `<a>` → Ko-fi `<button>` (드로어 닫기 + 팝업 열기)
+- components 내 buymeacoffee 참조 완전 제거
 
 ---
 
 ## 참고 사항
 
-- `content/pages/` 에 about.mdx, faq.mdx, legal.mdx 이미 존재 (Phase 1에서는 직접 컴포넌트로 구현)
-- `app/fonts/` 에 Geist 폰트 파일 있음 (사용 안 함 — Google Fonts CDN 사용)
+### 배포 정보
+
+- **Production:** https://know-korea-bweqru87f-ventureops-projects.vercel.app
+- **GitHub:** https://github.com/ventureops/know-korea
+
+### 환경 설정
+
 - Supabase / Vercel / Cloudinary 계정 연결은 별도로 진행 필요
-- Phase 1 보완: Unsplash 이미지 URL 계속 사용 (Phase 2 이후 Cloudinary 교체)
-- Vercel 환경변수도 별도 설정 필요 (NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY)
+- Vercel 환경변수: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, Cloudinary 키 3개
+- `content/pages/`에 about.mdx, faq.mdx, legal.mdx 존재 (Phase 1에서 직접 컴포넌트로 구현)
+- `app/fonts/`에 Geist 폰트 파일 있음 (사용 안 함 — Google Fonts CDN 사용)
+
+### 다음 세션 시작 방법
+
+```
+PROGRESS.md 읽고 현재 상태 확인 후 작업 시작
+```

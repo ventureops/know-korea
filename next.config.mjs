@@ -10,6 +10,7 @@ const nextConfig = {
       { source: "/qa/new", destination: "/community/new", permanent: true },
       { source: "/qa/:id", destination: "/community/:id", permanent: true },
       { source: "/qa/:id/edit", destination: "/community/:id/edit", permanent: true },
+      { source: "/legal", destination: "/privacy-policy", permanent: true },
     ];
   },
   images: {
