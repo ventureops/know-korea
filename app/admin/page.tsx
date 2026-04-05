@@ -125,7 +125,7 @@ export default async function AdminDashboardPage() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mr-auto">
       {/* Header */}
       <div className="mb-6">
         <p className="text-xs font-label text-on-surface-variant uppercase tracking-wider">

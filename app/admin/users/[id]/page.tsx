@@ -96,7 +96,7 @@ export default async function AdminUserDetailPage({
   const { user, stats, participationRate, upgradeHints, badges, recentActivity } = detail;
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-5xl mr-auto">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs text-on-surface-variant mb-4">
         <Link href="/admin/users" className="hover:text-primary transition-colors">

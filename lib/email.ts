@@ -16,6 +16,7 @@ interface SendReplyParams {
 }
 
 export async function sendContactReply({ to, name, category, message }: SendReplyParams) {
+  await transporter.verify();
   const mailOptions = {
     from: `Know Korea <${process.env.GMAIL_USER}>`,
     to,

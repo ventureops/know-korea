@@ -82,7 +82,7 @@ export default async function AdminAnalyticsPage() {
   const maxViews = Math.max(...topContents.map((c) => c.view_count), 1);
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-5xl mr-auto">
       <div className="mb-6">
         <h1 className="font-headline text-2xl font-bold text-on-surface">
           Analytics

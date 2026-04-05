@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const CATEGORIES = [
   "Bug Report / Site Error",
@@ -10,7 +12,18 @@ const CATEGORIES = [
 ];
 
 export default function ContactPage() {
+  const { data: session } = useSession();
   const [form, setForm] = useState({ name: "", email: "", category: "", message: "" });
+
+  useEffect(() => {
+    if (session?.user) {
+      setForm((prev) => ({
+        ...prev,
+        name: prev.name || session.user.name || "",
+        email: prev.email || session.user.email || "",
+      }));
+    }
+  }, [session]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -71,6 +84,16 @@ export default function ContactPage() {
           Found an error? Have a topic suggestion? Interested in a partnership? Let us know.
         </p>
       </section>
+
+      {/* Login nudge */}
+      {!session && (
+        <div className="flex items-center gap-2 p-4 bg-blue-50 text-blue-700 rounded-lg text-sm mb-6">
+          <span className="material-symbols-outlined text-lg">info</span>
+          <p>
+            <Link href="/login" className="font-bold underline">Sign in</Link> for a faster response — we can reach you through your account.
+          </p>
+        </div>
+      )}
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4">

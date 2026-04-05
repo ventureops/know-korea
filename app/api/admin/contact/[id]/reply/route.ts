@@ -40,8 +40,9 @@ export async function POST(
       message: message.trim(),
     });
   } catch (err) {
-    console.error("Email send error:", err);
-    return NextResponse.json({ error: "Failed to send email." }, { status: 500 });
+    const detail = err instanceof Error ? err.message : String(err);
+    console.error("Email send error:", detail);
+    return NextResponse.json({ error: "Failed to send email.", detail }, { status: 500 });
   }
 
   const timestamp = new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" });

@@ -6,17 +6,12 @@
 
 ## 현재 상태 (미결 이슈)
 
-**미결: FIX_16 — Ko-fi 팝업 스크롤 문제**
+**FIX_16 미결 (2026-04-05) — Ko-fi 팝업 스크롤 문제**
 
 - `scrollbars=no` 적용했으나 Chrome 88+ 정책으로 무시됨 → 효과 없음
 - Ko-fi 자체 JS의 auto-scroll은 cross-origin 제한으로 외부 제어 불가
 - 해결 방향 미결정: A) `_blank` 새 탭으로 열기, B) `/donate` 직접 URL 시도
 - 현재 코드: `width=560,height=900,scrollbars=no` (실질적으로 scrollbars=yes와 동일)
-
-**최근 완료 (2026-04-05)**
-- FIX_17: Static 페이지 전면 교체 + 구조 변경 ✅ 배포 확인
-- FIX_18: Admin Contact 관리 페이지 + Gmail 회신 기능 ✅ 배포 확인
-- HOTFIX: Admin Dashboard 서버 컴포넌트 onClick 에러 수정 ✅ 배포 확인
 
 ---
 
@@ -367,69 +362,36 @@
 
 ---
 
-### FIX_18 — Admin Contact 관리 페이지 + Gmail 회신 기능 ✅ (2026-04-05)
-
-- `supabase/migrations/006_contact_management.sql` — is_replied, replied_at, admin_note, is_archived 컬럼 추가 (수동 실행 필요)
-- `lib/email.ts` — nodemailer Gmail SMTP 유틸리티
-- `app/api/admin/contact/route.ts` — GET 목록 (필터/검색/페이지네이션)
-- `app/api/admin/contact/[id]/route.ts` — PATCH 상태 업데이트
-- `app/api/admin/contact/[id]/reply/route.ts` — POST 이메일 회신 발송
-- `app/api/admin/contact/unread-count/route.ts` — GET 미읽음 카운트
-- `app/admin/contact/page.tsx` — 관리 페이지 (테이블 + 슬라이드 패널 + Reply + Admin Note)
-- `components/admin/AdminSidebar.tsx` — Contact 메뉴 추가, 미읽음 배지 (role≥4)
-- `app/admin/page.tsx` — Dashboard Unread Contact 위젯 카드 추가
-- nodemailer + @types/nodemailer 설치 완료
-- GMAIL_USER / GMAIL_APP_PASSWORD .env.local 확인 완료
-
-⚠️ 수동 작업: Supabase SQL Editor에서 `supabase/migrations/006_contact_management.sql` 실행 필요
-⚠️ 수동 작업: Vercel 환경변수에 GMAIL_USER + GMAIL_APP_PASSWORD 추가 필요
-
----
-
-### FIX_17 — Static 페이지 전면 교체 + 구조 변경 ✅ (2026-04-05)
-
-**작업 1 — Static 페이지 콘텐츠 교체**
-- `app/about/page.tsx` 전면 교체 (STATIC_about.md 기준): Our Story·15개 카테고리 테이블·How This Works 3항목·Ko-fi 버튼·Contact Us 2-CTA
-- `app/faq/page.tsx` 전면 교체 (STATIC_FAQ.md 기준): Finding Information 삭제·Community 섹션 추가·Account 5개·Read 3개·Ko-fi Support·Privacy 2개
-- FAQ CTA 카드: Community+이메일 → About+/contact 링크로 교체
-
-**작업 2 — /legal → /privacy-policy + /terms-of-service 분리**
-- `app/privacy-policy/page.tsx` 신규 생성 (STATIC_Privacy_Policy.md 기준, 10개 섹션 + 테이블)
-- `app/terms-of-service/page.tsx` 신규 생성 (STATIC_Terms_of_Service.md 기준, 13개 섹션)
-- `app/legal/page.tsx` → `redirect("/privacy-policy")` 대체
-- `next.config.mjs` `/legal` 301 리다이렉트 추가
-- `app/login/page.tsx`, `app/signup/page.tsx` /legal 링크 → /privacy-policy + /terms-of-service
-- `components/layout/Footer.tsx` 링크 업데이트
-
-**작업 3 — /contact 페이지 신규 생성**
-- `app/contact/page.tsx` 신규 생성 (Name/Email/Category/Message 폼, 성공 메시지)
-- `app/api/contact/route.ts` POST 핸들러 (validation + Supabase INSERT)
-- `supabase/migrations/005_contact_submissions.sql` 마이그레이션 파일 생성 (수동 실행 필요)
-
-**작업 4 — 잔여 Q&A 참조 정리**
-- FAQ faqSections의 Q&A 섹션 ID "qa" → "community" 교체 완료
-- /qa 레거시 파일 내 텍스트는 이미 /community로 리다이렉트되어 미노출
-
-**작업 5 — 로그인 페이지 Apple 버튼 삭제**
-- `components/auth/LoginButtons.tsx` Apple "Coming Soon" 버튼 완전 삭제
-
-**작업 6 — 사이드바 Support 텍스트**
-- `components/layout/Sidebar.tsx` "Support on Ko-fi" → "Support This Site"
-
-**작업 7 — Footer 통일**
-- `components/layout/Footer.tsx` "© 2026 The Modern Envoy — Your Digital Curator" → "© 2026 Know Korea"
-- Contact Us 링크: mailto → /contact 페이지
-
-⚠️ Supabase SQL Editor에서 `supabase/migrations/005_contact_submissions.sql` 수동 실행 필요
-
----
-
 ### FIX_15 — 사이드바 Ko-fi 완전 전환 ✅ (2026-04-05)
 
 - `KoFiButton.tsx` 팝업 height 760 → 900
 - `Sidebar.tsx` 인라인 button → `<KoFiButton size="sm">` 컴포넌트로 교체 (URL/스펙 통일)
 - `Navbar.tsx` 모바일 드로어 BMC `<a>` → Ko-fi `<button>` (드로어 닫기 + 팝업 열기)
 - components 내 buymeacoffee 참조 완전 제거
+
+---
+
+### FIX_19 — Gmail 회신 에러 디버깅 ✅ (2026-04-06)
+
+- `app/api/admin/contact/[id]/reply/route.ts` — catch block에서 nodemailer 에러 메시지를 `detail` 필드로 응답에 포함
+- `app/admin/contact/page.tsx` — `data.detail` 우선 표시로 실제 에러 UI 노출
+- `lib/email.ts` — `transporter.verify()` 추가로 인증 실패 시 구체적 에러 발생
+- 원인: Vercel 환경변수 추가 후 재배포 누락 → Redeploy로 해결
+- Gmail 환경변수 Vercel 설정 완료: `GMAIL_USER`, `GMAIL_APP_PASSWORD`
+
+---
+
+### FIX_20 — Admin UI 정렬 + Contact 관리 UI 개선 + Contact 폼 로그인 유도 ✅ (2026-04-06)
+
+| 항목 | 상태 |
+|------|------|
+| Admin 페이지 본문 정렬 검토 — 위반 없음 (text-center 모두 의도된 UI) | ✅ |
+| Contact 관리: Category 칩 색상 (빨강/파랑/초록/회색 Tailwind 색상) | ✅ |
+| Contact 관리: Status "New" 적색 볼드, "Read" 회색, "Replied" 초록 | ✅ |
+| Contact 관리: 메시지 영역 max-h-80 + overflow-y-auto 스크롤 제한 | ✅ |
+| Contact 폼: 비로그인 시 Sign in 유도 메시지 표시 | ✅ |
+| Contact 폼: 로그인 시 Name/Email 자동 채움 (수정 가능) | ✅ |
+| npm run build 에러 없음 | ✅ |
 
 ---
 

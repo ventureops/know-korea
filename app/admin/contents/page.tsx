@@ -57,7 +57,7 @@ export default async function AdminContentsPage({
   const { contents, total } = await getContents(search, category, status, sortBy);
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mr-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="font-headline text-2xl font-bold text-on-surface">

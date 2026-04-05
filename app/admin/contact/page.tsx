@@ -10,10 +10,10 @@ const CATEGORIES = [
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
-  "Bug Report / Site Error": "bg-error/10 text-error",
-  "Topic Suggestion": "bg-primary/10 text-primary",
-  "Business / Partnership": "bg-tertiary/10 text-tertiary",
-  "Other": "bg-surface-container text-on-surface-variant",
+  "Bug Report / Site Error": "bg-red-100 text-red-700 border border-red-200",
+  "Topic Suggestion":        "bg-blue-100 text-blue-700 border border-blue-200",
+  "Business / Partnership":  "bg-green-100 text-green-700 border border-green-200",
+  "Other":                   "bg-gray-100 text-gray-600 border border-gray-200",
 };
 
 interface Submission {
@@ -134,7 +134,7 @@ export default function AdminContactPage() {
     });
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      setReplyError(data.error ?? "Failed to send reply.");
+      setReplyError(data.detail ?? data.error ?? "Failed to send reply.");
     } else {
       const now = new Date().toISOString();
       const updatedNote = `[Reply sent]\n${replyText.trim()}${selected.admin_note ? `\n\n---\n\n${selected.admin_note}` : ""}`;
@@ -149,7 +149,7 @@ export default function AdminContactPage() {
   const totalPages = Math.ceil(total / LIMIT);
 
   return (
-    <div className="max-w-6xl mx-auto relative">
+    <div className="max-w-6xl mr-auto relative">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -278,15 +278,13 @@ export default function AdminContactPage() {
                       <td className="py-3 px-4 text-on-surface-variant text-xs whitespace-nowrap">
                         {relativeTime(item.created_at)}
                       </td>
-                      <td className="py-3 px-4">
+                      <td className="py-3 px-4 text-xs">
                         {item.is_replied ? (
-                          <span className="text-success text-xs flex items-center gap-1">
-                            <span className="material-symbols-outlined text-[14px]">check_circle</span> Replied
-                          </span>
+                          <span className="text-green-600 font-medium">Replied</span>
                         ) : item.is_read ? (
-                          <span className="text-on-surface-variant text-xs">Read</span>
+                          <span className="text-gray-500 font-normal">Read</span>
                         ) : (
-                          <span className="text-primary text-xs font-semibold">New</span>
+                          <span className="text-red-600 font-bold">New</span>
                         )}
                       </td>
                       <td className="py-3 px-4" onClick={(e) => e.stopPropagation()}>
@@ -400,7 +398,7 @@ export default function AdminContactPage() {
               {/* Message */}
               <div>
                 <p className="text-xs font-label font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Message</p>
-                <div className="bg-surface-container rounded-xl p-4 text-sm font-body text-on-surface leading-relaxed whitespace-pre-wrap">
+                <div className="bg-surface-container rounded-xl p-4 text-sm font-body text-on-surface leading-relaxed max-h-80 overflow-y-auto text-left whitespace-pre-wrap">
                   {selected.message}
                 </div>
               </div>
