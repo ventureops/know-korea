@@ -6,6 +6,13 @@
 
 ## 현재 상태
 
+**FIX_16 미결 (2026-04-05) — Ko-fi 팝업 스크롤 문제**
+
+- `scrollbars=no` 적용했으나 Chrome 88+ 정책으로 무시됨 → 효과 없음
+- Ko-fi 자체 JS의 auto-scroll은 cross-origin 제한으로 외부 제어 불가
+- 해결 방향 미결정: A) `_blank` 새 탭으로 열기, B) `/donate` 직접 URL 시도
+- 현재 코드: `width=560,height=900,scrollbars=no` (실질적으로 scrollbars=yes와 동일)
+
 **FIX_15 완료 (2026-04-05) — 사이드바 Ko-fi 완전 전환**
 
 - `KoFiButton.tsx` 팝업 height 760 → 900
