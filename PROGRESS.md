@@ -6,15 +6,17 @@
 
 ## 현재 상태 (미결 이슈)
 
-**FIX_16 미결 (2026-04-05) — Ko-fi 팝업 스크롤 문제**
+**미결: FIX_16 — Ko-fi 팝업 스크롤 문제**
 
 - `scrollbars=no` 적용했으나 Chrome 88+ 정책으로 무시됨 → 효과 없음
 - Ko-fi 자체 JS의 auto-scroll은 cross-origin 제한으로 외부 제어 불가
 - 해결 방향 미결정: A) `_blank` 새 탭으로 열기, B) `/donate` 직접 URL 시도
 - 현재 코드: `width=560,height=900,scrollbars=no` (실질적으로 scrollbars=yes와 동일)
 
-**FIX_18 완료 (2026-04-05) — Admin Contact 관리 페이지 + Gmail 회신 기능**
-**FIX_17 완료 (2026-04-05) — Static 페이지 전면 교체 + 구조 변경**
+**최근 완료 (2026-04-05)**
+- FIX_17: Static 페이지 전면 교체 + 구조 변경 ✅ 배포 확인
+- FIX_18: Admin Contact 관리 페이지 + Gmail 회신 기능 ✅ 배포 확인
+- HOTFIX: Admin Dashboard 서버 컴포넌트 onClick 에러 수정 ✅ 배포 확인
 
 ---
 
