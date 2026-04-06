@@ -4,100 +4,26 @@
 
 ---
 
-## 현재 상태 (미결 이슈)
+## 현재 상태
 
-**LAYOUT_A 완료 (2026-04-06) — 사이드바 통합 (Phase A)**
+**최근 완료: LAYOUT_A~H (2026-04-06) — 전체 레이아웃 리디자인**
 
-- branch: `layout-redesign`
-- `SidebarContent.tsx` 생성 — 로고 + Guide + Community + 카테고리 + About + Contact + Support 통합
-- `Sidebar.tsx` — SidebarContent 사용으로 단순화, overflow-hidden + flex-col
-- `Navbar.tsx` — 모바일 Drawer를 SidebarContent로 교체, CATEGORIES import 제거
-- npm run build 에러 없음
+| 작업 | 내용 |
+|------|------|
+| LAYOUT_A | SidebarContent 컴포넌트 분리, 모바일 Drawer 통합 |
+| LAYOUT_B | Navbar → Header(48px) 전환, MobileDrawer/SiteShell 재구성 |
+| LAYOUT_C | Navbar.tsx 삭제, z-index 정리, Footer 링크 순서 통일 |
+| LAYOUT_D | Header/Footer 패딩 통일, H1 스타일 통일(text-4xl uppercase), 카테고리 브레드크럼 삭제 |
+| LAYOUT_E | SupportBanner 컴포넌트 생성, "Buy Us a Coffee" 전 사이트 통일 |
+| LAYOUT_F | Community 카테고리 칩: Start Here 제외, Other 추가 |
+| LAYOUT_G | Community 용어 전환: Q&A → Discussion, Resolved → Featured |
+| LAYOUT_H | Root title template 도입, "The Modern Envoy" 전체 제거, SEO 정리 |
 
-**LAYOUT_B 완료 (2026-04-06) — Navbar → Header 전환 (Phase B)**
+**미결 이슈**
 
-- `Header.tsx` 생성 — 48px sticky, 햄버거(모바일) + 검색 + 프로필 드롭다운
-- `MobileDrawer.tsx` 생성 — SidebarContent 재사용, overlay + panel
-- `SiteShell.tsx` 교체 — mobileOpen state, admin 분기 유지, Navbar 제거
-- `Sidebar.tsx` — top-0 / h-full (Navbar 없으므로 전체 화면 차지)
-- Navbar.tsx는 아직 파일 유지 (Phase C에서 삭제)
-- npm run build 에러 없음
+- **FIX_16 (2026-04-05)** — Ko-fi 팝업 scrollbars 제어 불가 (Chrome 88+ 정책). 해결 방향 미결정.
 
-**LAYOUT_C 완료 (2026-04-06) — 정리 및 미세 조정 (Phase C)**
-
-- `Navbar.tsx` 삭제 완료 (참조 없음 확인)
-- `SidebarContent.tsx`: Guide/Community active 지시자 추가 (카테고리와 동일 패턴), inactive 텍스트 색 수정 (`text-on-surface-variant`)
-- `Footer.tsx`: 링크 순서 변경 (Privacy | ToS | FAQ | Contact), "Contact Us" → "Contact"
-- `Sidebar.tsx`: z-40 → z-30
-- z-index 계층: Sidebar(z-30) < Header/Overlay(z-40) < Drawer 패널(z-50)
-- main branch merge 완료
-- npm run build 에러 없음
-
-**LAYOUT_D 완료 (2026-04-06) — 레이아웃 정렬 및 일관성 개선 (Phase D)**
-
-- `Header.tsx`: `px-4` → `px-5 md:px-8` (본문과 패딩 통일)
-- `Footer.tsx`: `px-6 md:px-10 max-w-6xl mx-auto` → `px-5 md:px-8` (본문과 패딩 통일)
-- `app/page.tsx`: H1 "Know Korea" → "Guide" + `uppercase tracking-tight text-4xl`
-- `app/community/page.tsx`: H1 "Community" → `uppercase text-4xl`
-- `app/[category]/page.tsx`: H1 `text-4xl md:text-5xl` → `text-4xl`, 브레드크럼 삭제, "— Category Guide" 라벨 삭제
-- `SidebarContent.tsx`: Guide/Community 링크에 `uppercase tracking-wider` 추가
-- npm run build 에러 없음
-
-**LAYOUT_E 완료 (2026-04-06) — Buy Us a Coffee 통일**
-
-- `SupportBanner.tsx` 생성 — 콤팩트 한 줄 배너, Ko-fi 팝업 동작
-- `SidebarContent.tsx`: "Support This Site" → "Buy Us a Coffee"
-- `app/page.tsx`: 홈 하단 Ko-fi 배너 전체 삭제
-- `app/[category]/[slug]/page.tsx`: 기존 배너 → `<SupportBanner />`
-- `app/community/[id]/page.tsx`: 기존 배너 → `<SupportBanner />`
-- `app/qa/[id]/page.tsx`: BMC(buymeacoffee.com) 섹션 → `<SupportBanner />`
-- `app/about/page.tsx`: "Support This Site" 제목 삭제, 설명 문단 유지, `<SupportBanner />` 교체
-- 잔여 "Buy me a coffee" / "Support on Ko-fi" / "Support This Site" UI 텍스트 없음 확인
-- npm run build 에러 없음
-
-**LAYOUT_F 완료 (2026-04-06) — Community 카테고리 칩 수정**
-
-- `app/community/page.tsx`: 필터 칩에서 Start Here 제외, Other 추가
-- `app/community/new/page.tsx`: 글 작성 카테고리 선택에 동일 반영
-- `app/community/[id]/edit/page.tsx`: 글 수정 카테고리 선택에 동일 반영
-- `lib/categories.ts` 변경 없음 (사이드바 15개 카테고리 그대로)
-- npm run build 에러 없음
-
-**LAYOUT_G 완료 (2026-04-06) — Community 용어 전면 변경**
-
-- `community/page.tsx`: "Ask a Question" → "Start a Discussion", STATUS_FILTERS "Unresolved" 삭제 / "Resolved" → "Featured", 빈 상태 텍스트 변경
-- `CommunitySearchInput.tsx`: placeholder "Search questions..." → "Search discussions..."
-- `QACard.tsx`: is_resolved 아이콘 `check_circle(success)` → `star(primary)`, 일반 `help` → `chat_bubble_outline`
-- `QAActions.tsx`: "Mark as Resolved" → "Mark as Featured" (star 아이콘, primary 색상), 비작성자 뱃지 Featured ⭐ (primary-container)
-- `community/[id]/page.tsx`: "Resolved" 뱃지 → "Featured" ⭐ (primary-container)
-- `QACommentSection.tsx`: "Answers" → "Replies", empty/login 텍스트 변경, placeholder "Write a reply…"
-- `community/new/page.tsx`: 제목/설명/Tips/submit 버튼 변경 ("Post Question" → "Post")
-- `community/[id]/edit/page.tsx`: "Edit Question" → "Edit Post"
-- DB 컬럼명 `is_resolved` 등 변경 없음
-- npm run build 에러 없음
-
-**LAYOUT_H 완료 (2026-04-06) — 메타데이터 및 SEO 통일**
-
-- `app/layout.tsx`: Root metadata에 `title.template: '%s | Know Korea'` 도입, "The Modern Envoy" 제거, OG/Twitter 메타 추가
-- `app/page.tsx`: "The Modern Envoy" 제거, title 제거 (Root default 사용)
-- `app/login/page.tsx`: UI 텍스트 "Know Korea — The Modern Envoy" → "Everything you need to navigate Korea."
-- 각 페이지 title에서 "| Know Korea" / "— Know Korea" 제거 (template 자동 처리): about, community, faq, privacy-policy, search, terms-of-service, login, notifications, profile, profile/activities, profile/edit, qa
-- `app/[category]/page.tsx`: 동적 title에서 "| Know Korea" 제거
-- `app/[category]/[slug]/page.tsx`: 동적 title에서 "| Know Korea" 제거
-- "The Modern Envoy" / "Digital Curator" 잔여 텍스트 없음 확인
-- manifest.json 없음 (스킵)
-- npm run build 에러 없음
-
-**다음 단계:** 없음 (레이아웃 전환 완료)
-
----
-
-**FIX_16 미결 (2026-04-05) — Ko-fi 팝업 스크롤 문제**
-
-- `scrollbars=no` 적용했으나 Chrome 88+ 정책으로 무시됨 → 효과 없음
-- Ko-fi 자체 JS의 auto-scroll은 cross-origin 제한으로 외부 제어 불가
-- 해결 방향 미결정: A) `_blank` 새 탭으로 열기, B) `/donate` 직접 URL 시도
-- 현재 코드: `width=560,height=900,scrollbars=no` (실질적으로 scrollbars=yes와 동일)
+**다음 작업:** 특별히 예정된 작업 없음. 콘텐츠 입력 또는 새 기능 요청 대기 중.
 
 ---
 
