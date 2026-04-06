@@ -48,17 +48,20 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
               key={href}
               href={href}
               onClick={onNavigate}
-              className={`group flex items-center gap-3 px-4 py-3 text-base font-bold rounded-xl transition-colors ${
+              className={`group relative flex items-center gap-3 px-4 py-3 text-base font-bold rounded-xl transition-colors ${
                 isActive
                   ? "bg-surface-container-low text-on-surface"
-                  : "text-on-surface hover:bg-surface-container-low"
+                  : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low"
               }`}
             >
+              {isActive && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-primary rounded-full" />
+              )}
               <span
                 className={`material-symbols-outlined text-xl shrink-0 transition-all ${
                   isActive ? "text-primary" : "text-on-surface-variant group-hover:text-on-surface"
                 }`}
-                style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 1" }}
+                style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 {icon}
               </span>

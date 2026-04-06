@@ -23,7 +23,17 @@
 - Navbar.tsx는 아직 파일 유지 (Phase C에서 삭제)
 - npm run build 에러 없음
 
-**다음 단계:** COMMAND_LAYOUT_C.md (불필요 파일 정리 + 최종 polish)
+**LAYOUT_C 완료 (2026-04-06) — 정리 및 미세 조정 (Phase C)**
+
+- `Navbar.tsx` 삭제 완료 (참조 없음 확인)
+- `SidebarContent.tsx`: Guide/Community active 지시자 추가 (카테고리와 동일 패턴), inactive 텍스트 색 수정 (`text-on-surface-variant`)
+- `Footer.tsx`: 링크 순서 변경 (Privacy | ToS | FAQ | Contact), "Contact Us" → "Contact"
+- `Sidebar.tsx`: z-40 → z-30
+- z-index 계층: Sidebar(z-30) < Header/Overlay(z-40) < Drawer 패널(z-50)
+- main branch merge 완료
+- npm run build 에러 없음
+
+**다음 단계:** 없음 (레이아웃 전환 완료)
 
 ---
 
