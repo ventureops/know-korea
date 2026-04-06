@@ -9,10 +9,8 @@ export const metadata = {
   title: "Sign In",
 };
 
-// TODO: Cloudinary에 대동여지도 업로드 후 아래 URL 교체
-// https://res.cloudinary.com/db57m4q10/image/upload/[public_id]
 const DAEDONGYEOJIDO_URL =
-  "https://res.cloudinary.com/db57m4q10/image/upload/know-korea/daedongyeojido";
+  "https://res.cloudinary.com/db57m4q10/image/upload/v1775479274/know-korea/daedongyeojido.png";
 
 export default async function LoginPage() {
   const session = await getSession();
