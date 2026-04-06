@@ -62,7 +62,7 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
               key={href}
               href={href}
               onClick={onNavigate}
-              className={`group relative flex items-center gap-3 px-4 py-3 text-base font-bold uppercase tracking-wider rounded-xl transition-colors ${
+              className={`group relative flex items-center gap-3 px-4 py-1.5 text-base font-bold uppercase tracking-wider rounded-xl transition-colors ${
                 isActive
                   ? "bg-surface-container-low text-on-surface"
                   : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low"
@@ -90,7 +90,7 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
       <div className="relative flex-1 min-h-0">
         <nav
           ref={navRef}
-          className="sidebar-scroll h-full overflow-y-auto px-4 py-3 flex flex-col gap-0.5"
+          className="sidebar-scroll h-full overflow-y-scroll px-4 py-3 flex flex-col gap-0.5"
         >
           {CATEGORIES.map((cat) => {
             const href = `/${cat.slug}`;
@@ -144,7 +144,7 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
               key={href}
               href={href}
               onClick={onNavigate}
-              className={`group flex items-center gap-3 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+              className={`group flex items-center gap-3 px-4 py-1.5 text-sm font-medium rounded-lg transition-colors ${
                 isActive
                   ? "text-on-surface bg-surface-container-low"
                   : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low"
