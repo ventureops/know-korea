@@ -8,7 +8,12 @@ import dynamic from 'next/dynamic';
 const QAEditor = dynamic(() => import('@/components/qa/QAEditor'), { ssr: false });
 
 import { CATEGORIES as CAT_LIST } from '@/lib/categories';
-const CATEGORIES = CAT_LIST.map((c) => ({ value: c.slug, label: c.name }));
+const CATEGORIES = [
+  ...CAT_LIST
+    .filter((c) => c.slug !== 'start-here')
+    .map((c) => ({ value: c.slug, label: c.name })),
+  { value: 'other', label: 'Other' },
+];
 
 export default function CommunityNewPage() {
   const { data: session, status } = useSession();

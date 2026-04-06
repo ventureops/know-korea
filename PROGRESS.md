@@ -55,6 +55,14 @@
 - 잔여 "Buy me a coffee" / "Support on Ko-fi" / "Support This Site" UI 텍스트 없음 확인
 - npm run build 에러 없음
 
+**LAYOUT_F 완료 (2026-04-06) — Community 카테고리 칩 수정**
+
+- `app/community/page.tsx`: 필터 칩에서 Start Here 제외, Other 추가
+- `app/community/new/page.tsx`: 글 작성 카테고리 선택에 동일 반영
+- `app/community/[id]/edit/page.tsx`: 글 수정 카테고리 선택에 동일 반영
+- `lib/categories.ts` 변경 없음 (사이드바 15개 카테고리 그대로)
+- npm run build 에러 없음
+
 **다음 단계:** 없음 (레이아웃 전환 완료)
 
 ---

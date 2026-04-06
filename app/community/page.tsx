@@ -21,7 +21,10 @@ import { CATEGORIES as CAT_LIST } from '@/lib/categories';
 
 const CATEGORIES = [
   { value: '', label: 'All' },
-  ...CAT_LIST.map((c) => ({ value: c.slug, label: c.name })),
+  ...CAT_LIST
+    .filter((c) => c.slug !== 'start-here')
+    .map((c) => ({ value: c.slug, label: c.name })),
+  { value: 'other', label: 'Other' },
 ];
 
 const STATUS_FILTERS = [
