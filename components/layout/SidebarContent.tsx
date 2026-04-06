@@ -48,7 +48,7 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
               key={href}
               href={href}
               onClick={onNavigate}
-              className={`group relative flex items-center gap-3 px-4 py-3 text-base font-bold rounded-xl transition-colors ${
+              className={`group relative flex items-center gap-3 px-4 py-3 text-base font-bold uppercase tracking-wider rounded-xl transition-colors ${
                 isActive
                   ? "bg-surface-container-low text-on-surface"
                   : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low"

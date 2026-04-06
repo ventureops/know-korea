@@ -33,6 +33,16 @@
 - main branch merge 완료
 - npm run build 에러 없음
 
+**LAYOUT_D 완료 (2026-04-06) — 레이아웃 정렬 및 일관성 개선 (Phase D)**
+
+- `Header.tsx`: `px-4` → `px-5 md:px-8` (본문과 패딩 통일)
+- `Footer.tsx`: `px-6 md:px-10 max-w-6xl mx-auto` → `px-5 md:px-8` (본문과 패딩 통일)
+- `app/page.tsx`: H1 "Know Korea" → "Guide" + `uppercase tracking-tight text-4xl`
+- `app/community/page.tsx`: H1 "Community" → `uppercase text-4xl`
+- `app/[category]/page.tsx`: H1 `text-4xl md:text-5xl` → `text-4xl`, 브레드크럼 삭제, "— Category Guide" 라벨 삭제
+- `SidebarContent.tsx`: Guide/Community 링크에 `uppercase tracking-wider` 추가
+- npm run build 에러 없음
+
 **다음 단계:** 없음 (레이아웃 전환 완료)
 
 ---

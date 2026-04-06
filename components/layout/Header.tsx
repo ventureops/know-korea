@@ -25,7 +25,7 @@ export default function Header({ onMenuToggle }: HeaderProps) {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 h-12 bg-surface/80 backdrop-blur-md flex items-center justify-between px-4">
+    <header className="sticky top-0 z-40 h-12 bg-surface/80 backdrop-blur-md flex items-center justify-between px-5 md:px-8">
       {/* 모바일 전용: 햄버거 */}
       <button
         aria-label="Open menu"

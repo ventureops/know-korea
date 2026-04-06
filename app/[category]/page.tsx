@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
@@ -58,23 +57,9 @@ export default async function CategoryPage({
 
   return (
     <div className="px-5 md:px-8 py-8 max-w-5xl mr-auto">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-xs md:text-base font-body text-on-surface-variant mb-6">
-        <Link href="/" className="hover:text-on-surface transition-colors md:font-medium">
-          Know Korea
-        </Link>
-        <span className="text-outline text-xs md:text-sm">›</span>
-        <span className="text-on-surface font-medium md:font-bold">{meta.label}</span>
-      </nav>
-
       {/* Page Header */}
       <div className="mb-8">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-[10px] font-label font-bold uppercase tracking-widest text-outline">
-            — Category Guide
-          </span>
-        </div>
-        <h1 className="font-headline font-extrabold text-4xl md:text-5xl text-on-surface tracking-tight mb-3">
+        <h1 className="font-headline font-extrabold text-4xl text-on-surface tracking-tight mb-3">
           {meta.label}
         </h1>
         <p className="text-base font-body text-on-surface-variant leading-relaxed max-w-2xl">

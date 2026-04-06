@@ -102,7 +102,7 @@ export default async function CommunityPage({
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h1 className="font-headline font-extrabold text-2xl md:text-3xl text-on-surface tracking-tight">
+            <h1 className="font-headline font-extrabold text-4xl text-on-surface tracking-tight uppercase">
               Community
             </h1>
             <p className="text-sm font-body text-on-surface-variant mt-1">
