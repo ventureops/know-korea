@@ -19,16 +19,10 @@ export async function generateMetadata({
   params: { category: string };
 }): Promise<Metadata> {
   const meta = categoryMeta[params.category];
-  if (!meta) return { title: "Know Korea" };
+  if (!meta) return {};
   return {
-    title: `${meta.label} | Know Korea`,
+    title: meta.label,
     description: meta.description,
-    openGraph: {
-      title: `${meta.label} | Know Korea`,
-      description: meta.description,
-      url: `https://know-korea.vercel.app/${params.category}`,
-      siteName: "Know Korea",
-    },
   };
 }
 

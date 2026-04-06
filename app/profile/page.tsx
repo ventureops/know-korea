@@ -4,7 +4,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import { cloudinaryUrl } from "@/lib/cloudinary";
 
-export const metadata = { title: "Profile — Know Korea" };
+export const metadata = { title: "Profile" };
 export const dynamic = "force-dynamic";
 
 const supabaseAdmin = createClient(

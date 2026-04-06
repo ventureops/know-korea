@@ -6,8 +6,8 @@ import { getSession } from '@/lib/auth';
 import CommunitySearchInput from '@/components/qa/CommunitySearchInput';
 
 export const metadata: Metadata = {
-  title: 'Community | Know Korea',
-  description: 'Ask questions about life in Korea and get answers from the community.',
+  title: 'Community',
+  description: 'Share, ask, and connect with others navigating life in Korea.',
 };
 
 export const revalidate = 60; // 1분마다 재생성

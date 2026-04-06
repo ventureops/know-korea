@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import ProfileEditForm from "@/components/profile/ProfileEditForm";
 import { createClient } from "@supabase/supabase-js";
 
-export const metadata = { title: "Edit Profile — Know Korea" };
+export const metadata = { title: "Edit Profile" };
 export const dynamic = "force-dynamic";
 
 const supabaseAdmin = createClient(

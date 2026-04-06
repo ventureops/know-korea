@@ -3,16 +3,8 @@ import type { Metadata } from "next";
 import SupportBanner from "@/components/SupportBanner";
 
 export const metadata: Metadata = {
-  title: "About | Know Korea",
-  description:
-    "Know Korea is a practical information and cultural guide for foreigners living in, moving to, or curious about Korea.",
-  openGraph: {
-    title: "About | Know Korea",
-    description:
-      "Know Korea is a practical information and cultural guide for foreigners living in, moving to, or curious about Korea.",
-    url: "https://know-korea.vercel.app/about",
-    siteName: "Know Korea",
-  },
+  title: "About",
+  description: "Know Korea is a practical information and cultural guide for foreigners living in, moving to, or curious about Korea.",
 };
 
 const categories = [

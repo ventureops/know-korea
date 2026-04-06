@@ -5,7 +5,7 @@ import QACard, { type QAPost } from '@/components/qa/QACard';
 import { getSession } from '@/lib/auth';
 
 export const metadata: Metadata = {
-  title: 'Q&A | Know Korea',
+  title: 'Q&A',
   description: 'Ask questions about life in Korea and get answers from the community.',
 };
 

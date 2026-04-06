@@ -76,6 +76,18 @@
 - DB 컬럼명 `is_resolved` 등 변경 없음
 - npm run build 에러 없음
 
+**LAYOUT_H 완료 (2026-04-06) — 메타데이터 및 SEO 통일**
+
+- `app/layout.tsx`: Root metadata에 `title.template: '%s | Know Korea'` 도입, "The Modern Envoy" 제거, OG/Twitter 메타 추가
+- `app/page.tsx`: "The Modern Envoy" 제거, title 제거 (Root default 사용)
+- `app/login/page.tsx`: UI 텍스트 "Know Korea — The Modern Envoy" → "Everything you need to navigate Korea."
+- 각 페이지 title에서 "| Know Korea" / "— Know Korea" 제거 (template 자동 처리): about, community, faq, privacy-policy, search, terms-of-service, login, notifications, profile, profile/activities, profile/edit, qa
+- `app/[category]/page.tsx`: 동적 title에서 "| Know Korea" 제거
+- `app/[category]/[slug]/page.tsx`: 동적 title에서 "| Know Korea" 제거
+- "The Modern Envoy" / "Digital Curator" 잔여 텍스트 없음 확인
+- manifest.json 없음 (스킵)
+- npm run build 에러 없음
+
 **다음 단계:** 없음 (레이아웃 전환 완료)
 
 ---

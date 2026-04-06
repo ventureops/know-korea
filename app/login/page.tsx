@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import LoginButtons from "@/components/auth/LoginButtons";
 
 export const metadata = {
-  title: "Login — Know Korea",
+  title: "Sign In",
 };
 
 export default async function LoginPage() {
@@ -25,7 +25,7 @@ export default async function LoginPage() {
             Experience Korea like a local,<br />powered by digital curation.
           </p>
           <p className="text-sm font-body text-on-primary/60">
-            Know Korea — The Modern Envoy
+            Everything you need to navigate Korea.
           </p>
         </div>
         {/* Gradient overlay */}

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Know Korea",
+  title: "Privacy Policy",
   description: "How Know Korea handles your data.",
 };
 

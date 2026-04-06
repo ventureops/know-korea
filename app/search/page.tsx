@@ -10,7 +10,7 @@ import { CATEGORY_LABELS } from "@/lib/categories";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Search | Know Korea",
+  title: "Search",
   description: "Search guides and resources for expats in Korea.",
 };
 

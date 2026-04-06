@@ -4,8 +4,24 @@ import SessionProvider from "@/components/auth/SessionProvider";
 import SiteShell from "@/components/layout/SiteShell";
 
 export const metadata: Metadata = {
-  title: "Know Korea",
-  description: "Everything you need to navigate Korea — The Modern Envoy, Your Digital Curator",
+  title: {
+    default: "Know Korea",
+    template: "%s | Know Korea",
+  },
+  description: "Everything you need to navigate Korea.",
+  openGraph: {
+    title: "Know Korea",
+    description: "Everything you need to navigate Korea.",
+    siteName: "Know Korea",
+    url: "https://knowkorea.com",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Know Korea",
+    description: "Everything you need to navigate Korea.",
+  },
 };
 
 export default function RootLayout({

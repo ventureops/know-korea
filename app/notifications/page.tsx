@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
 
-export const metadata = { title: "Notifications — Know Korea" };
+export const metadata = { title: "Notifications" };
 export const dynamic = "force-dynamic";
 
 const supabaseAdmin = createClient(

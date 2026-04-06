@@ -8,17 +8,7 @@ import { CATEGORY_LABELS, CATEGORY_SLUGS, CATEGORIES } from "@/lib/categories";
 export const revalidate = 3600; // 1시간마다 재생성
 
 export const metadata: Metadata = {
-  title: "Know Korea — The Modern Envoy",
-  description:
-    "Everything you need to navigate Korea. Practical guides for foreigners living, working, and thriving in Korea.",
-  openGraph: {
-    title: "Know Korea — The Modern Envoy",
-    description:
-      "Everything you need to navigate Korea. Practical guides for foreigners living, working, and thriving in Korea.",
-    url: "https://know-korea.vercel.app",
-    siteName: "Know Korea",
-    type: "website",
-  },
+  description: "Everything you need to navigate Korea.",
 };
 
 function CategoryTag({ category }: { category: string }) {
