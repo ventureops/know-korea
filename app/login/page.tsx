@@ -28,6 +28,8 @@ export default async function LoginPage() {
             className="object-cover"
             priority
           />
+          {/* 색상 오버레이 — 배경과 구분 */}
+          <div className="absolute inset-0 bg-brand-navy/20" />
           {/* 하단 오버레이 */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
             <h3 className="text-white font-bold text-lg font-headline">
@@ -49,16 +51,6 @@ export default async function LoginPage() {
         <div className="w-full max-w-sm">
           {/* WebView 안내 (인앱 브라우저 감지 시 표시) */}
           <WebViewWarning />
-
-          {/* 로고 */}
-          <div className="mb-6">
-            <Link
-              href="/"
-              className="font-headline font-extrabold text-sm tracking-widest text-brand-navy uppercase block"
-            >
-              Know<span className="text-tertiary">Korea</span>
-            </Link>
-          </div>
 
           {/* 제목 */}
           <h1 className="font-headline font-extrabold text-3xl text-on-surface tracking-tight mb-2">
@@ -88,19 +80,11 @@ export default async function LoginPage() {
           {/* Google 로그인 버튼 */}
           <LoginButtons />
 
-          {/* 신규 사용자 안내 */}
-          <p className="text-sm text-on-surface-variant mt-4 text-center">
-            New here? Just click &ldquo;Continue with Google&rdquo; to get started.
-          </p>
-
-          {/* 보안 안내 + Apple 예고 */}
-          <div className="mt-6 space-y-1 text-center">
-            <p className="text-xs text-on-surface-variant flex items-center justify-center gap-1">
-              <span className="material-symbols-outlined text-sm">lock</span>
+          {/* 보안 안내 강조 */}
+          <div className="mt-6 flex items-start gap-2 bg-primary-container/20 rounded-xl p-3">
+            <span className="material-symbols-outlined text-primary text-sm mt-0.5">lock</span>
+            <p className="text-xs font-medium text-on-surface">
               We use Google sign-in only — no passwords stored on our servers.
-            </p>
-            <p className="text-xs text-on-surface-variant/60">
-              Apple sign-in coming soon.
             </p>
           </div>
 
