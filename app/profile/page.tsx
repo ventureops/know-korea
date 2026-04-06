@@ -55,7 +55,7 @@ export default async function ProfilePage() {
   ]);
 
   return (
-    <div className="max-w-2xl mr-auto px-5 md:px-8 py-10">
+    <div className="max-w-2xl mx-auto px-5 md:px-8 py-10">
       {/* Header */}
       <div className="flex items-start gap-5 mb-8">
         <div className="w-20 h-20 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center shrink-0">

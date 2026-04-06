@@ -100,7 +100,7 @@ export default async function CommunityDetailPage({ params }: { params: { id: st
   const postUsers = Array.isArray(post.users) ? (post.users[0] ?? null) : post.users;
 
   return (
-    <div className="px-5 md:px-8 py-8 max-w-3xl mr-auto">
+    <div className="px-5 md:px-8 py-8 max-w-3xl mx-auto">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs font-body text-on-surface-variant mb-6">
         <Link href="/" className="hover:text-on-surface transition-colors">Know Korea</Link>

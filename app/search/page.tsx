@@ -50,7 +50,7 @@ export default async function SearchPage({
   const results: Content[] = query ? await searchContents(query) : [];
 
   return (
-    <div className="px-5 md:px-8 py-8 max-w-5xl mr-auto">
+    <div className="px-5 md:px-8 py-8 max-w-5xl mx-auto">
       {/* Search Input (client component) */}
       <div className="mb-8">
         <Suspense fallback={null}>

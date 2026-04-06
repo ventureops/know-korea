@@ -50,7 +50,7 @@ export default async function CategoryPage({
   const articles: Content[] = articlesRaw ?? [];
 
   return (
-    <div className="px-5 md:px-8 py-8 max-w-5xl mr-auto">
+    <div className="px-5 md:px-8 py-8 max-w-5xl mx-auto">
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="font-headline font-extrabold text-4xl text-on-surface tracking-tight mb-3">

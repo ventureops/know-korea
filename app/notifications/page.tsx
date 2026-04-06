@@ -41,7 +41,7 @@ export default async function NotificationsPage() {
     .limit(50);
 
   return (
-    <div className="max-w-2xl mr-auto px-5 md:px-8 py-10">
+    <div className="max-w-2xl mx-auto px-5 md:px-8 py-10">
       <div className="flex items-center gap-3 mb-8">
         <span className="material-symbols-outlined text-[28px] text-primary">notifications</span>
         <h1 className="font-headline font-extrabold text-2xl text-on-surface">Notifications</h1>

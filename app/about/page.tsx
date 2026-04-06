@@ -27,7 +27,7 @@ const categories = [
 
 export default function AboutPage() {
   return (
-    <div className="px-5 md:px-8 py-12 max-w-3xl mr-auto">
+    <div className="px-5 md:px-8 py-12 max-w-3xl mx-auto">
       {/* Hero */}
       <section className="mb-16">
         <h1 className="font-headline font-extrabold text-4xl md:text-5xl text-on-surface tracking-tight leading-tight mb-4">

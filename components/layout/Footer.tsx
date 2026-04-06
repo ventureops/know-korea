@@ -2,7 +2,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-surface-container-low py-8 px-5 md:px-8">
+    <footer className="bg-surface-container-low py-8">
+      <div className="max-w-6xl mx-auto px-5 md:px-8">
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Copyright */}
         <p className="text-xs font-body text-on-surface-variant">
@@ -26,6 +27,7 @@ export default function Footer() {
             </Link>
           ))}
         </div>
+      </div>
       </div>
     </footer>
   );

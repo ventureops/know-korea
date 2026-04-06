@@ -58,7 +58,7 @@ export default function ContactPage() {
 
   if (success) {
     return (
-      <div className="px-5 md:px-8 py-12 max-w-xl mr-auto">
+      <div className="px-5 md:px-8 py-12 max-w-xl mx-auto">
         <div className="bg-success/10 border border-success/20 rounded-2xl p-8 text-center">
           <span className="material-symbols-outlined text-[48px] text-success mb-4 block" style={{ fontVariationSettings: "'FILL' 1" }}>
             check_circle
@@ -73,7 +73,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="px-5 md:px-8 py-12 max-w-xl mr-auto">
+    <div className="px-5 md:px-8 py-12 max-w-xl mx-auto">
       {/* Header */}
       <section className="mb-6">
         <p className="text-[10px] font-label font-bold uppercase tracking-widest text-outline mb-2">Get in Touch</p>

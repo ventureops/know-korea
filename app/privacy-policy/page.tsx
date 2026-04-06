@@ -49,7 +49,7 @@ function Td({ children }: { children: React.ReactNode }) {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="px-5 md:px-8 py-12 max-w-3xl mr-auto">
+    <div className="px-5 md:px-8 py-12 max-w-3xl mx-auto">
       {/* Header */}
       <section className="mb-8">
         <p className="text-[10px] font-label font-bold uppercase tracking-widest text-outline mb-2">Legal</p>

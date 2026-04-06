@@ -3,19 +3,9 @@
 export default function SupportBanner() {
   return (
     <div className="bg-[#2d3a4f] rounded-2xl px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center shrink-0">
-          <span
-            className="material-symbols-outlined text-on-primary-container text-lg"
-            style={{ fontVariationSettings: "'FILL' 1" }}
-          >
-            coffee
-          </span>
-        </div>
-        <p className="text-white/90 text-sm font-medium">
-          Help keep this content free for everyone.
-        </p>
-      </div>
+      <p className="text-white/90 text-sm font-bold">
+        Help keep this content free for everyone.
+      </p>
 
       <button
         onClick={() => {

@@ -22,7 +22,7 @@ export default async function ProfileEditPage() {
     .single();
 
   return (
-    <div className="max-w-xl mr-auto px-5 md:px-8 py-10">
+    <div className="max-w-xl mx-auto px-5 md:px-8 py-10">
       <div className="flex items-center gap-3 mb-8">
         <a href="/profile" className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-all active:scale-95">
           <span className="material-symbols-outlined text-[22px] text-on-surface-variant">arrow_back</span>

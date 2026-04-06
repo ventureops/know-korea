@@ -94,7 +94,7 @@ export default async function QAPage({
   const totalPages = Math.ceil((count ?? 0) / limit);
 
   return (
-    <div className="px-5 md:px-8 py-8 max-w-4xl mr-auto">
+    <div className="px-5 md:px-8 py-8 max-w-4xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
