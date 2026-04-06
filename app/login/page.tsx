@@ -84,7 +84,7 @@ export default async function LoginPage() {
           <div className="mt-6 flex items-start gap-2 bg-primary-container/20 rounded-xl p-3">
             <span className="material-symbols-outlined text-primary text-sm mt-0.5">lock</span>
             <p className="text-xs font-medium text-on-surface">
-              We use Google sign-in only — no passwords stored on our servers.
+              Secured by Google — no passwords stored. Your account is protected by Google&apos;s industry-leading security.
             </p>
           </div>
 

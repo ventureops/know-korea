@@ -37,7 +37,7 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
       <div className="flex-shrink-0 border-b border-outline-variant/20" />
 
       {/* Guide + Community */}
-      <div className="flex-shrink-0 px-4 py-3 space-y-1">
+      <div className="flex-shrink-0 px-4 py-1.5 space-y-0.5">
         {primaryLinks.map(({ href, icon, label }) => {
           const isActive =
             href === "/"
@@ -113,7 +113,7 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
       </nav>
 
       {/* 하단 — About + Contact + Support */}
-      <div className="flex-shrink-0 border-t border-outline-variant/20 px-4 py-3 space-y-1">
+      <div className="flex-shrink-0 border-t border-outline-variant/20 px-4 pt-3 pb-8 space-y-1">
         {footerLinks.map(({ href, icon, label }) => {
           const isActive = pathname === href || pathname.startsWith(href + "/");
           return (
@@ -138,7 +138,7 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
           );
         })}
         <div className="px-1 pt-2">
-          <KoFiButton size="sm" label="Buy Us a Coffee" className="w-full justify-center" />
+          <KoFiButton size="sm" label="Buy Us a Coffee" />
         </div>
       </div>
     </div>

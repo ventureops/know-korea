@@ -16,7 +16,7 @@ export default function LoginButtons() {
       <button
         onClick={handleGoogle}
         disabled={loading}
-        className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-surface-container-lowest border border-outline-variant/30 text-on-surface font-body font-medium text-sm hover:bg-surface-container-low transition-all active:scale-95 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-surface-container-lowest border border-outline-variant/50 text-on-surface font-body font-medium text-sm hover:bg-surface-container-low transition-all active:scale-95 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {loading ? (
           <span className="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
