@@ -14,7 +14,16 @@
 - `Navbar.tsx` — 모바일 Drawer를 SidebarContent로 교체, CATEGORIES import 제거
 - npm run build 에러 없음
 
-**다음 단계:** COMMAND_LAYOUT_B.md (Navbar 제거 + 사이드바 top-0 확장)
+**LAYOUT_B 완료 (2026-04-06) — Navbar → Header 전환 (Phase B)**
+
+- `Header.tsx` 생성 — 48px sticky, 햄버거(모바일) + 검색 + 프로필 드롭다운
+- `MobileDrawer.tsx` 생성 — SidebarContent 재사용, overlay + panel
+- `SiteShell.tsx` 교체 — mobileOpen state, admin 분기 유지, Navbar 제거
+- `Sidebar.tsx` — top-0 / h-full (Navbar 없으므로 전체 화면 차지)
+- Navbar.tsx는 아직 파일 유지 (Phase C에서 삭제)
+- npm run build 에러 없음
+
+**다음 단계:** COMMAND_LAYOUT_C.md (불필요 파일 정리 + 최종 polish)
 
 ---
 
