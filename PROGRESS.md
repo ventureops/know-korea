@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**최근 완료: FIX_22 (2026-04-06) — 인앱 브라우저 Google 로그인 대응**
+**최근 완료: FIX_23 (2026-04-06) — 로그인 페이지 리디자인**
 
 | 작업 | 내용 |
 |------|------|
@@ -19,6 +19,7 @@
 | LAYOUT_G | Community 용어 전환: Q&A → Discussion, Resolved → Featured |
 | LAYOUT_H | Root title template 도입, "The Modern Envoy" 전체 제거, SEO 정리 |
 | FIX_22 | lib/webview.ts 생성, WebViewWarning 컴포넌트, 로그인 페이지 인앱 브라우저 감지 적용 |
+| FIX_23 | 로그인 페이지 리디자인: 2컬럼 레이아웃, 대동여지도 이미지(좌), 가입 혜택 훅 4개, 문구 전면 교체 |
 
 **미결 이슈**
 
