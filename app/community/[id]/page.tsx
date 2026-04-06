@@ -8,7 +8,7 @@ import QAActions from '@/components/qa/QAActions';
 import QAEditDelete from '@/components/qa/QAEditDelete';
 import { optimizeBodyImages } from '@/lib/cloudinary';
 import { CATEGORY_LABELS } from '@/lib/categories';
-import KoFiButton from '@/components/KoFiButton';
+import SupportBanner from '@/components/SupportBanner';
 
 export const revalidate = 300; // 5분마다 재생성
 
@@ -183,25 +183,9 @@ export default async function CommunityDetailPage({ params }: { params: { id: st
       </article>
 
       {/* Ko-fi — always shown on Community detail */}
-      <section className="mt-16 p-8 rounded-2xl bg-[#2D456E] flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl overflow-hidden relative">
-        {/* 배경 장식 아이콘 */}
-        <div className="absolute top-0 right-0 opacity-10 pointer-events-none">
-          <span className="material-symbols-outlined text-[200px]" style={{ fontVariationSettings: "'wght' 100" }}>
-            coffee
-          </span>
-        </div>
-
-        {/* 텍스트 */}
-        <div className="z-10 text-center md:text-left">
-          <h4 className="text-2xl font-bold text-white mb-2">Was this helpful?</h4>
-          <p className="text-white/70 text-sm max-w-md">
-            Our curators work hard to provide accurate info for the expat community.
-            Support us with a coffee!
-          </p>
-        </div>
-
-        <KoFiButton size="lg" className="z-10" />
-      </section>
+      <div className="mt-16">
+        <SupportBanner />
+      </div>
 
       {/* Comments / Answers */}
       <QACommentSection

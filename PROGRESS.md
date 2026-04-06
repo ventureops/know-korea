@@ -43,6 +43,18 @@
 - `SidebarContent.tsx`: Guide/Community 링크에 `uppercase tracking-wider` 추가
 - npm run build 에러 없음
 
+**LAYOUT_E 완료 (2026-04-06) — Buy Us a Coffee 통일**
+
+- `SupportBanner.tsx` 생성 — 콤팩트 한 줄 배너, Ko-fi 팝업 동작
+- `SidebarContent.tsx`: "Support This Site" → "Buy Us a Coffee"
+- `app/page.tsx`: 홈 하단 Ko-fi 배너 전체 삭제
+- `app/[category]/[slug]/page.tsx`: 기존 배너 → `<SupportBanner />`
+- `app/community/[id]/page.tsx`: 기존 배너 → `<SupportBanner />`
+- `app/qa/[id]/page.tsx`: BMC(buymeacoffee.com) 섹션 → `<SupportBanner />`
+- `app/about/page.tsx`: "Support This Site" 제목 삭제, 설명 문단 유지, `<SupportBanner />` 교체
+- 잔여 "Buy me a coffee" / "Support on Ko-fi" / "Support This Site" UI 텍스트 없음 확인
+- npm run build 에러 없음
+
 **다음 단계:** 없음 (레이아웃 전환 완료)
 
 ---

@@ -10,7 +10,7 @@ import ReadButton from "@/components/content/ReadButton";
 import LikeButton from "@/components/content/LikeButton";
 import CommentSection from "@/components/content/CommentSection";
 import ViewTracker from "@/components/content/ViewTracker";
-import KoFiButton from "@/components/KoFiButton";
+import SupportBanner from "@/components/SupportBanner";
 import { CATEGORY_LABELS, CATEGORY_ICONS } from "@/lib/categories";
 
 const supabaseAdmin = createClient(
@@ -336,28 +336,9 @@ export default async function ContentDetailPage({
 
           {/* Ko-fi Section */}
           {article.show_bmc && (
-            <section className="bg-[#2D456E] p-8 rounded-2xl shadow-sm border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative mb-10">
-              {/* 장식 원 */}
-              <div className="absolute right-0 top-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16" />
-
-              {/* 아이콘 + 텍스트 */}
-              <div className="flex items-center gap-6 relative z-10">
-                <div className="w-16 h-16 bg-[#E9C48C] rounded-full flex items-center justify-center text-[#2D456E]">
-                  <span
-                    className="material-symbols-outlined text-3xl"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    coffee
-                  </span>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">Was this helpful?</h3>
-                  <p className="text-white/70">Help keep this content free for everyone.</p>
-                </div>
-              </div>
-
-              <KoFiButton size="md" className="relative z-10" />
-            </section>
+            <div className="mb-10">
+              <SupportBanner />
+            </div>
           )}
 
           <CommentSection contentId={article.id} initialComments={comments} />

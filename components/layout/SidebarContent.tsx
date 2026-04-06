@@ -138,7 +138,7 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
           );
         })}
         <div className="px-1 pt-2">
-          <KoFiButton size="sm" label="Support This Site" className="w-full justify-center" />
+          <KoFiButton size="sm" label="Buy Us a Coffee" className="w-full justify-center" />
         </div>
       </div>
     </div>

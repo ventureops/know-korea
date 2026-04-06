@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import KoFiButton from "@/components/KoFiButton";
+import SupportBanner from "@/components/SupportBanner";
 
 export const metadata: Metadata = {
   title: "About | Know Korea",
@@ -162,15 +162,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Support This Site */}
-      <section className="mb-12 text-center">
-        <h2 className="font-headline font-bold text-2xl text-on-surface mb-3">Support This Site</h2>
-        <p className="text-sm font-body text-on-surface-variant leading-relaxed mb-6 max-w-md mx-auto">
-          Know Korea is free to use. We don't run intrusive ads or let sponsors influence what gets written. If a guide helped you, consider supporting us on Ko-fi. It keeps everything free for the next person who needs it.
+      {/* Support */}
+      <section className="mb-12">
+        <p className="text-sm font-body text-on-surface-variant leading-relaxed mb-6">
+          Know Korea is free to use. We don&apos;t run intrusive ads or let sponsors influence what gets written. If contextual recommendations appear — like a language app in a Language article — they&apos;ll always be relevant and clearly marked.
         </p>
-        <div className="flex justify-center">
-          <KoFiButton label="Support on Ko-fi" size="md" />
-        </div>
+        <SupportBanner />
       </section>
 
       {/* Contact Us */}

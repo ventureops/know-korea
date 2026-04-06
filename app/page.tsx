@@ -4,7 +4,6 @@ import type { Content } from "@/lib/supabase";
 import type { Metadata } from "next";
 import { cloudinaryUrl } from "@/lib/cloudinary";
 import { CATEGORY_LABELS, CATEGORY_SLUGS, CATEGORIES } from "@/lib/categories";
-import KoFiButton from "@/components/KoFiButton";
 
 export const revalidate = 3600; // 1시간마다 재생성
 
@@ -152,18 +151,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Ko-fi Block */}
-      <section className="mb-8">
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-6 bg-[#2D456E] px-8 py-6 rounded-2xl">
-          <div>
-            <p className="text-white font-bold text-lg">Enjoying Know Korea?</p>
-            <p className="text-white/60 text-sm mt-1">
-              All content is free. Support us with a coffee if a guide helped you.
-            </p>
-          </div>
-          <KoFiButton size="md" />
-        </div>
-      </section>
     </div>
   );
 }
