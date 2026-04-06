@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**최근 완료: LAYOUT_A~H (2026-04-06) — 전체 레이아웃 리디자인**
+**최근 완료: FIX_22 (2026-04-06) — 인앱 브라우저 Google 로그인 대응**
 
 | 작업 | 내용 |
 |------|------|
@@ -18,6 +18,7 @@
 | LAYOUT_F | Community 카테고리 칩: Start Here 제외, Other 추가 |
 | LAYOUT_G | Community 용어 전환: Q&A → Discussion, Resolved → Featured |
 | LAYOUT_H | Root title template 도입, "The Modern Envoy" 전체 제거, SEO 정리 |
+| FIX_22 | lib/webview.ts 생성, WebViewWarning 컴포넌트, 로그인 페이지 인앱 브라우저 감지 적용 |
 
 **미결 이슈**
 

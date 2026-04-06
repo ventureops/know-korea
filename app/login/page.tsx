@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import LoginButtons from "@/components/auth/LoginButtons";
+import WebViewWarning from "@/components/auth/WebViewWarning";
 
 export const metadata = {
   title: "Sign In",
@@ -46,6 +47,8 @@ export default async function LoginPage() {
               The easiest way to stay connected with your life in Korea.
             </p>
           </div>
+
+          <WebViewWarning />
 
           <LoginButtons />
 
