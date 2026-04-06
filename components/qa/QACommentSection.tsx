@@ -45,7 +45,7 @@ function Avatar({ user, size = 8 }: { user: { nickname: string; avatar_url: stri
 
 function CommentForm({
   onSubmit,
-  placeholder = 'Write a comment…',
+  placeholder = 'Write a reply…',
   compact = false,
   onCancel,
 }: {
@@ -297,7 +297,7 @@ export default function QACommentSection({ qaPostId, qaAuthorId, initialComments
   return (
     <div className="mt-10 border-t border-outline-variant/15 pt-8">
       <h2 className="font-headline font-bold text-lg text-on-surface mb-6">
-        Answers{' '}
+        Replies{' '}
         {totalCount > 0 && (
           <span className="text-on-surface-variant font-body font-normal text-sm">({totalCount})</span>
         )}
@@ -314,7 +314,7 @@ export default function QACommentSection({ qaPostId, qaAuthorId, initialComments
         <div className="mb-8 px-4 py-4 rounded-xl bg-surface-container-low flex items-center gap-3">
           <span className="material-symbols-outlined text-[20px] text-on-surface-variant">chat_bubble</span>
           <p className="text-sm font-body text-on-surface-variant">
-            <a href="/login" className="text-primary font-bold hover:underline">Log in</a> to answer this question.
+            <a href="/login" className="text-primary font-bold hover:underline">Log in</a> to join the discussion.
           </p>
         </div>
       )}
@@ -322,7 +322,7 @@ export default function QACommentSection({ qaPostId, qaAuthorId, initialComments
       <div className="space-y-6">
         {comments.length === 0 ? (
           <p className="text-sm font-body text-on-surface-variant text-center py-6">
-            No answers yet. Be the first to help!
+            No replies yet. Be the first to respond!
           </p>
         ) : (
           comments.map((comment) => (

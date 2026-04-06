@@ -63,6 +63,19 @@
 - `lib/categories.ts` 변경 없음 (사이드바 15개 카테고리 그대로)
 - npm run build 에러 없음
 
+**LAYOUT_G 완료 (2026-04-06) — Community 용어 전면 변경**
+
+- `community/page.tsx`: "Ask a Question" → "Start a Discussion", STATUS_FILTERS "Unresolved" 삭제 / "Resolved" → "Featured", 빈 상태 텍스트 변경
+- `CommunitySearchInput.tsx`: placeholder "Search questions..." → "Search discussions..."
+- `QACard.tsx`: is_resolved 아이콘 `check_circle(success)` → `star(primary)`, 일반 `help` → `chat_bubble_outline`
+- `QAActions.tsx`: "Mark as Resolved" → "Mark as Featured" (star 아이콘, primary 색상), 비작성자 뱃지 Featured ⭐ (primary-container)
+- `community/[id]/page.tsx`: "Resolved" 뱃지 → "Featured" ⭐ (primary-container)
+- `QACommentSection.tsx`: "Answers" → "Replies", empty/login 텍스트 변경, placeholder "Write a reply…"
+- `community/new/page.tsx`: 제목/설명/Tips/submit 버튼 변경 ("Post Question" → "Post")
+- `community/[id]/edit/page.tsx`: "Edit Question" → "Edit Post"
+- DB 컬럼명 `is_resolved` 등 변경 없음
+- npm run build 에러 없음
+
 **다음 단계:** 없음 (레이아웃 전환 완료)
 
 ---

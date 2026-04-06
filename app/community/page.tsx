@@ -29,8 +29,7 @@ const CATEGORIES = [
 
 const STATUS_FILTERS = [
   { value: '', label: 'All' },
-  { value: 'resolved', label: 'Resolved' },
-  { value: 'unresolved', label: 'Unresolved' },
+  { value: 'resolved', label: 'Featured' },
 ];
 
 export default async function CommunityPage({
@@ -118,14 +117,14 @@ export default async function CommunityPage({
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-on-primary font-body font-bold text-sm hover:bg-primary-dim transition-all active:scale-95 shrink-0 ml-4"
             >
               <span className="material-symbols-outlined text-[18px]">add</span>
-              Ask a Question
+              Start a Discussion
             </Link>
           ) : (
             <Link
               href="/login"
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container text-on-surface font-body font-bold text-sm hover:bg-surface-container-high transition-all active:scale-95 shrink-0 ml-4"
             >
-              Log in to ask
+              Log in to post
             </Link>
           )}
         </div>
@@ -183,9 +182,9 @@ export default async function CommunityPage({
       {posts.length === 0 ? (
         <div className="text-center py-20">
           <span className="material-symbols-outlined text-[48px] text-outline mb-4 block">forum</span>
-          <p className="font-headline font-bold text-on-surface mb-2">No questions yet</p>
+          <p className="font-headline font-bold text-on-surface mb-2">No discussions yet</p>
           <p className="text-sm font-body text-on-surface-variant mb-6">
-            {category ? 'No questions in this category.' : 'Be the first to ask!'}
+            {category ? 'No discussions in this category.' : 'Be the first to start one!'}
           </p>
           {session && (
             <Link
@@ -193,7 +192,7 @@ export default async function CommunityPage({
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-on-primary font-body font-bold text-sm hover:bg-primary-dim transition-all active:scale-95"
             >
               <span className="material-symbols-outlined text-[18px]">add</span>
-              Ask a Question
+              Start a Discussion
             </Link>
           )}
         </div>

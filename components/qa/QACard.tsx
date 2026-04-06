@@ -34,12 +34,12 @@ export default function QACard({ post }: { post: QAPost }) {
       <div className="flex items-start gap-3">
         <div className="shrink-0 mt-0.5">
           {post.is_resolved ? (
-            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-success/10">
-              <span className="material-symbols-outlined text-[16px] text-success" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary/10">
+              <span className="material-symbols-outlined text-[16px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
             </span>
           ) : (
             <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-surface-container">
-              <span className="material-symbols-outlined text-[16px] text-outline">help</span>
+              <span className="material-symbols-outlined text-[16px] text-outline">chat_bubble_outline</span>
             </span>
           )}
         </div>

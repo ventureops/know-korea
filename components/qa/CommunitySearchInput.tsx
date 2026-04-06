@@ -43,7 +43,7 @@ export default function CommunitySearchInput() {
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Search questions..."
+          placeholder="Search discussions..."
           className="flex-1 bg-transparent font-body text-sm text-on-surface placeholder:text-outline outline-none min-w-0"
         />
         {value && (

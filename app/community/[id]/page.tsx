@@ -118,9 +118,9 @@ export default async function CommunityDetailPage({ params }: { params: { id: st
               {categoryLabel}
             </span>
             {post.is_resolved && (
-              <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-label font-bold uppercase tracking-wider bg-success/10 text-success">
-                <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                Resolved
+              <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-label font-bold uppercase tracking-wider bg-primary-container text-on-primary-container">
+                <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                Featured
               </span>
             )}
           </div>

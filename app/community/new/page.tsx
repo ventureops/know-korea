@@ -76,10 +76,10 @@ export default function CommunityNewPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="font-headline font-extrabold text-2xl md:text-3xl text-on-surface tracking-tight mb-1">
-          Ask a Question
+          Start a Discussion
         </h1>
         <p className="text-sm font-body text-on-surface-variant">
-          Be specific. Good questions get helpful answers.
+          Share what&apos;s on your mind. Be specific for the best responses.
         </p>
       </div>
 
@@ -94,7 +94,7 @@ export default function CommunityNewPage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             maxLength={200}
-            placeholder="e.g. How do I open a bank account in Korea as a foreigner?"
+            placeholder="Title"
             className="w-full px-4 py-3 rounded-xl bg-surface-container text-sm font-body text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/30"
           />
           <p className="text-xs text-outline mt-1">{title.length}/200</p>
@@ -132,12 +132,12 @@ export default function CommunityNewPage() {
 
         {/* Tips */}
         <div className="rounded-xl bg-surface-container-low p-4">
-          <p className="text-xs font-label font-bold text-outline uppercase tracking-wider mb-2">Tips for a great question</p>
+          <p className="text-xs font-label font-bold text-outline uppercase tracking-wider mb-2">Tips for a good post</p>
           <ul className="space-y-1">
             {[
-              'Search first — your question may already be answered',
+              'Search first — your topic may already be discussed',
               'Be specific about your situation (visa type, duration, etc.)',
-              'Include any steps you\'ve already tried',
+              'Include any relevant context or details',
             ].map((tip) => (
               <li key={tip} className="flex items-start gap-2 text-xs font-body text-on-surface-variant">
                 <span className="material-symbols-outlined text-[14px] text-primary mt-0.5 shrink-0">check</span>
@@ -164,7 +164,7 @@ export default function CommunityNewPage() {
             disabled={submitting}
             className="px-6 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-body font-bold hover:bg-primary-dim transition-all active:scale-95 disabled:opacity-50"
           >
-            {submitting ? 'Posting…' : 'Post Question'}
+            {submitting ? 'Posting…' : 'Post'}
           </button>
         </div>
       </form>
