@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { cloudinaryUrl } from "@/lib/cloudinary";
-import { CATEGORIES } from "@/lib/categories";
+import SidebarContent from "@/components/layout/SidebarContent";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -20,10 +20,6 @@ export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { data: session, status } = useSession();
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Derive current category slug from pathname
-  const pathSegments = pathname.split("/").filter(Boolean);
-  const currentCategory = pathSegments[0] ?? "";
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -180,96 +176,11 @@ export default function Navbar() {
 
       {/* Mobile Category Drawer */}
       <div
-        className={`fixed left-0 top-0 h-full w-72 bg-surface/95 backdrop-blur-2xl z-50 md:hidden flex flex-col transition-transform duration-300 ease-out overflow-y-auto py-6 ${
+        className={`fixed left-0 top-0 h-full w-72 bg-surface/95 backdrop-blur-2xl z-50 md:hidden flex flex-col transition-transform duration-300 ease-out overflow-hidden ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 mb-6">
-          <div>
-            <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-              Explore Korea
-            </p>
-            <h3 className="text-sm font-headline font-bold text-primary">Categories</h3>
-          </div>
-          <button
-            onClick={() => setMobileOpen(false)}
-            className="p-2 rounded-full hover:bg-surface-container-high transition-colors active:scale-95"
-          >
-            <span className="material-symbols-outlined">close</span>
-          </button>
-        </div>
-
-        {/* Category List */}
-        <nav className="flex flex-col">
-          {CATEGORIES.map((cat) => {
-            const isActive = currentCategory === cat.slug;
-            return (
-              <Link
-                key={cat.slug}
-                href={`/${cat.slug}`}
-                onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-3 py-3 px-6 transition-all border-l-2 ${
-                  isActive
-                    ? "text-primary font-bold border-primary bg-primary-container/10"
-                    : "text-on-surface-variant hover:bg-surface-container-low border-transparent"
-                }`}
-              >
-                <span
-                  className={`material-symbols-outlined text-[18px] shrink-0 ${isActive ? "text-primary" : "text-on-surface-variant"}`}
-                  style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}
-                >
-                  {cat.icon}
-                </span>
-                <span className="text-sm font-label">{cat.name}</span>
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Bottom links */}
-        <div className="mt-6 px-6 pt-4 border-t border-outline-variant/15 flex flex-col gap-1">
-          {[
-            { href: "/community", icon: "forum", label: "Community" },
-            { href: "/about", icon: "info", label: "About" },
-          ].map(({ href, icon, label }) => {
-            const isActive = pathname === href || pathname.startsWith(href + "/");
-            return (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-3 py-2.5 px-3 rounded-xl transition-all ${
-                  isActive
-                    ? "text-on-surface font-bold bg-surface-container-low"
-                    : "text-on-surface-variant hover:bg-surface-container-low"
-                }`}
-              >
-                <span className="material-symbols-outlined text-[18px] shrink-0">{icon}</span>
-                <span className="text-sm font-body">{label}</span>
-              </Link>
-            );
-          })}
-          <button
-            onClick={() => {
-              setMobileOpen(false);
-              window.open(
-                'https://ko-fi.com/knowkorea?hidefeed=true',
-                'ko-fi-popup',
-                'width=560,height=900,scrollbars=yes'
-              );
-            }}
-            className="flex items-center gap-3 py-2.5 px-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-all w-full"
-          >
-            <span
-              className="material-symbols-outlined text-[18px] shrink-0"
-              style={{ fontVariationSettings: "'FILL' 1" }}
-            >
-              coffee
-            </span>
-            <span className="text-sm font-body">Support on Ko-fi</span>
-          </button>
-        </div>
+        <SidebarContent onNavigate={() => setMobileOpen(false)} />
       </div>
     </>
   );

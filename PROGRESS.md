@@ -6,6 +6,18 @@
 
 ## 현재 상태 (미결 이슈)
 
+**LAYOUT_A 완료 (2026-04-06) — 사이드바 통합 (Phase A)**
+
+- branch: `layout-redesign`
+- `SidebarContent.tsx` 생성 — 로고 + Guide + Community + 카테고리 + About + Contact + Support 통합
+- `Sidebar.tsx` — SidebarContent 사용으로 단순화, overflow-hidden + flex-col
+- `Navbar.tsx` — 모바일 Drawer를 SidebarContent로 교체, CATEGORIES import 제거
+- npm run build 에러 없음
+
+**다음 단계:** COMMAND_LAYOUT_B.md (Navbar 제거 + 사이드바 top-0 확장)
+
+---
+
 **FIX_16 미결 (2026-04-05) — Ko-fi 팝업 스크롤 문제**
 
 - `scrollbars=no` 적용했으나 Chrome 88+ 정책으로 무시됨 → 효과 없음
