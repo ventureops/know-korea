@@ -52,7 +52,7 @@ export default async function ProfilePage() {
   return (
     <div className="max-w-2xl mx-auto px-5 md:px-8 py-10">
       {/* Header */}
-      <div className="flex items-start gap-5 mb-8">
+      <div className="flex items-start gap-4 mb-8">
         <div className="w-20 h-20 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center shrink-0">
           {user?.avatar_url ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -64,28 +64,27 @@ export default async function ProfilePage() {
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="font-headline font-extrabold text-2xl text-on-surface truncate">
-              {user?.nickname}
-            </h1>
-            <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-body font-bold">
-              {roleLabel}
-            </span>
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <h1 className="font-headline font-extrabold text-2xl text-on-surface truncate">
+                {user?.nickname}
+              </h1>
+              <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-body font-bold shrink-0">
+                {roleLabel}
+              </span>
+            </div>
+            <Link
+              href="/profile/edit"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container text-on-surface text-sm font-body font-medium hover:bg-surface-container-high transition-all active:scale-95 shrink-0"
+            >
+              <span className="material-symbols-outlined text-[16px]">edit</span>
+              Edit
+            </Link>
           </div>
           <p className="text-sm font-body text-on-surface-variant mt-0.5">{user?.email}</p>
           <p className="text-xs font-body text-outline mt-1">
             Member since {new Date(user?.created_at ?? "").toLocaleDateString("en-US", { year: "numeric", month: "long" })}
           </p>
-        </div>
-        <div className="flex flex-col items-end gap-1 shrink-0">
-          <Link
-            href="/profile/edit"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container text-on-surface text-sm font-body font-medium hover:bg-surface-container-high transition-all active:scale-95"
-          >
-            <span className="material-symbols-outlined text-[16px]">edit</span>
-            Edit
-          </Link>
-          <p className="text-xs text-on-surface-variant/60">You can change your nickname and photo.</p>
         </div>
       </div>
 
