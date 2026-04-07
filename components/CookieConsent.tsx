@@ -60,7 +60,7 @@ export default function CookieConsent() {
         <div className="fixed bottom-0 left-0 right-0 z-50 p-3 sm:p-4">
           <div className="max-w-2xl mx-auto bg-surface-container-lowest rounded-2xl shadow-lg border border-outline-variant/15 px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <p className="flex-1 text-sm font-body text-on-surface-variant leading-relaxed">
-              We use cookies to understand how you use Know Korea.{' '}
+              We use cookies only to understand how you use Know Korea — nothing is shared with advertisers or third parties.{' '}
               <Link href="/privacy-policy" className="text-primary hover:underline">
                 Privacy Policy
               </Link>
