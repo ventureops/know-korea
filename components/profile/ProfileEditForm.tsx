@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 interface Props {
   userId: string;
@@ -11,6 +12,7 @@ interface Props {
 
 export default function ProfileEditForm({ userId, initialNickname, initialAvatar }: Props) {
   const router = useRouter();
+  const { update } = useSession();
   const [nickname, setNickname] = useState(initialNickname);
   const [avatarUrl, setAvatarUrl] = useState(initialAvatar ?? '');
   const [saving, setSaving] = useState(false);
@@ -58,6 +60,7 @@ export default function ProfileEditForm({ userId, initialNickname, initialAvatar
     });
     setSaving(false);
     if (res.ok) {
+      await update();
       router.push('/profile');
       router.refresh();
     } else {
