@@ -120,6 +120,9 @@ export default function TermsOfServicePage() {
         When you follow these links, you leave our site. We are not responsible for the content, privacy practices,
         or terms of any third-party site.
       </P>
+      <P>
+        Donations are entirely voluntary and do not affect your access to any content or features on Know Korea.
+      </P>
 
       {/* Section 8 */}
       <SectionHeading>8. Account Suspension and Termination</SectionHeading>
