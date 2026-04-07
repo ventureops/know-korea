@@ -71,7 +71,7 @@ export default function AboutPage() {
             No filler. No condescending "Korea is a fascinating country" intros. Just clear, honest answers with enough context to actually be useful.
           </p>
           <p className="font-medium text-on-surface">
-            15 categories. 190+ guides. One goal.
+            15 categories. Nearly 200 guides. One goal.
           </p>
         </div>
 
@@ -131,14 +131,9 @@ export default function AboutPage() {
       </section>
 
       {/* A Note on Why This Matters */}
-      <section className="mb-12 rounded-3xl p-8" style={{ backgroundColor: "#000B2D" }}>
-        <p className="text-[10px] font-label font-bold uppercase tracking-widest text-on-primary/40 mb-2">
-          A Note on Why This Matters
-        </p>
-        <h2 className="font-headline font-bold text-2xl text-on-primary mb-4">
-          Korea deserves better representation.
-        </h2>
-        <div className="space-y-3 text-sm font-body leading-relaxed" style={{ color: "rgba(239,242,255,0.7)" }}>
+      <section className="mb-12">
+        <h2 className="font-headline font-bold text-2xl text-on-surface mb-4">A Note on Why This Matters</h2>
+        <div className="space-y-4 font-body text-on-surface-variant leading-relaxed">
           <p>
             When you're in a foreign country — whether for a week, a year, or a decade — there's a difference between being <em>present</em> and truly <em>understanding</em>.
           </p>
@@ -163,31 +158,24 @@ export default function AboutPage() {
       </section>
 
       {/* Contact Us */}
-      <section className="mb-8">
+      <section className="mb-12">
         <h2 className="font-headline font-bold text-2xl text-on-surface mb-4">Contact Us</h2>
         <p className="text-sm font-body text-on-surface-variant leading-relaxed mb-6">
           Found an error? Have a topic suggestion? Interested in a partnership?
         </p>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Link
-            href="/contact"
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-on-primary font-body font-bold text-sm hover:opacity-90 active:scale-95 transition-all text-center"
-          >
-            <span className="material-symbols-outlined text-[18px]">mail</span>
-            Contact Us →
-          </Link>
-          <Link
-            href="/community"
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-surface-container-low text-on-surface font-body font-bold text-sm hover:bg-surface-container transition-all active:scale-95 text-center"
-          >
-            <span className="material-symbols-outlined text-[18px]">forum</span>
-            Visit the Community →
-          </Link>
-        </div>
-        <p className="mt-8 text-xs font-body text-outline leading-relaxed italic text-center">
-          Know Korea is an independent platform, not affiliated with any government body or institution. All content reflects personal experience and research — always verify important decisions with qualified professionals.
-        </p>
+        <Link
+          href="/contact"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-on-primary font-body font-bold text-sm hover:opacity-90 active:scale-95 transition-all"
+        >
+          <span className="material-symbols-outlined text-[18px]">mail</span>
+          Contact Us →
+        </Link>
       </section>
+
+      {/* 면책조항 */}
+      <p className="mt-12 text-sm font-body text-on-surface-variant/70 leading-relaxed italic text-center">
+        Know Korea is an independent platform, not affiliated with any government body or institution. All content is for informational purposes based on personal experience and research. Laws, regulations, and procedures may change — always verify important decisions with official sources or qualified professionals.
+      </p>
     </div>
   );
 }
