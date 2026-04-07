@@ -131,12 +131,6 @@ function CommentItem({
             <span className="material-symbols-outlined text-[13px] text-amber-500" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">military_tech</span>
           )}
           <span className="text-xs text-outline">{timeAgo(comment.created_at)}</span>
-          {comment.is_helpful && (
-            <span className="flex items-center gap-1 text-xs text-success font-label font-bold">
-              <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>thumb_up</span>
-              Helpful
-            </span>
-          )}
         </div>
         <p className="text-sm font-body text-on-surface leading-relaxed whitespace-pre-line">{comment.body}</p>
         <div className="flex items-center gap-3 mt-2">
@@ -194,12 +188,6 @@ function CommentItem({
                       <span className="material-symbols-outlined text-[12px] text-amber-500" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">military_tech</span>
                     )}
                     <span className="text-xs text-outline">{timeAgo(reply.created_at)}</span>
-                    {reply.is_helpful && (
-                      <span className="flex items-center gap-1 text-xs text-success font-label font-bold">
-                        <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>thumb_up</span>
-                        Helpful
-                      </span>
-                    )}
                   </div>
                   <p className="text-xs font-body text-on-surface leading-relaxed whitespace-pre-line">{reply.body}</p>
                   <div className="flex items-center gap-3 mt-1.5">
@@ -302,12 +290,13 @@ export default function QACommentSection({ qaPostId, qaAuthorId, initialComments
 
   return (
     <div className="mt-10 border-t border-outline-variant/15 pt-8">
-      <h2 className="font-headline font-bold text-lg text-on-surface mb-6">
+      <h2 className="font-headline font-bold text-lg text-on-surface mb-1">
         Replies{' '}
         {totalCount > 0 && (
           <span className="text-on-surface-variant font-body font-normal text-sm">({totalCount})</span>
         )}
       </h2>
+      <p className="text-xs text-on-surface-variant mb-6">Inappropriate comments may be deleted.</p>
 
       {session ? (
         <div className="flex gap-3 mb-8">

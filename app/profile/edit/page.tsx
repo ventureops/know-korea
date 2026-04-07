@@ -17,7 +17,7 @@ export default async function ProfileEditPage() {
 
   const { data: user } = await supabaseAdmin
     .from("users")
-    .select("id, nickname, avatar_url, email")
+    .select("id, nickname, avatar_url, email, real_name")
     .eq("email", session.user.email)
     .single();
 
@@ -33,6 +33,7 @@ export default async function ProfileEditPage() {
         userId={user?.id ?? ""}
         initialNickname={user?.nickname ?? ""}
         initialAvatar={user?.avatar_url ?? null}
+        initialRealName={user?.real_name ?? ""}
       />
     </div>
   );

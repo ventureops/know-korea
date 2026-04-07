@@ -60,9 +60,9 @@ export default function QAActions({
       <button
         onClick={toggleLike}
         disabled={likeLoading}
-        className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-body font-medium text-sm transition-all active:scale-95 ${
+        className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-body font-medium text-sm transition-all active:scale-95 disabled:opacity-60 ${
           liked
-            ? 'bg-tertiary/10 text-tertiary'
+            ? 'bg-error/10 text-error'
             : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
         }`}
       >
@@ -72,7 +72,7 @@ export default function QAActions({
         >
           favorite
         </span>
-        <span>{likeCount}</span>
+        <span>{likeCount > 0 ? likeCount : ''} {liked ? 'Liked' : 'Like'}</span>
       </button>
 
       {/* Featured toggle — author only */}
@@ -80,9 +80,9 @@ export default function QAActions({
         <button
           onClick={toggleSolved}
           disabled={solvedLoading}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-body font-medium text-sm transition-all active:scale-95 ${
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-body font-medium text-sm transition-all active:scale-95 disabled:opacity-60 ${
             resolved
-              ? 'bg-primary/10 text-primary'
+              ? 'bg-primary-container text-on-primary-container'
               : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
           }`}
         >
@@ -96,10 +96,10 @@ export default function QAActions({
         </button>
       )}
 
-      {/* Featured badge for non-authors */}
+      {/* Featured display for non-authors */}
       {!isAuthor && resolved && (
-        <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container text-on-primary-container text-sm font-bold">
-          <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+        <span className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary-container text-on-primary-container text-sm font-body font-medium">
+          <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
           Featured
         </span>
       )}

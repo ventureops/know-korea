@@ -77,13 +77,16 @@ export default async function ProfilePage() {
             Member since {new Date(user?.created_at ?? "").toLocaleDateString("en-US", { year: "numeric", month: "long" })}
           </p>
         </div>
-        <Link
-          href="/profile/edit"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container text-on-surface text-sm font-body font-medium hover:bg-surface-container-high transition-all active:scale-95 shrink-0"
-        >
-          <span className="material-symbols-outlined text-[16px]">edit</span>
-          Edit
-        </Link>
+        <div className="flex flex-col items-end gap-1 shrink-0">
+          <Link
+            href="/profile/edit"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container text-on-surface text-sm font-body font-medium hover:bg-surface-container-high transition-all active:scale-95"
+          >
+            <span className="material-symbols-outlined text-[16px]">edit</span>
+            Edit
+          </Link>
+          <p className="text-xs text-on-surface-variant/60">You can change your nickname and photo.</p>
+        </div>
       </div>
 
       {/* Stats — 4개 */}

@@ -117,12 +117,6 @@ export default async function CommunityDetailPage({ params }: { params: { id: st
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-label font-bold uppercase tracking-wider bg-primary/10 text-primary">
               {categoryLabel}
             </span>
-            {post.is_resolved && (
-              <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-label font-bold uppercase tracking-wider bg-primary-container text-on-primary-container">
-                <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                Featured
-              </span>
-            )}
           </div>
           <h1 className="font-headline font-extrabold text-2xl md:text-3xl text-on-surface tracking-tight leading-tight mb-4">
             {post.title}

@@ -8,12 +8,14 @@ interface Props {
   userId: string;
   initialNickname: string;
   initialAvatar: string | null;
+  initialRealName: string;
 }
 
-export default function ProfileEditForm({ userId, initialNickname, initialAvatar }: Props) {
+export default function ProfileEditForm({ userId, initialNickname, initialAvatar, initialRealName }: Props) {
   const router = useRouter();
   const { update } = useSession();
   const [nickname, setNickname] = useState(initialNickname);
+  const [realName, setRealName] = useState(initialRealName);
   const [avatarUrl, setAvatarUrl] = useState(initialAvatar ?? '');
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -56,7 +58,7 @@ export default function ProfileEditForm({ userId, initialNickname, initialAvatar
     const res = await fetch('/api/profile/update', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nickname: nickname.trim(), avatar_url: avatarUrl || null }),
+      body: JSON.stringify({ nickname: nickname.trim(), avatar_url: avatarUrl || null, real_name: realName.trim() || null }),
     });
     setSaving(false);
     if (res.ok) {
@@ -150,6 +152,22 @@ export default function ProfileEditForm({ userId, initialNickname, initialAvatar
           className="w-full px-4 py-3 rounded-xl bg-surface-container text-sm font-body text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/30"
         />
         <p className="text-xs text-outline mt-1">{nickname.length}/30 characters</p>
+      </div>
+
+      {/* Real Name */}
+      <div>
+        <label className="block text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">
+          Real Name
+        </label>
+        <input
+          type="text"
+          value={realName}
+          onChange={(e) => setRealName(e.target.value)}
+          placeholder="Your real name (optional)"
+          maxLength={100}
+          className="w-full px-4 py-3 rounded-xl bg-surface-container text-sm font-body text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/30"
+        />
+        <p className="text-xs text-on-surface-variant/60 mt-1">Optional — only visible to you.</p>
       </div>
 
       {error && (
