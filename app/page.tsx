@@ -1,146 +1,190 @@
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
-import type { Content } from "@/lib/supabase";
 import type { Metadata } from "next";
-import { cloudinaryUrl } from "@/lib/cloudinary";
-import { CATEGORY_LABELS, CATEGORY_SLUGS, CATEGORIES } from "@/lib/categories";
+import SupportBanner from "@/components/SupportBanner";
 
-export const revalidate = 3600; // 1시간마다 재생성
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   description: "Everything you need to navigate Korea.",
 };
 
-function CategoryTag({ category }: { category: string }) {
-  const label = CATEGORY_LABELS[category] ?? category.replace(/-/g, " ");
-  return (
-    <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-label font-bold uppercase tracking-wider bg-primary/10 text-primary-dim">
-      {label}
-    </span>
-  );
-}
+const starterCategories = [
+  {
+    slug: "start-here",
+    icon: "rocket_launch",
+    name: "Start Here",
+    description:
+      "New to Korea or Know Korea? This is your starting point — the essentials, the basics, and where to go next.",
+  },
+  {
+    slug: "language",
+    icon: "font_download",
+    name: "Language",
+    description:
+      "From reading Hangul to survival phrases and K-Pop slang — real Korean for real situations.",
+  },
+  {
+    slug: "culture-society",
+    icon: "theater_comedy",
+    name: "Culture & Society",
+    description:
+      "The unwritten rules that make Korea tick — uri, nunchi, ppalli-ppalli, and everything in between.",
+  },
+];
 
-function estimateReadTime(body: string | null): string {
-  if (!body) return "3 min read";
-  const words = body.replace(/<[^>]+>/g, "").split(/\s+/).length;
-  return `${Math.max(1, Math.round(words / 200))} min read`;
-}
+const themeGroups = [
+  {
+    title: "Getting Started",
+    description:
+      "The foundations — language, culture basics, and your first steps in Korea.",
+    categories: [
+      { slug: "start-here", name: "Start Here" },
+      { slug: "language", name: "Language" },
+    ],
+  },
+  {
+    title: "K-Culture",
+    description:
+      "The music, films, dramas, sports, and lifestyle that put Korea on the world stage.",
+    categories: [
+      { slug: "k-pop", name: "K-Pop" },
+      { slug: "k-film", name: "K-Film" },
+      { slug: "k-drama", name: "K-Drama" },
+      { slug: "k-sports", name: "K-Sports" },
+      { slug: "k-lifestyle", name: "K-Lifestyle" },
+    ],
+  },
+  {
+    title: "Understanding Korea",
+    description:
+      "The history, politics, society, and global influence that shaped modern Korea.",
+    categories: [
+      { slug: "culture-society", name: "Culture & Society" },
+      { slug: "history-politics", name: "History & Politics" },
+      { slug: "korea-in-the-world", name: "Korea in the World" },
+    ],
+  },
+  {
+    title: "Life in Korea",
+    description:
+      "Practical guides for living, working, and managing money in Korea.",
+    categories: [
+      { slug: "living-in-korea", name: "Living in Korea" },
+      { slug: "work-business", name: "Work & Business" },
+      { slug: "economy-money", name: "Economy & Money" },
+    ],
+  },
+  {
+    title: "Travel & Tools",
+    description:
+      "City guides, travel tips, and the apps that make everything easier.",
+    categories: [
+      { slug: "travel-places", name: "Travel & Places" },
+      { slug: "tools-resources", name: "Tools & Resources" },
+    ],
+  },
+];
 
-export default async function HomePage() {
-  // 15개 카테고리별 view_count 최고 콘텐츠 1개씩 가져오기
-  const { data: allContents } = await supabase
-    .from("contents")
-    .select("*")
-    .eq("is_published", true)
-    .order("view_count", { ascending: false });
-
-  const contents: Content[] = allContents ?? [];
-
-  // 카테고리별 최고 조회수 콘텐츠 1개씩 선택 (CATEGORIES 순서 유지, 없으면 null)
-  const categoryCards: (Content | { _empty: true; category: string })[] =
-    CATEGORY_SLUGS.map((slug) => {
-      const found = contents.find((c) => c.category === slug);
-      return found ?? { _empty: true, category: slug };
-    });
-
+export default function HomePage() {
   return (
     <div className="px-5 md:px-8 py-8 max-w-5xl mx-auto">
       {/* Hero */}
-      <section className="mb-8">
-        <h1 className="font-headline font-extrabold text-4xl text-on-surface tracking-tight uppercase mb-3">
+      <section className="mb-12">
+        <h1 className="font-headline font-extrabold text-4xl text-on-surface tracking-tight uppercase mb-2">
           Guide
         </h1>
-        <p className="text-base font-body text-on-surface-variant mb-6">
+        <p className="text-base font-body text-on-surface-variant">
           Everything you need to navigate Korea
         </p>
-
-        {/* Info cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="flex items-start gap-3 bg-primary/8 border border-primary/20 rounded-xl p-5">
-            <span className="material-symbols-outlined text-[22px] text-primary shrink-0 mt-0.5">coffee</span>
-            <p className="text-base font-body font-medium text-on-surface leading-relaxed">Free. Independent. Powered by coffee.</p>
-          </div>
-          <div className="flex items-start gap-3 bg-primary/8 border border-primary/20 rounded-xl p-5">
-            <span className="material-symbols-outlined text-[22px] text-primary shrink-0 mt-0.5">person_add</span>
-            <p className="text-base font-body font-medium text-on-surface leading-relaxed">Sign up to comment, ask, and track what you&apos;ve read.</p>
-          </div>
-        </div>
       </section>
 
-      {/* Best Article by Category — 15 categories, 3×5 grid */}
-      <section className="mb-12">
-        <h2 className="font-headline font-bold text-xl text-on-surface mb-5">
-          Best Article by Category
+      {/* Where to Start */}
+      <section className="mb-16">
+        <h2 className="font-headline font-bold text-xl text-on-surface mb-6">
+          Where to Start
         </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {categoryCards.map((item) => {
-            // Coming Soon 카드
-            if ("_empty" in item) {
-              const cat = CATEGORIES.find((c) => c.slug === item.category)!;
-              return (
-                <Link
-                  key={item.category}
-                  href={`/${item.category}`}
-                  className="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-outline-variant/15 transition-all"
-                >
-                  <div className="h-40 bg-surface-container flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[40px] text-on-surface-variant/20">
-                      {cat.icon}
-                    </span>
-                  </div>
-                  <div className="p-4">
-                    <div className="mb-2">
-                      <CategoryTag category={item.category} />
-                    </div>
-                    <p className="text-xs font-label text-outline mt-2">Coming Soon</p>
-                  </div>
-                </Link>
-              );
-            }
-            // 일반 콘텐츠 카드
-            const guide = item as Content;
-            return (
-              <Link
-                key={guide.slug}
-                href={`/${guide.category}/${guide.slug}`}
-                className="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-outline-variant/15 transition-all"
-              >
-                <div className="h-40 bg-surface-container overflow-hidden">
-                  {guide.cover_image ? (
-                    <img
-                      src={cloudinaryUrl(guide.cover_image, "card")}
-                      alt={guide.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <span className="material-symbols-outlined text-[40px] text-on-surface-variant/20">
-                        article
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <div className="p-4">
-                  <div className="mb-2">
-                    <CategoryTag category={guide.category} />
-                  </div>
-                  <h3 className="font-headline font-bold text-base text-on-surface leading-snug mb-1 line-clamp-2">
-                    {guide.title}
-                  </h3>
-                  <p className="text-xs font-body text-on-surface-variant line-clamp-2 mb-3">
-                    {guide.excerpt}
-                  </p>
-                  <span className="text-xs font-label text-outline">
-                    {estimateReadTime(guide.body_mdx)}
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {starterCategories.map((cat) => (
+            <Link
+              key={cat.slug}
+              href={`/${cat.slug}`}
+              className="group bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 hover:shadow-lg hover:-translate-y-1 transition-all"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <span className="material-symbols-outlined text-primary text-2xl">
+                  {cat.icon}
+                </span>
+                <h3 className="text-lg font-bold font-headline text-on-surface group-hover:text-primary transition-colors">
+                  {cat.name}
+                </h3>
+              </div>
+              <p className="text-sm font-body text-on-surface-variant mb-4">
+                {cat.description}
+              </p>
+              <span className="text-sm font-bold text-primary">Explore →</span>
+            </Link>
+          ))}
         </div>
       </section>
 
+      {/* Explore by Theme */}
+      <section className="mb-16">
+        <h2 className="font-headline font-bold text-xl text-on-surface mb-6">
+          Explore by Theme
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {themeGroups.map((group, index) => (
+            <div
+              key={group.title}
+              className={`bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 ${
+                index === themeGroups.length - 1 ? "md:col-span-2" : ""
+              }`}
+            >
+              <h3 className="font-headline font-bold text-lg text-on-surface mb-2">
+                {group.title}
+              </h3>
+              <p className="text-sm font-body text-on-surface-variant mb-4">
+                {group.description}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {group.categories.map((cat) => (
+                  <Link
+                    key={cat.slug}
+                    href={`/${cat.slug}`}
+                    className="text-xs font-body font-medium px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors"
+                  >
+                    {cat.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Community */}
+      <section className="mb-12">
+        <div className="bg-surface-container-low rounded-2xl p-8 text-center">
+          <h2 className="font-headline font-bold text-xl text-on-surface mb-2">
+            Join the Community
+          </h2>
+          <p className="text-sm font-body text-on-surface-variant mb-6 max-w-md mx-auto">
+            Share your experiences and start discussions with others who love Korea.
+          </p>
+          <Link
+            href="/community"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-xl font-body font-bold text-sm hover:opacity-90 transition-opacity active:scale-95"
+          >
+            <span className="material-symbols-outlined text-lg">forum</span>
+            Visit the Community
+          </Link>
+        </div>
+      </section>
+
+      {/* Support */}
+      <section className="mb-12">
+        <SupportBanner />
+      </section>
     </div>
   );
 }
