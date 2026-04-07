@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**최근 완료: FIX_24 (2026-04-07) — 프로필 사진 업로드 + Logout 통일 + 로그인 페이지 Header**
+**최근 완료: FIX_25 (2026-04-07) — About 페이지 콘텐츠 교체 + Terms of Service 7번 문구 추가**
 
 | 작업 | 내용 |
 |------|------|
@@ -21,12 +21,15 @@
 | FIX_22 | lib/webview.ts 생성, WebViewWarning 컴포넌트, 로그인 페이지 인앱 브라우저 감지 적용 |
 | FIX_23 | 로그인 페이지 리디자인: 2컬럼 레이아웃, 대동여지도 이미지(좌), 가입 혜택 훅 4개, 문구 전면 교체 |
 | FIX_24 | 프로필 사진 Upload Photo 버튼+Cloudinary 업로드, Sign out→Logout, 로그인 페이지 Header 버튼 숨김 |
+| GA4+Cookie | GA4 + Cookie Consent 배너 구현 (GDPR), Footer Cookie Settings 링크 추가 |
+| FIX_25 | About 페이지: 다크 카드 제거, "Nearly 200 guides", "Visit the Community" 삭제, 면책조항 text-sm |
+| ToS 7번 | Terms of Service 7번에 Ko-fi 자발적 기부 문구 추가 |
 
 **미결 이슈**
 
 - **FIX_16 (2026-04-05)** — Ko-fi 팝업 scrollbars 제어 불가 (Chrome 88+ 정책). 해결 방향 미결정.
 
-**다음 작업:** 특별히 예정된 작업 없음. 콘텐츠 입력 또는 새 기능 요청 대기 중.
+**다음 작업:** 사이드바 로고 재제작 대기 중 (권장 크기: 160×36px / 2x PNG 320×72px, 투명 배경).
 
 ---
 
