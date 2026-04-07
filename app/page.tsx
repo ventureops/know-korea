@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import SupportBanner from "@/components/SupportBanner";
+import { CATEGORY_CHIP_COLORS } from "@/lib/categories";
 
 export const revalidate = 3600;
 
@@ -151,7 +152,7 @@ export default function HomePage() {
                   <Link
                     key={cat.slug}
                     href={`/${cat.slug}`}
-                    className="text-xs font-body font-medium px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors"
+                    className={`text-xs font-body font-medium px-3 py-1.5 rounded-full transition-colors ${CATEGORY_CHIP_COLORS[cat.slug] ?? 'bg-surface-container-high text-on-surface-variant'} hover:opacity-80`}
                   >
                     {cat.name}
                   </Link>

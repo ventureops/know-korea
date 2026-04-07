@@ -17,7 +17,7 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? 'placeholder'
 );
 
-import { CATEGORIES as CAT_LIST } from '@/lib/categories';
+import { CATEGORIES as CAT_LIST, CATEGORY_CHIP_COLORS } from '@/lib/categories';
 
 const CATEGORIES = [
   { value: '', label: 'All' },
@@ -168,7 +168,7 @@ export default async function CommunityPage({
               href={href}
               className={`px-3 py-1.5 rounded-full text-xs font-label font-bold transition-all ${
                 category === cat.value
-                  ? 'bg-primary text-on-primary'
+                  ? (CATEGORY_CHIP_COLORS[cat.value] ?? 'bg-primary text-on-primary')
                   : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
               }`}
             >

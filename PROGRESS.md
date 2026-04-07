@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**최근 완료: COMMAND_LAYOUT_I (2026-04-07) — Save 기능 + Supporter 배지 + 프로필 재구성**
+**최근 완료: COMMAND_FIX_28 (2026-04-08) — 카테고리 칩 색상 통일**
 
 | 작업 | 내용 |
 |------|------|
@@ -25,6 +25,11 @@
 | FIX_25 | About 페이지: 다크 카드 제거, "Nearly 200 guides", "Visit the Community" 삭제, 면책조항 text-sm |
 | ToS 7번 | Terms of Service 7번에 Ko-fi 자발적 기부 문구 추가 |
 | LAYOUT_I | Save 기능(content_saves 테이블+API+SaveButton), Supporter 배지(is_supporter 컬럼+Admin 토글), 프로필 3분할(Reading/Community/Contact Activity 페이지), 댓글/QA 작성자 ☕ 아이콘 |
+| LAYOUT_J | Supporter 메달 뱃지(military_tech), 댓글/Related 간격 hr, 사이드바 CTA "Join the Discussion" |
+| LAYOUT_K | Real Name 필드 추가, Community UI 정리(버튼 색상 통일, 경고 문구, is_helpful 뱃지 제거) |
+| LAYOUT_L | 홈 페이지 정적 포털 재구성(Where to Start + Explore by Theme + Community CTA) |
+| FIX_27 | Community 문구 간결화, 아티클 본문↔우측 사이드바 간격 lg:gap-12 |
+| FIX_28 | 카테고리 칩 그룹별 색상 통일(Guide 홈 + Community), CATEGORY_CHIP_COLORS 맵 추가 |
 
 **미결 이슈**
 

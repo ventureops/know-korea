@@ -36,3 +36,27 @@ export const CATEGORY_SLUGS = CATEGORIES.map((c) => c.slug);
 export const CATEGORY_ICONS: Record<string, string> = Object.fromEntries(
   CATEGORIES.map((c) => [c.slug, c.icon])
 );
+
+/** 카테고리 → 그룹 칩 색상 매핑 (active 상태) */
+export const CATEGORY_CHIP_COLORS: Record<string, string> = {
+  // Getting Started — Blue
+  'start-here': 'bg-primary-container text-on-primary-container',
+  'language': 'bg-primary-container text-on-primary-container',
+  // K-Culture — Lavender
+  'k-pop': 'bg-surface-dim text-on-surface',
+  'k-film': 'bg-surface-dim text-on-surface',
+  'k-drama': 'bg-surface-dim text-on-surface',
+  'k-sports': 'bg-surface-dim text-on-surface',
+  'k-lifestyle': 'bg-surface-dim text-on-surface',
+  // Understanding Korea — Green
+  'culture-society': 'bg-success-container text-success',
+  'history-politics': 'bg-success-container text-success',
+  'korea-in-the-world': 'bg-success-container text-success',
+  // Life in Korea — Neutral
+  'living-in-korea': 'bg-secondary-container text-on-secondary-container',
+  'work-business': 'bg-secondary-container text-on-secondary-container',
+  'economy-money': 'bg-secondary-container text-on-secondary-container',
+  // Travel & Tools — Red/Pink
+  'travel-places': 'bg-tertiary-container text-on-tertiary-container',
+  'tools-resources': 'bg-tertiary-container text-on-tertiary-container',
+};
