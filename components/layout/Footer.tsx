@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CookieSettingsButton from "@/components/CookieSettingsButton";
 
 export default function Footer() {
   return (
@@ -26,6 +27,7 @@ export default function Footer() {
               {link.label}
             </Link>
           ))}
+          <CookieSettingsButton />
         </div>
       </div>
       </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SessionProvider from "@/components/auth/SessionProvider";
 import SiteShell from "@/components/layout/SiteShell";
+import CookieConsent from "@/components/CookieConsent";
 
 export const metadata: Metadata = {
   title: {
@@ -45,6 +46,7 @@ export default function RootLayout({
         <SessionProvider>
           <SiteShell>{children}</SiteShell>
         </SessionProvider>
+        <CookieConsent />
       </body>
     </html>
   );
