@@ -14,8 +14,37 @@ export default function ProfileEditForm({ userId, initialNickname, initialAvatar
   const [nickname, setNickname] = useState(initialNickname);
   const [avatarUrl, setAvatarUrl] = useState(initialAvatar ?? '');
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
   const [error, setError] = useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError('File size must be under 5MB.');
+      return;
+    }
+
+    setUploading(true);
+    setUploadError('');
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await fetch('/api/upload/avatar', { method: 'POST', body: formData });
+    setUploading(false);
+
+    if (!res.ok) {
+      setUploadError('Upload failed. Please try again.');
+      return;
+    }
+
+    const { url } = await res.json();
+    setAvatarUrl(url);
+  }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
@@ -47,30 +76,62 @@ export default function ProfileEditForm({ userId, initialNickname, initialAvatar
 
   return (
     <form onSubmit={handleSave} className="space-y-6">
-      {/* Avatar preview */}
-      <div className="flex items-center gap-4">
-        <div className="w-16 h-16 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center shrink-0">
-          {avatarUrl ? (
-            <img src={avatarUrl} alt="avatar" className="w-full h-full object-cover" />
+      {/* Avatar preview + upload */}
+      <div className="space-y-4">
+        {/* 미리보기 */}
+        <div className="flex justify-center">
+          <div className="w-20 h-20 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center shrink-0">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="avatar" className="w-full h-full object-cover" />
+            ) : (
+              <span className="font-headline font-bold text-3xl text-on-surface">
+                {nickname ? nickname[0].toUpperCase() : '?'}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Upload Photo 버튼 */}
+        <label className="flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-on-primary rounded-xl font-bold text-sm cursor-pointer hover:opacity-90 transition-opacity active:scale-95">
+          {uploading ? (
+            <>
+              <span className="material-symbols-outlined text-lg animate-spin">progress_activity</span>
+              Uploading…
+            </>
           ) : (
-            <span className="font-headline font-bold text-2xl text-on-surface">
-              {nickname ? nickname[0].toUpperCase() : '?'}
-            </span>
+            <>
+              <span className="material-symbols-outlined text-lg">cloud_upload</span>
+              Upload Photo
+            </>
           )}
-        </div>
-        <div className="flex-1">
-          <label className="block text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">
-            Avatar URL
-          </label>
           <input
-            type="url"
-            value={avatarUrl}
-            onChange={(e) => setAvatarUrl(e.target.value)}
-            placeholder="https://example.com/avatar.jpg"
-            className="w-full px-3 py-2 rounded-xl bg-surface-container text-sm font-body text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/30"
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleFileUpload}
+            disabled={uploading}
           />
-          <p className="text-xs text-outline mt-1">Cloudinary or any public image URL</p>
+        </label>
+
+        {uploadError && (
+          <p className="text-xs text-error text-center font-body">{uploadError}</p>
+        )}
+
+        {/* or 구분선 */}
+        <div className="flex items-center gap-3">
+          <div className="flex-1 border-t border-outline-variant/20" />
+          <span className="text-xs text-outline font-body">or</span>
+          <div className="flex-1 border-t border-outline-variant/20" />
         </div>
+
+        {/* URL 직접 입력 */}
+        <input
+          type="url"
+          value={avatarUrl}
+          onChange={(e) => setAvatarUrl(e.target.value)}
+          placeholder="Paste image URL..."
+          className="w-full px-3 py-2 rounded-xl bg-surface-container text-sm font-body text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/30"
+        />
       </div>
 
       {/* Nickname */}
@@ -94,7 +155,7 @@ export default function ProfileEditForm({ userId, initialNickname, initialAvatar
 
       <button
         type="submit"
-        disabled={saving}
+        disabled={saving || uploading}
         className="w-full py-3 rounded-xl bg-primary text-on-primary font-body font-bold text-sm hover:opacity-90 transition-all active:scale-95 disabled:opacity-60"
       >
         {saving ? 'Saving…' : 'Save Changes'}

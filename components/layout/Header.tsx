@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import { cloudinaryUrl } from "@/lib/cloudinary";
 
 interface HeaderProps {
@@ -11,6 +12,8 @@ interface HeaderProps {
 
 export default function Header({ onMenuToggle }: HeaderProps) {
   const { data: session, status } = useSession();
+  const pathname = usePathname();
+  const isLoginPage = pathname === '/login';
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -39,8 +42,8 @@ export default function Header({ onMenuToggle }: HeaderProps) {
       {/* 데스크탑: 빈 공간 */}
       <div className="hidden md:block" />
 
-      {/* 우측: 검색 + 프로필 */}
-      <div className="flex items-center gap-1">
+      {/* 우측: 검색 + 프로필 (로그인 페이지에서는 숨김) */}
+      {!isLoginPage && <div className="flex items-center gap-1">
         <Link
           href="/search"
           aria-label="Search"
@@ -116,7 +119,7 @@ export default function Header({ onMenuToggle }: HeaderProps) {
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-body text-error hover:bg-surface-container-low transition-colors"
                 >
                   <span className="material-symbols-outlined text-[18px]">logout</span>
-                  Sign out
+                  Logout
                 </button>
               </div>
             )}
@@ -129,7 +132,7 @@ export default function Header({ onMenuToggle }: HeaderProps) {
             Login
           </Link>
         )}
-      </div>
+      </div>}
       </div>
     </header>
   );

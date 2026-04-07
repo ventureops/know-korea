@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**최근 완료: FIX_23 (2026-04-06) — 로그인 페이지 리디자인**
+**최근 완료: FIX_24 (2026-04-07) — 프로필 사진 업로드 + Logout 통일 + 로그인 페이지 Header**
 
 | 작업 | 내용 |
 |------|------|
@@ -20,6 +20,7 @@
 | LAYOUT_H | Root title template 도입, "The Modern Envoy" 전체 제거, SEO 정리 |
 | FIX_22 | lib/webview.ts 생성, WebViewWarning 컴포넌트, 로그인 페이지 인앱 브라우저 감지 적용 |
 | FIX_23 | 로그인 페이지 리디자인: 2컬럼 레이아웃, 대동여지도 이미지(좌), 가입 혜택 훅 4개, 문구 전면 교체 |
+| FIX_24 | 프로필 사진 Upload Photo 버튼+Cloudinary 업로드, Sign out→Logout, 로그인 페이지 Header 버튼 숨김 |
 
 **미결 이슈**
 
