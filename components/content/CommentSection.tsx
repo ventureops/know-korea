@@ -10,7 +10,7 @@ interface Comment {
   body: string;
   created_at: string;
   author_id: string;
-  users: { nickname: string; avatar_url: string | null } | null;
+  users: { nickname: string; avatar_url: string | null; is_supporter?: boolean } | null;
 }
 
 interface Props {
@@ -136,8 +136,11 @@ export default function CommentSection({ contentId, initialComments }: Props) {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-baseline gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
                   <span className="text-sm font-body font-bold text-on-surface">{comment.users?.nickname ?? 'Unknown'}</span>
+                  {comment.users?.is_supporter && (
+                    <span className="material-symbols-outlined text-[14px] text-primary-container" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">coffee</span>
+                  )}
                   <span className="text-xs text-outline">{timeAgo(comment.created_at)}</span>
                 </div>
                 <p className="text-sm font-body text-on-surface leading-relaxed whitespace-pre-line">{comment.body}</p>

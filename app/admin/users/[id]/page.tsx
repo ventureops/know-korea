@@ -180,6 +180,7 @@ export default async function AdminUserDetailPage({
             userId={user.id}
             currentRole={user.role}
             currentStatus={user.status}
+            currentIsSupporter={user.is_supporter ?? false}
             callerRole={callerRole}
           />
 

@@ -43,7 +43,7 @@ export default async function CommunityDetailPage({ params }: { params: { id: st
     .from('qa_posts')
     .select(`
       id, title, body, category, content_id, is_resolved, created_at, updated_at, author_id,
-      users(nickname, avatar_url)
+      users(nickname, avatar_url, is_supporter)
     `)
     .eq('id', params.id)
     .single();
@@ -72,7 +72,7 @@ export default async function CommunityDetailPage({ params }: { params: { id: st
   // Fetch comments + replies
   const { data: commentsRaw } = await supabaseAdmin
     .from('comments')
-    .select('id, body, created_at, author_id, parent_id, is_helpful, users(nickname, avatar_url)')
+    .select('id, body, created_at, author_id, parent_id, is_helpful, users(nickname, avatar_url, is_supporter)')
     .eq('qa_post_id', params.id)
     .order('created_at', { ascending: true });
 
@@ -80,7 +80,7 @@ export default async function CommunityDetailPage({ params }: { params: { id: st
     const r = raw as {
       id: string; body: string; created_at: string; author_id: string;
       parent_id: string | null; is_helpful: boolean;
-      users: Array<{ nickname: string; avatar_url: string | null }> | { nickname: string; avatar_url: string | null } | null;
+      users: Array<{ nickname: string; avatar_url: string | null; is_supporter?: boolean }> | { nickname: string; avatar_url: string | null; is_supporter?: boolean } | null;
     };
     const usersVal = Array.isArray(r.users) ? (r.users[0] ?? null) : r.users;
     return { id: r.id, body: r.body, created_at: r.created_at, author_id: r.author_id, parent_id: r.parent_id, is_helpful: r.is_helpful, users: usersVal };
@@ -137,6 +137,9 @@ export default async function CommunityDetailPage({ params }: { params: { id: st
                 )}
               </div>
               <span className="text-on-surface-variant font-medium">{postUsers?.nickname ?? 'Unknown'}</span>
+              {(postUsers as { is_supporter?: boolean } | null)?.is_supporter && (
+                <span className="material-symbols-outlined text-[12px] text-primary-container" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">coffee</span>
+              )}
             </div>
             <span>·</span>
             <span>{formatDate(post.created_at)}</span>

@@ -7,21 +7,26 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? "placeholder"
 );
 
-export async function GET() {
+export async function GET(req: Request) {
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { data, error } = await supabaseAdmin
+  const { searchParams } = new URL(req.url);
+  const limit = parseInt(searchParams.get("limit") ?? "10");
+  const offset = parseInt(searchParams.get("offset") ?? "0");
+
+  const { data, error, count } = await supabaseAdmin
     .from("contact_submissions")
-    .select("id, category, message, created_at, is_replied, replied_at")
+    .select("id, category, message, created_at, is_replied, replied_at", { count: "exact" })
     .eq("user_id", session.user.id)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .range(offset, offset + limit - 1);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ data });
+  return NextResponse.json({ data, total: count ?? 0 });
 }

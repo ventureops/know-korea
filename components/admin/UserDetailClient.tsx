@@ -14,6 +14,7 @@ interface Props {
   userId: string;
   currentRole: number;
   currentStatus: string;
+  currentIsSupporter: boolean;
   callerRole: number;
 }
 
@@ -21,12 +22,15 @@ export default function UserDetailClient({
   userId,
   currentRole,
   currentStatus,
+  currentIsSupporter,
   callerRole,
 }: Props) {
   const router = useRouter();
   const [role, setRole] = useState(currentRole);
   const [status, setStatus] = useState(currentStatus);
+  const [isSupporter, setIsSupporter] = useState(currentIsSupporter);
   const [saving, setSaving] = useState(false);
+  const [supporterSaving, setSupporterSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
@@ -58,6 +62,24 @@ export default function UserDetailClient({
       router.refresh();
     }
     setSaving(false);
+  }
+
+  async function toggleSupporter() {
+    setSupporterSaving(true);
+    const newVal = !isSupporter;
+    const res = await fetch(`/api/admin/users/${userId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ is_supporter: newVal }),
+    });
+    if (res.ok) {
+      setIsSupporter(newVal);
+      router.refresh();
+    } else {
+      const data = await res.json();
+      setError(data.error ?? "Failed");
+    }
+    setSupporterSaving(false);
   }
 
   async function toggleSuspend() {
@@ -147,6 +169,24 @@ export default function UserDetailClient({
       )}
       {success && (
         <p className="text-xs text-success mb-3">Changes saved.</p>
+      )}
+
+      {/* Supporter toggle (Level 4 only) */}
+      {callerRole >= 4 && (
+        <div className="flex items-center justify-between py-2 px-3 rounded-lg bg-surface-container-low mb-3">
+          <label className="flex items-center gap-2 text-sm font-label text-on-surface cursor-pointer">
+            <span className="material-symbols-outlined text-[16px] text-primary-container" style={{ fontVariationSettings: "'FILL' 1" }}>coffee</span>
+            Supporter
+          </label>
+          <button
+            onClick={toggleSupporter}
+            disabled={supporterSaving}
+            className={`relative w-10 h-6 rounded-full transition-colors disabled:opacity-50 ${isSupporter ? 'bg-primary' : 'bg-surface-container-highest'}`}
+            aria-label="Toggle supporter"
+          >
+            <span className={`absolute top-1 w-4 h-4 rounded-full bg-surface-container-lowest shadow transition-transform ${isSupporter ? 'translate-x-5' : 'translate-x-1'}`} />
+          </button>
+        </div>
       )}
 
       {/* Save role button (Level 4 only) */}

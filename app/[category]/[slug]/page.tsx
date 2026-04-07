@@ -8,6 +8,7 @@ import { cloudinaryUrl, optimizeBodyImages } from "@/lib/cloudinary";
 import { createClient } from "@supabase/supabase-js";
 import ReadButton from "@/components/content/ReadButton";
 import LikeButton from "@/components/content/LikeButton";
+import SaveButton from "@/components/content/SaveButton";
 import CommentSection from "@/components/content/CommentSection";
 import ViewTracker from "@/components/content/ViewTracker";
 import SupportBanner from "@/components/SupportBanner";
@@ -178,6 +179,7 @@ export default async function ContentDetailPage({
   const session = await getSession();
   let isRead = false;
   let isLiked = false;
+  let isSaved = false;
   let likeCount = 0;
 
   const { count: lc } = await supabaseAdmin
@@ -187,7 +189,7 @@ export default async function ContentDetailPage({
   likeCount = lc ?? 0;
 
   if (session?.user?.id) {
-    const [{ data: readData }, { data: likeData }] = await Promise.all([
+    const [{ data: readData }, { data: likeData }, { data: saveData }] = await Promise.all([
       supabaseAdmin
         .from("content_reads")
         .select("id")
@@ -200,15 +202,22 @@ export default async function ContentDetailPage({
         .eq("user_id", session.user.id)
         .eq("content_id", article.id)
         .single(),
+      supabaseAdmin
+        .from("content_saves")
+        .select("id")
+        .eq("user_id", session.user.id)
+        .eq("content_id", article.id)
+        .single(),
     ]);
     isRead = !!readData;
     isLiked = !!likeData;
+    isSaved = !!saveData;
   }
 
   // Fetch comments
   const { data: commentsRaw } = await supabaseAdmin
     .from("comments")
-    .select("id, body, created_at, author_id, users(nickname, avatar_url)")
+    .select("id, body, created_at, author_id, users(nickname, avatar_url, is_supporter)")
     .eq("content_id", article.id)
     .is("parent_id", null)
     .order("created_at", { ascending: true });
@@ -217,10 +226,10 @@ export default async function ContentDetailPage({
     body: string;
     created_at: string;
     author_id: string;
-    users: { nickname: string; avatar_url: string | null } | null;
+    users: { nickname: string; avatar_url: string | null; is_supporter?: boolean } | null;
   };
   const comments = ((commentsRaw ?? []) as unknown[]).map((raw: unknown) => {
-    const r = raw as { id: string; body: string; created_at: string; author_id: string; users: Array<{ nickname: string; avatar_url: string | null }> | { nickname: string; avatar_url: string | null } | null };
+    const r = raw as { id: string; body: string; created_at: string; author_id: string; users: Array<{ nickname: string; avatar_url: string | null; is_supporter?: boolean }> | { nickname: string; avatar_url: string | null; is_supporter?: boolean } | null };
     const usersVal = Array.isArray(r.users) ? (r.users[0] ?? null) : r.users;
     return { id: r.id, body: r.body, created_at: r.created_at, author_id: r.author_id, users: usersVal } as CommentRow;
   });
@@ -325,9 +334,10 @@ export default async function ContentDetailPage({
             </p>
           )}
 
-          {/* Like / Share actions */}
+          {/* Like / Save / Share actions */}
           <div className="flex items-center gap-3 py-6 mb-6">
             <LikeButton contentId={article.id} initialLiked={isLiked} initialCount={likeCount} />
+            <SaveButton contentId={article.id} initialSaved={isSaved} />
             <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95">
               <span className="material-symbols-outlined text-[18px]">share</span>
               <span className="text-sm font-body font-medium">Share</span>

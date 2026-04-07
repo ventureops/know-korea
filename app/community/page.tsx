@@ -48,7 +48,7 @@ export default async function CommunityPage({
   let query = supabaseAdmin
     .from('qa_posts')
     .select(
-      'id, title, body, category, is_resolved, created_at, author_id, users(nickname, avatar_url)',
+      'id, title, body, category, is_resolved, created_at, author_id, users(nickname, avatar_url, is_supporter)',
       { count: 'exact' }
     )
     .order('created_at', { ascending: false })

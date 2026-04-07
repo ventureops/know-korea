@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**최근 완료: FIX_25 (2026-04-07) — About 페이지 콘텐츠 교체 + Terms of Service 7번 문구 추가**
+**최근 완료: COMMAND_LAYOUT_I (2026-04-07) — Save 기능 + Supporter 배지 + 프로필 재구성**
 
 | 작업 | 내용 |
 |------|------|
@@ -24,12 +24,13 @@
 | GA4+Cookie | GA4 + Cookie Consent 배너 구현 (GDPR), Footer Cookie Settings 링크 추가 |
 | FIX_25 | About 페이지: 다크 카드 제거, "Nearly 200 guides", "Visit the Community" 삭제, 면책조항 text-sm |
 | ToS 7번 | Terms of Service 7번에 Ko-fi 자발적 기부 문구 추가 |
+| LAYOUT_I | Save 기능(content_saves 테이블+API+SaveButton), Supporter 배지(is_supporter 컬럼+Admin 토글), 프로필 3분할(Reading/Community/Contact Activity 페이지), 댓글/QA 작성자 ☕ 아이콘 |
 
 **미결 이슈**
 
 - **FIX_16 (2026-04-05)** — Ko-fi 팝업 scrollbars 제어 불가 (Chrome 88+ 정책). 해결 방향 미결정.
 
-**다음 작업:** 사이드바 로고 재제작 대기 중 (권장 크기: 160×36px / 2x PNG 320×72px, 투명 배경).
+**다음 작업:** 사이드바 로고 재제작 대기 중 (권장 크기: 160×36px / 2x PNG 320×72px, 투명 배경). Supabase SQL Editor에서 마이그레이션 008 실행 + 각 기능 수동 테스트 필요.
 
 ---
 

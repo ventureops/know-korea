@@ -107,7 +107,7 @@ export async function PATCH(
 
   const { id } = params;
   const body = await req.json();
-  const { role, status } = body;
+  const { role, status, is_supporter } = body;
   const callerRole = session.user.role ?? 3;
 
   const updates: Record<string, unknown> = {};
@@ -136,6 +136,16 @@ export async function PATCH(
       return NextResponse.json({ error: "Invalid status" }, { status: 400 });
     }
     updates.status = status;
+  }
+
+  if (is_supporter !== undefined) {
+    if (callerRole < 4) {
+      return NextResponse.json(
+        { error: "Level 4 required to change supporter status" },
+        { status: 403 }
+      );
+    }
+    updates.is_supporter = Boolean(is_supporter);
   }
 
   const { error } = await supabaseAdmin

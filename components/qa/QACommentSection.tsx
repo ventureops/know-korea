@@ -10,7 +10,7 @@ export interface QAComment {
   author_id: string;
   parent_id: string | null;
   is_helpful: boolean;
-  users: { nickname: string; avatar_url: string | null } | null;
+  users: { nickname: string; avatar_url: string | null; is_supporter?: boolean } | null;
   replies?: QAComment[];
 }
 
@@ -125,8 +125,11 @@ function CommentItem({
     <div className={`flex gap-3 ${comment.is_helpful ? 'bg-success/5 rounded-xl p-3' : ''}`}>
       <Avatar user={comment.users} />
       <div className="flex-1 min-w-0">
-        <div className="flex items-baseline gap-2 mb-1">
+        <div className="flex items-center gap-2 mb-1 flex-wrap">
           <span className="text-sm font-body font-bold text-on-surface">{comment.users?.nickname ?? 'Unknown'}</span>
+          {comment.users?.is_supporter && (
+            <span className="material-symbols-outlined text-[13px] text-primary-container" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">coffee</span>
+          )}
           <span className="text-xs text-outline">{timeAgo(comment.created_at)}</span>
           {comment.is_helpful && (
             <span className="flex items-center gap-1 text-xs text-success font-label font-bold">
@@ -185,8 +188,11 @@ function CommentItem({
               <div key={reply.id} className="flex gap-2">
                 <Avatar user={reply.users} size={6} />
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-baseline gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <span className="text-xs font-body font-bold text-on-surface">{reply.users?.nickname ?? 'Unknown'}</span>
+                    {reply.users?.is_supporter && (
+                      <span className="material-symbols-outlined text-[12px] text-primary-container" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">coffee</span>
+                    )}
                     <span className="text-xs text-outline">{timeAgo(reply.created_at)}</span>
                     {reply.is_helpful && (
                       <span className="flex items-center gap-1 text-xs text-success font-label font-bold">

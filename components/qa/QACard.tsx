@@ -10,7 +10,7 @@ export interface QAPost {
   created_at: string;
   like_count: number;
   comment_count: number;
-  users: { nickname: string; avatar_url: string | null } | null;
+  users: { nickname: string; avatar_url: string | null; is_supporter?: boolean } | null;
 }
 
 function timeAgo(iso: string): string {
@@ -53,6 +53,9 @@ export default function QACard({ post }: { post: QAPost }) {
               {label}
             </span>
             <span>{post.users?.nickname ?? 'Unknown'}</span>
+            {post.users?.is_supporter && (
+              <span className="material-symbols-outlined text-[12px] text-primary-container" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">coffee</span>
+            )}
             <span>·</span>
             <span>{timeAgo(post.created_at)}</span>
           </div>
