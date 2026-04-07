@@ -265,7 +265,7 @@ export default async function ContentDetailPage({
         </span>
       </nav>
 
-      <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+      <div className="lg:grid lg:grid-cols-12 lg:gap-12">
         {/* Main Content */}
         <article className="lg:col-span-8">
           {/* Header */}

@@ -108,7 +108,7 @@ export default async function CommunityPage({
               Community
             </h1>
             <p className="text-sm font-body text-on-surface-variant mt-1">
-              Feel free to ask anything, and share what you know. If you have any questions or requests regarding the website, please click &apos;Contact Us&apos; below.
+              Share your thoughts and experiences about Korea.
             </p>
           </div>
           {session ? (
