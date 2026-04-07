@@ -138,7 +138,7 @@ export default async function CommunityDetailPage({ params }: { params: { id: st
               </div>
               <span className="text-on-surface-variant font-medium">{postUsers?.nickname ?? 'Unknown'}</span>
               {(postUsers as { is_supporter?: boolean } | null)?.is_supporter && (
-                <span className="material-symbols-outlined text-[12px] text-primary-container" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">coffee</span>
+                <span className="material-symbols-outlined text-[12px] text-amber-500" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">military_tech</span>
               )}
             </div>
             <span>·</span>

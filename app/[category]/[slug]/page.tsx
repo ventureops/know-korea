@@ -353,6 +353,8 @@ export default async function ContentDetailPage({
 
           <CommentSection contentId={article.id} initialComments={comments} />
 
+          {relatedArticles.length > 0 && <hr className="border-outline-variant/20 my-12" />}
+
           {/* Related Articles */}
           {relatedArticles.length > 0 && (
             <section className="mb-8">
@@ -382,14 +384,13 @@ export default async function ContentDetailPage({
         {/* Sidebar */}
         <aside className="hidden lg:block lg:col-span-4">
           <div className="sticky top-20 space-y-6">
-            {/* Ask a question CTA */}
+            {/* Community CTA */}
             <div className="bg-surface-container-low rounded-2xl p-5">
               <p className="text-xs font-label font-bold uppercase tracking-wider text-outline mb-2">
-                Have a question?
+                Join the Discussion
               </p>
               <p className="text-sm font-body text-on-surface-variant mb-4 leading-relaxed">
-                Have a specific question about this topic? Our community is here
-                to help.
+                Share your thoughts, experiences, or questions about this topic with the community.
               </p>
               <Link
                 href="/community/new"
@@ -398,7 +399,7 @@ export default async function ContentDetailPage({
                 <span className="material-symbols-outlined text-[16px]">
                   add
                 </span>
-                Ask a Question
+                Start a Discussion
               </Link>
             </div>
 

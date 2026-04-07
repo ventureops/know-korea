@@ -54,7 +54,7 @@ export default function QACard({ post }: { post: QAPost }) {
             </span>
             <span>{post.users?.nickname ?? 'Unknown'}</span>
             {post.users?.is_supporter && (
-              <span className="material-symbols-outlined text-[12px] text-primary-container" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">coffee</span>
+              <span className="material-symbols-outlined text-[12px] text-amber-500" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">military_tech</span>
             )}
             <span>·</span>
             <span>{timeAgo(post.created_at)}</span>

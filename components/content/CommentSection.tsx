@@ -139,7 +139,7 @@ export default function CommentSection({ contentId, initialComments }: Props) {
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
                   <span className="text-sm font-body font-bold text-on-surface">{comment.users?.nickname ?? 'Unknown'}</span>
                   {comment.users?.is_supporter && (
-                    <span className="material-symbols-outlined text-[14px] text-primary-container" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">coffee</span>
+                    <span className="material-symbols-outlined text-[14px] text-amber-500" style={{ fontVariationSettings: "'FILL' 1" }} title="Supporter">military_tech</span>
                   )}
                   <span className="text-xs text-outline">{timeAgo(comment.created_at)}</span>
                 </div>

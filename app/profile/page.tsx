@@ -103,8 +103,8 @@ export default async function ProfilePage() {
         {user?.is_supporter ? (
           <>
             <div className="flex items-center gap-2 mb-2">
-              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container text-on-primary-container text-sm font-body font-bold">
-                <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>coffee</span>
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-sm font-body font-bold">
+                <span className="material-symbols-outlined text-sm text-amber-500" style={{ fontVariationSettings: "'FILL' 1" }}>military_tech</span>
                 Supporter
               </span>
             </div>
