@@ -30,7 +30,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       <MobileDrawer isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
 
       {/* 우측: Header + Main + Footer */}
-      <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
+      <div className="flex-1 md:ml-56 flex flex-col min-h-screen">
         <Header onMenuToggle={() => setMobileOpen(!mobileOpen)} />
         <main className="flex-1">{children}</main>
         <Footer />

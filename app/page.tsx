@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import SupportBanner from "@/components/SupportBanner";
-import { CATEGORY_CHIP_COLORS } from "@/lib/categories";
 
 export const revalidate = 3600;
 
@@ -92,7 +91,7 @@ export default function HomePage() {
       {/* Hero */}
       <section className="mb-12">
         <h1 className="font-headline font-extrabold text-4xl text-on-surface tracking-tight uppercase mb-2">
-          Guide
+          Know Korea Guide
         </h1>
         <p className="text-base font-body text-on-surface-variant">
           Everything you need to navigate Korea
@@ -109,20 +108,20 @@ export default function HomePage() {
             <Link
               key={cat.slug}
               href={`/${cat.slug}`}
-              className="group bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 hover:shadow-lg hover:-translate-y-1 transition-all"
+              className="group bg-primary rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 transition-all"
             >
               <div className="flex items-center gap-3 mb-3">
-                <span className="material-symbols-outlined text-primary text-2xl">
+                <span className="material-symbols-outlined text-on-primary text-2xl">
                   {cat.icon}
                 </span>
-                <h3 className="text-lg font-bold font-headline text-on-surface group-hover:text-primary transition-colors">
+                <h3 className="text-lg font-bold font-headline text-on-primary">
                   {cat.name}
                 </h3>
               </div>
-              <p className="text-sm font-body text-on-surface-variant mb-4">
+              <p className="text-sm font-body text-on-primary/80 mb-4">
                 {cat.description}
               </p>
-              <span className="text-sm font-bold text-primary">Explore →</span>
+              <span className="text-sm font-bold text-primary-container">Explore →</span>
             </Link>
           ))}
         </div>
@@ -152,7 +151,7 @@ export default function HomePage() {
                   <Link
                     key={cat.slug}
                     href={`/${cat.slug}`}
-                    className={`text-xs font-body font-medium px-3 py-1.5 rounded-full transition-colors ${CATEGORY_CHIP_COLORS[cat.slug] ?? 'bg-surface-container-high text-on-surface-variant'} hover:opacity-80`}
+                    className="text-xs font-body font-medium px-3 py-1.5 rounded-full bg-primary text-on-primary hover:opacity-80 transition-opacity"
                   >
                     {cat.name}
                   </Link>

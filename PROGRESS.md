@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**최근 완료: COMMAND_FIX_28 (2026-04-08) — 카테고리 칩 색상 통일**
+**최근 완료: COMMAND_FIX_29 (2026-04-08) — 홈 카드/칩/제목 + 사이드바 폭 조정**
 
 | 작업 | 내용 |
 |------|------|
@@ -30,6 +30,7 @@
 | LAYOUT_L | 홈 페이지 정적 포털 재구성(Where to Start + Explore by Theme + Community CTA) |
 | FIX_27 | Community 문구 간결화, 아티클 본문↔우측 사이드바 간격 lg:gap-12 |
 | FIX_28 | 카테고리 칩 그룹별 색상 통일(Guide 홈 + Community), CATEGORY_CHIP_COLORS 맵 추가 |
+| FIX_29 | Where to Start 다크카드, 칩 단일색(bg-primary) 통일, 제목 "Know Korea Guide", 사이드바 w-64→w-56 |
 
 **미결 이슈**
 

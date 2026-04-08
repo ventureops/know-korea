@@ -20,7 +20,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
 
       {/* Drawer 패널 */}
       <div
-        className={`fixed left-0 top-0 h-full w-72 bg-surface/95 backdrop-blur-2xl z-50 md:hidden flex flex-col overflow-hidden transition-transform duration-300 ease-out ${
+        className={`fixed left-0 top-0 h-full w-64 bg-surface/95 backdrop-blur-2xl z-50 md:hidden flex flex-col overflow-hidden transition-transform duration-300 ease-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
