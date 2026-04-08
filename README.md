@@ -1,2 +1,2 @@
 # know-korea
-Everything you need to navigate Korea
+Actually need to navigate Korea

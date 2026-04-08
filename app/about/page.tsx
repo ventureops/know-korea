@@ -37,7 +37,7 @@ export default function AboutPage() {
           And we're here to help you discover all of it.
         </p>
         <p className="text-base font-body text-on-surface-variant leading-relaxed italic">
-          Everything you need to navigate Korea.
+          Actually need to navigate Korea.
         </p>
       </section>
 

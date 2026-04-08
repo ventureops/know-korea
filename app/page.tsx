@@ -5,7 +5,7 @@ import SupportBanner from "@/components/SupportBanner";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  description: "Everything you need to navigate Korea.",
+  description: "Actually need to navigate Korea.",
 };
 
 const starterCategories = [
@@ -94,7 +94,7 @@ export default function HomePage() {
           Know Korea Guide
         </h1>
         <p className="text-base font-body text-on-surface-variant">
-          Everything you need to navigate Korea
+          Actually need to navigate Korea
         </p>
       </section>
 
