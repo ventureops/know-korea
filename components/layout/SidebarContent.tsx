@@ -117,7 +117,7 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
                 >
                   {cat.icon}
                 </span>
-                <span className="text-[15px] font-body leading-tight">
+                <span className="text-sm font-body leading-tight">
                   {cat.name}
                   {cat.subtitle && (
                     <span className="block text-[10px] font-label text-on-surface-variant/60 leading-tight">
