@@ -43,7 +43,7 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
             alt="Know Korea"
             width={425}
             height={155}
-            className="h-11 w-auto object-contain"
+            className="h-[52px] w-auto object-contain"
             priority
           />
         </Link>
