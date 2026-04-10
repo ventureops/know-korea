@@ -23,6 +23,9 @@ export const metadata: Metadata = {
     title: "Know Korea",
     description: "Discover Curated Korea Insights.",
   },
+  verification: {
+    google: "GDLPG0wnYPyvRGJoChsboFkezLp5WSkTSInPi9SXKxo",
+  },
 };
 
 export default function RootLayout({
