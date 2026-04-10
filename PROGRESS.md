@@ -495,6 +495,28 @@
 
 ---
 
+### FIX_33 — OG 이미지 전역 설정 + 아티클별 커버 이미지 OG 연동 ✅ (2026-04-11)
+
+| 항목 | 상태 |
+|------|------|
+| `brand_assets/og-image.png` → `public/og-image.png` 복사 | ✅ |
+| app/layout.tsx — `metadataBase` 추가 (`https://knowkorea.com`) | ✅ |
+| app/layout.tsx — `openGraph.images` 1200×630 추가 (`/og-image.png`, alt "Know Korea") | ✅ |
+| app/layout.tsx — `twitter.images` 동일 URL 추가 | ✅ |
+| lib/cloudinary.ts — `og` 프리셋 추가 (`f_auto,q_auto,w_1200,h_630,c_fill`) | ✅ |
+| app/[category]/[slug]/page.tsx generateMetadata — 아티클 커버 이미지를 Cloudinary `og` 프리셋으로 변환해 og:image로 사용 | ✅ |
+| 커버 이미지 없을 시 사이트 기본 `/og-image.png`로 폴백 | ✅ |
+| OG 이미지 width/height 선언 800×450 → 1200×630 교정 + alt 추가 | ✅ |
+| npm run build 에러 없음 | ✅ |
+
+**노트:**
+- OG 표준 권장: 1200×630 (비율 1.91:1)
+- 소셜 플랫폼은 **큰 이미지는 자동 다운스케일**, 작으면 폴백/플레이스홀더로 표시. 그래서 항상 1200×630 이상으로 준비
+- ⚠️ **현재 `public/og-image.png`는 645×387 (권장 미달)** — 트위터/X가 `summary_large_image` 레이아웃을 포기하고 플레이스홀더를 띄우는 현상 확인. 1200×630 이상으로 교체 필요
+- OG 캐시 문제 시 재스크랩 도구: Facebook Debugger (`developers.facebook.com/tools/debug/`), OpenGraph.xyz (`opengraph.xyz`)
+
+---
+
 ## 참고 사항
 
 ### 배포 정보
