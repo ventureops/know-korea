@@ -42,6 +42,8 @@ export default async function EditContentPage({
           category: data.category,
           excerpt: data.excerpt ?? "",
           cover_image: data.cover_image ?? "",
+          cover_caption: data.cover_caption ?? "",
+          cover_alt: data.cover_alt ?? "",
           body_mdx: data.body_mdx ?? "",
           tags: data.tags ?? [],
           is_published: data.is_published,

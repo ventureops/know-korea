@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**최근 완료: COMMAND_FIX_29 (2026-04-08) — 홈 카드/칩/제목 + 사이드바 폭 조정**
+**최근 완료: COMMAND_FIX_34 (2026-04-11) — 아티클 편집 페이지 cover_caption/cover_alt 로드 누락 수정**
 
 | 작업 | 내용 |
 |------|------|
@@ -31,6 +31,7 @@
 | FIX_27 | Community 문구 간결화, 아티클 본문↔우측 사이드바 간격 lg:gap-12 |
 | FIX_28 | 카테고리 칩 그룹별 색상 통일(Guide 홈 + Community), CATEGORY_CHIP_COLORS 맵 추가 |
 | FIX_29 | Where to Start 다크카드, 칩 단일색(bg-primary) 통일, 제목 "Know Korea Guide", 사이드바 w-64→w-56 |
+| FIX_34 | 아티클 편집 페이지에서 cover_caption/cover_alt가 initialData로 전달되지 않아 매번 빈 값으로 로드되던 버그 수정 (app/admin/contents/[id]/edit/page.tsx) |
 
 **미결 이슈**
 
