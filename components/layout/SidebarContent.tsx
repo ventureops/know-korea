@@ -39,11 +39,11 @@ export default function SidebarContent({ onNavigate }: { onNavigate?: () => void
       <div className="flex-shrink-0 px-6 py-4">
         <Link href="/" onClick={onNavigate} className="block">
           <Image
-            src="/brand_logo.png"
+            src="/brand_logo02.png"
             alt="Know Korea"
-            width={120}
-            height={36}
-            className="h-9 w-auto object-contain"
+            width={425}
+            height={155}
+            className="h-11 w-auto object-contain"
             priority
           />
         </Link>
