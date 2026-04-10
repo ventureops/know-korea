@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/api/", "/profile/", "/notifications/"],
       },
     ],
-    sitemap: "https://know-korea.vercel.app/sitemap.xml",
+    sitemap: "https://knowkorea.com/sitemap.xml",
   };
 }

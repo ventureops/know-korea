@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { supabase } from "@/lib/supabase";
 import { CATEGORY_SLUGS } from "@/lib/categories";
 
-const BASE_URL = "https://know-korea.vercel.app";
+const BASE_URL = "https://knowkorea.com";
 
 const staticRoutes = [
   { url: BASE_URL, priority: 1.0 },

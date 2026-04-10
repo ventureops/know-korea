@@ -93,7 +93,7 @@ export async function generateMetadata({
 
   const title = data.title;
   const description = data.excerpt ?? "Practical guides for expats in Korea.";
-  const url = `https://know-korea.vercel.app/${params.category}/${params.slug}`;
+  const url = `https://knowkorea.com/${params.category}/${params.slug}`;
 
   return {
     title,
