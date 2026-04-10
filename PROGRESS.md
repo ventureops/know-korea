@@ -283,7 +283,7 @@
 | Navbar — "KNOW KOREA" 텍스트 → brand_logo.png 이미지로 교체 | ✅ |
 | Footer — Contact Us → mailto:poisian@gmail.com, Support → FAQ (/faq) | ✅ |
 | Sidebar — Language 아이콘 translate → font_download, BMC 링크 추가 | ✅ |
-| Home — "Actually need to navigate Korea" 서브텍스트 추가 | ✅ |
+| Home — "Discover Curated Korea Insights" 서브텍스트 추가 | ✅ |
 | Home — 사이트 소개 박스 + Q&A 소개 박스 (surface-container-low 카드) | ✅ |
 | Home — "Popular Guides" → "Best Article by Category" 제목 변경 | ✅ |
 | Home — 12개 카드 카테고리 태그 색상 통일 (primary-dim) | ✅ |

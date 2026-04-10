@@ -9,10 +9,10 @@ export const metadata: Metadata = {
     default: "Know Korea",
     template: "%s | Know Korea",
   },
-  description: "Actually need to navigate Korea.",
+  description: "Discover Curated Korea Insights.",
   openGraph: {
     title: "Know Korea",
-    description: "Actually need to navigate Korea.",
+    description: "Discover Curated Korea Insights.",
     siteName: "Know Korea",
     url: "https://knowkorea.com",
     type: "website",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Know Korea",
-    description: "Actually need to navigate Korea.",
+    description: "Discover Curated Korea Insights.",
   },
 };
 

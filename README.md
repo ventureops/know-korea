@@ -1,2 +1,2 @@
 # know-korea
-Actually need to navigate Korea
+Discover Curated Korea Insights

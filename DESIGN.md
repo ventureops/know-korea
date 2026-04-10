@@ -1,4 +1,4 @@
-# Design System — Know Korea — Actually need to navigate Korea
+# Design System — Know Korea — Discover Curated Korea Insights
 
 > **목적:** 이 문서는 AI 코드 에이전트(Claude Code)가 디자인 의도를 정확히 이해하고 일관된 UI를 생성하기 위한 가이드라인이다.  
 > **원본 소스:** Stitch에서 내보낸 22개 HTML 화면 + 스크린샷  

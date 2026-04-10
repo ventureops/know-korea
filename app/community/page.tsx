@@ -166,7 +166,7 @@ export default async function CommunityPage({
             <Link
               key={cat.value}
               href={href}
-              className={`px-3 py-1.5 rounded-full text-xs font-label font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-full text-[11px] font-label font-bold transition-all ${
                 category === cat.value
                   ? 'bg-primary text-on-primary'
                   : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'

@@ -74,11 +74,11 @@ export default function ContentGrid({ articles, category, icon }: Props) {
             <button
               onClick={(e) => toggleRead(article.id, e)}
               disabled={loading === article.id}
-              className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-surface-container-lowest/80 backdrop-blur-sm transition-all hover:bg-surface-container-high active:scale-90 disabled:opacity-60"
+              className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-surface-container-lowest shadow-md transition-all hover:bg-surface-container-high active:scale-90 disabled:opacity-60"
               aria-label={readIds.has(article.id) ? 'Mark as unread' : 'Mark as read'}
             >
               <span
-                className={`material-symbols-outlined text-[20px] ${readIds.has(article.id) ? 'text-success' : 'text-on-surface-variant/50'}`}
+                className={`material-symbols-outlined text-[20px] ${readIds.has(article.id) ? 'text-[#166534]' : 'text-on-surface-variant/50'}`}
                 style={{
                   fontVariationSettings: readIds.has(article.id) ? "'FILL' 1" : "'FILL' 0",
                 }}

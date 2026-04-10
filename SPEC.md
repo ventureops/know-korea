@@ -4,7 +4,7 @@
 ---
 ## 1. 프로젝트 개요
 ### 서비스 한 줄 정의
-> Actually need to navigate Korea — 한국에 사는, 혹은 살고자 하는 외국인을 위한 실용 정보 허브
+> Discover Curated Korea Insights — 한국에 사는, 혹은 살고자 하는 외국인을 위한 실용 정보 허브
 ### 핵심 사용자
 - 한국 거주 외국인 (장기 체류자)
 - 한국 취업 / 이민 준비 중인 외국인
@@ -112,7 +112,7 @@
 
 ## 6. 홈 페이지 (`/`)
 ### Hero Section
-- 헤드라인: **Actually need to navigate Korea**
+- 헤드라인: **Discover Curated Korea Insights**
 - 서브카피: Practical guides for foreigners living, working, and thriving in Korea
 - CTA 버튼 2개: `Start Here` → `/start-here` | `Ask a Question` → `/qa/new`
 ### 추천 콘텐츠
