@@ -94,6 +94,9 @@ export async function generateMetadata({
   const title = data.title;
   const description = data.excerpt ?? "Practical guides for expats in Korea.";
   const url = `https://knowkorea.com/${params.category}/${params.slug}`;
+  const ogImage = data.cover_image
+    ? cloudinaryUrl(data.cover_image, "og")
+    : "https://knowkorea.com/og-image.png";
 
   return {
     title,
@@ -104,15 +107,20 @@ export async function generateMetadata({
       url,
       siteName: "Know Korea",
       type: "article",
-      images: data.cover_image
-        ? [{ url: data.cover_image, width: 800, height: 450 }]
-        : undefined,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: data.cover_image ? [data.cover_image] : undefined,
+      images: [ogImage],
     },
   };
 }

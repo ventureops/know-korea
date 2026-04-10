@@ -439,6 +439,62 @@
 
 ---
 
+### FIX_30 — 태그라인 전면 변경 ✅ (2026-04-10)
+
+| 항목 | 상태 |
+|------|------|
+| 태그라인 "Everything you need to navigate Korea" → "Actually need to navigate Korea" (코드 4곳 + 문서 4곳) | ✅ |
+| 태그라인 "Actually need to navigate Korea" → "Discover Curated Korea Insights" (로고와 일치, 코드 5곳 + 문서 5곳) | ✅ |
+| app/layout.tsx metadata / OG / Twitter description 반영 | ✅ |
+| app/page.tsx 홈 Hero 서브텍스트 + metadata description 반영 | ✅ |
+| app/about/page.tsx Hero 반영 | ✅ |
+| README.md / DESIGN.md / SPEC.md / PROGRESS.md 동기화 | ✅ |
+| npm run build 에러 없음 | ✅ |
+
+**노트:**
+- 최종 문구는 사이드바 로고(`brand_logo02.png`) 이미지 내 "Discover Curated Korea Insights"와 일치시킴
+- 두 번의 변경(한 번은 중간 단계)을 거쳐 확정
+
+---
+
+### FIX_31 — 사이드바/카드 UI 다듬기 ✅ (2026-04-10)
+
+| 항목 | 상태 |
+|------|------|
+| 사이드바 브랜드 로고 `brand_logo.png` → `brand_logo02.png` 교체 | ✅ |
+| 사이드바 로고 크기 `h-9` (36px) → `h-[52px]` 확대 (width/height intrinsic 425×155) | ✅ |
+| 사이드바 카테고리명 폰트 `text-[15px]` → `text-sm` (14px) — "Korea in the World", "Tools & Resources" 등 2줄 → 1줄 표시 | ✅ |
+| ReadStatusCards: read 버튼 배경 `bg-surface-container-lowest/80 backdrop-blur-sm` → `bg-surface-container-lowest shadow-md` (반투명 → 솔리드 + 그림자) | ✅ |
+| ReadStatusCards: 체크 아이콘 색상 `text-success` (#16A34A) → `text-[#166534]` (더 진한 green-800) | ✅ |
+| Community 카테고리 칩 폰트 `text-xs` (12px) → `text-[11px]` | ✅ |
+| 사이드바 폭 확장(w-56 → w-64) 시도 → 카테고리명 폰트 축소로 대체 후 원복 | ✅ |
+| npm run build 에러 없음 | ✅ |
+
+**노트:**
+- 사이드바 폭은 `w-56` (224px) 유지. 카테고리명 폰트를 줄여 긴 이름도 한 줄 표시
+- 14px는 가독성 하한선. 더 줄이지 말 것
+- ReadStatusCards: 체크 아이콘 색상은 커스텀 토큰 대신 arbitrary hex 사용 (일회성 override)
+
+---
+
+### FIX_32 — SEO: Google Search Console + sitemap/robots URL 수정 ✅ (2026-04-10)
+
+| 항목 | 상태 |
+|------|------|
+| app/layout.tsx — metadata에 `verification.google` 추가 (GSC 인증) | ✅ |
+| app/sitemap.ts — `BASE_URL` `https://know-korea.vercel.app` → `https://knowkorea.com` | ✅ |
+| app/robots.ts — `sitemap` URL `knowkorea.com`으로 변경 | ✅ |
+| app/[category]/[slug]/page.tsx — OG `url` 하드코딩 `knowkorea.com`으로 변경 | ✅ |
+| npm run build 에러 없음 | ✅ |
+
+**노트:**
+- 원인: sitemap.xml의 모든 URL이 `know-korea.vercel.app`으로 생성되어 GSC에서 "URL이 허용되지 않음" 오류 231개 발생
+- 코드는 환경변수(`NEXT_PUBLIC_SITE_URL` 등)를 참조하지 않음 — 모두 하드코딩이었음
+- ⚠️ Vercel Domains 설정에 `knowkorea.com`이 Primary(Production)로 되어 있어야 함
+- 배포 후 확인: `https://knowkorea.com/sitemap.xml` + `https://knowkorea.com/robots.txt` + GSC sitemap 재제출
+
+---
+
 ## 참고 사항
 
 ### 배포 정보

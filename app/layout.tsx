@@ -5,6 +5,7 @@ import SiteShell from "@/components/layout/SiteShell";
 import CookieConsent from "@/components/CookieConsent";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://knowkorea.com"),
   title: {
     default: "Know Korea",
     template: "%s | Know Korea",
@@ -17,11 +18,20 @@ export const metadata: Metadata = {
     url: "https://knowkorea.com",
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: "https://knowkorea.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Know Korea",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Know Korea",
     description: "Discover Curated Korea Insights.",
+    images: ["https://knowkorea.com/og-image.png"],
   },
   verification: {
     google: "GDLPG0wnYPyvRGJoChsboFkezLp5WSkTSInPi9SXKxo",
