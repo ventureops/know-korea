@@ -435,6 +435,17 @@ export default async function ContentDetailPage({
               </div>
             )}
 
+            {/* Admin Edit 버튼 — Level 3 이상만 표시 */}
+            {(session?.user?.role ?? 0) >= 3 && (
+              <Link
+                href={`/admin/contents/${article.id}/edit`}
+                className="flex items-center justify-center gap-2 w-full py-2.5 border border-outline-variant/30 text-on-surface-variant rounded-xl text-sm font-medium hover:bg-surface-container-low transition-colors"
+              >
+                <span className="material-symbols-outlined text-lg">edit</span>
+                Edit Article
+              </Link>
+            )}
+
           </div>
         </aside>
       </div>
