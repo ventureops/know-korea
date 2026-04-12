@@ -6,7 +6,7 @@
 
 ## 현재 상태
 
-**최근 완료: COMMAND_FIX_34 (2026-04-11) — 아티클 편집 페이지 cover_caption/cover_alt 로드 누락 수정**
+**최근 완료: COMMAND_FIX_35 (2026-04-12) — 사이드바 로고 brand_logo06 교체 + Header 프리런칭 안내 문구**
 
 | 작업 | 내용 |
 |------|------|
@@ -32,6 +32,7 @@
 | FIX_28 | 카테고리 칩 그룹별 색상 통일(Guide 홈 + Community), CATEGORY_CHIP_COLORS 맵 추가 |
 | FIX_29 | Where to Start 다크카드, 칩 단일색(bg-primary) 통일, 제목 "Know Korea Guide", 사이드바 w-64→w-56 |
 | FIX_34 | 아티클 편집 페이지에서 cover_caption/cover_alt가 initialData로 전달되지 않아 매번 빈 값으로 로드되던 버그 수정 (app/admin/contents/[id]/edit/page.tsx) |
+| FIX_35 | 사이드바 로고 brand_logo06.png 교체, Header에 "🚀 Pre-launch — Launching May 2026" 문구 추가 (text-tertiary/text-xs/font-semibold) — 런칭 후 제거 예정 |
 
 **미결 이슈**
 

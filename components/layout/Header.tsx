@@ -39,8 +39,12 @@ export default function Header({ onMenuToggle }: HeaderProps) {
         <span className="material-symbols-outlined text-[22px]">menu</span>
       </button>
 
-      {/* 데스크탑: 빈 공간 */}
-      <div className="hidden md:block" />
+      {/* TODO: 런칭 후 제거 — Pre-launch banner */}
+      <div className="flex-1 flex justify-center md:justify-start md:ml-4">
+        <span className="text-xs font-semibold tracking-wide text-tertiary">
+          🚀 Pre-launch — Launching May 2026
+        </span>
+      </div>
 
       {/* 우측: 검색 + 프로필 (로그인 페이지에서는 숨김) */}
       {!isLoginPage && <div className="flex items-center gap-1">
