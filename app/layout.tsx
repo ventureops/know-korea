@@ -46,6 +46,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap"
           rel="stylesheet"
@@ -53,6 +55,12 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
           rel="stylesheet"
+        />
+        {/* FOUC 방지: 폰트 로드 완료 후 fonts-ready 클래스 추가 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.fonts.ready.then(function(){document.body.classList.add('fonts-ready')})`,
+          }}
         />
       </head>
       <body className="antialiased bg-surface min-h-screen">
